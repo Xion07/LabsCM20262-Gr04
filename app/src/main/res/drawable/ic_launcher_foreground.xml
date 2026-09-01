@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Tarjeta de contacto -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,34 H84 A6,6 0 0 1 90,40 V72 A6,6 0 0 1 84,78 H24 A6,6 0 0 1 18,72 V40 A6,6 0 0 1 24,34 Z" />
+    <!-- Avatar (cabeza) -->
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M40,50 m-8,0 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0" />
+    <!-- Avatar (cuerpo) -->
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M28,68 C28,60 33,58 40,58 C47,58 52,60 52,68 Z" />
+    <!-- Líneas de texto -->
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M60,46 H80 V50 H60 Z" />
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M60,56 H80 V60 H60 Z" />
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M60,66 H74 V70 H60 Z" />
+</vector>

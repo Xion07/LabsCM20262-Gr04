@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Contact Data</string>
+
+    <string name="main_title">Contact Registration</string>
+    <string name="btn_personal_data">Personal Information</string>
+    <string name="btn_contact_data">Contact Information</string>
+
+    <string name="title_personal_data">Personal Information</string>
+    <string name="label_names">First name *</string>
+    <string name="label_lastnames">Last name *</string>
+    <string name="label_gender">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="label_birthdate">Date of birth *</string>
+    <string name="hint_birthdate">Tap to select</string>
+    <string name="label_schooling">Education level</string>
+    <string name="btn_next">Next</string>
+
+    <string name="title_contact_data">Contact Information</string>
+    <string name="label_phone">Phone *</string>
+    <string name="label_address">Address</string>
+    <string name="label_email">Email *</string>
+    <string name="label_country">Country *</string>
+    <string name="label_city">City</string>
+    <string name="btn_finish">Finish</string>
+
+    <string name="error_required">This field is required</string>
+    <string name="error_email">Invalid email address</string>
+    <string name="msg_validation_error">Please complete the required fields</string>
+    <string name="msg_data_saved">Data saved successfully</string>
+
+    <string name="log_tag_personal">PersonalInformation</string>
+    <string name="log_tag_contact">ContactInformation</string>
+
+    <string-array name="schooling_levels">
+        <item>None</item>
+        <item>Elementary school</item>
+        <item>High school</item>
+        <item>Technical degree</item>
+        <item>Undergraduate degree</item>
+        <item>Graduate degree</item>
+    </string-array>
+
+    <string-array name="latam_countries">
+        <item>Argentina</item>
+        <item>Bolivia</item>
+        <item>Brazil</item>
+        <item>Chile</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Ecuador</item>
+        <item>El Salvador</item>
+        <item>Guatemala</item>
+        <item>Honduras</item>
+        <item>Mexico</item>
+        <item>Nicaragua</item>
+        <item>Panama</item>
+        <item>Paraguay</item>
+        <item>Peru</item>
+        <item>Dominican Republic</item>
+        <item>Uruguay</item>
+        <item>Venezuela</item>
+    </string-array>
+
+    <string-array name="colombia_cities">
+        <item>Bogota</item>
+        <item>Medellin</item>
+        <item>Cali</item>
+        <item>Barranquilla</item>
+        <item>Cartagena</item>
+        <item>Cucuta</item>
+        <item>Bucaramanga</item>
+        <item>Pereira</item>
+        <item>Santa Marta</item>
+        <item>Manizales</item>
+        <item>Ibague</item>
+        <item>Pasto</item>
+        <item>Monteria</item>
+        <item>Villavicencio</item>
+        <item>Armenia</item>
+    </string-array>
+</resources>
