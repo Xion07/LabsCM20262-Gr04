@@ -1,0 +1,37 @@
+R_DEF: Internal format may change without notice
+local
+array colombia_cities
+array latam_countries
+array schooling_levels
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string btn_contact_data
+string btn_finish
+string btn_next
+string btn_personal_data
+string error_email
+string error_required
+string gender_female
+string gender_male
+string hint_birthdate
+string label_address
+string label_birthdate
+string label_city
+string label_country
+string label_email
+string label_gender
+string label_lastnames
+string label_names
+string label_phone
+string label_schooling
+string log_tag_contact
+string log_tag_personal
+string main_title
+string msg_data_saved
+string msg_validation_error
+string title_contact_data
+string title_personal_data
+style Theme.Lab1UI

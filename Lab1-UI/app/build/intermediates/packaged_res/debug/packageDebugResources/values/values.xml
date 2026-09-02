@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="colombia_cities">
+        <item>Bogotá</item>
+        <item>Medellín</item>
+        <item>Cali</item>
+        <item>Barranquilla</item>
+        <item>Cartagena</item>
+        <item>Cúcuta</item>
+        <item>Bucaramanga</item>
+        <item>Pereira</item>
+        <item>Santa Marta</item>
+        <item>Manizales</item>
+        <item>Ibagué</item>
+        <item>Pasto</item>
+        <item>Montería</item>
+        <item>Villavicencio</item>
+        <item>Armenia</item>
+    </string-array>
+    <string-array name="latam_countries">
+        <item>Argentina</item>
+        <item>Bolivia</item>
+        <item>Brasil</item>
+        <item>Chile</item>
+        <item>Colombia</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Ecuador</item>
+        <item>El Salvador</item>
+        <item>Guatemala</item>
+        <item>Honduras</item>
+        <item>México</item>
+        <item>Nicaragua</item>
+        <item>Panamá</item>
+        <item>Paraguay</item>
+        <item>Perú</item>
+        <item>República Dominicana</item>
+        <item>Uruguay</item>
+        <item>Venezuela</item>
+    </string-array>
+    <string-array name="schooling_levels">
+        <item>Ninguno</item>
+        <item>Primaria</item>
+        <item>Secundaria</item>
+        <item>Técnico/Tecnólogo</item>
+        <item>Pregrado</item>
+        <item>Posgrado</item>
+    </string-array>
+    <string name="app_name">Datos de Contacto</string>
+    <string name="btn_contact_data">Información de Contacto</string>
+    <string name="btn_finish">Finalizar</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="btn_personal_data">Información Personal</string>
+    <string name="error_email">Correo electrónico no válido</string>
+    <string name="error_required">Este campo es obligatorio</string>
+    <string name="gender_female">Femenino</string>
+    <string name="gender_male">Masculino</string>
+    <string name="hint_birthdate">Toque para seleccionar</string>
+    <string name="label_address">Dirección</string>
+    <string name="label_birthdate">Fecha de nacimiento *</string>
+    <string name="label_city">Ciudad</string>
+    <string name="label_country">País *</string>
+    <string name="label_email">Email *</string>
+    <string name="label_gender">Sexo</string>
+    <string name="label_lastnames">Apellidos *</string>
+    <string name="label_names">Nombres *</string>
+    <string name="label_phone">Teléfono *</string>
+    <string name="label_schooling">Grado de escolaridad</string>
+    <string name="log_tag_contact">InformacionContacto</string>
+    <string name="log_tag_personal">InformacionPersonal</string>
+    <string name="main_title">Registro de Contacto</string>
+    <string name="msg_data_saved">Datos guardados correctamente</string>
+    <string name="msg_validation_error">Complete los campos obligatorios</string>
+    <string name="title_contact_data">Información de Contacto</string>
+    <string name="title_personal_data">Información Personal</string>
+    <style name="Theme.Lab1UI" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>
