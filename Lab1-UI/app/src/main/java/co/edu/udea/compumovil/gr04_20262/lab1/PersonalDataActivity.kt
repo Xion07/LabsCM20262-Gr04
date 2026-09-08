@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 private const val TAG = "InformacionPersonal"
 
@@ -88,7 +89,13 @@ fun PersonalDataScreen() {
 
     val schoolingLevels = stringArrayResource(R.array.schooling_levels)
     val schoolingHint = stringResource(R.string.hint_select)
-    val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
+    // El DatePicker entrega el instante en UTC; se formatea en UTC para que la
+    // fecha mostrada/registrada coincida con la que eligio el usuario.
+    val dateFormatter = remember {
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+    }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val validationMessage = stringResource(R.string.msg_validation_error)
