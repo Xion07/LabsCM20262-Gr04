@@ -4,6 +4,7 @@
 
     <!-- Pantalla principal -->
     <string name="main_title">Registro de Contacto</string>
+    <string name="main_subtitle">Laboratorio 1 - Interfaz Gráfica de Usuario</string>
     <string name="btn_personal_data">Información Personal</string>
     <string name="btn_contact_data">Información de Contacto</string>
 
@@ -17,6 +18,7 @@
     <string name="label_birthdate">Fecha de nacimiento *</string>
     <string name="hint_birthdate">Toque para seleccionar</string>
     <string name="label_schooling">Grado de escolaridad</string>
+    <string name="hint_select">Seleccione…</string>
     <string name="btn_next">Siguiente</string>
 
     <!-- ContactDataActivity -->
@@ -28,15 +30,15 @@
     <string name="label_city">Ciudad</string>
     <string name="btn_finish">Finalizar</string>
 
-    <!-- Validaciones -->
+    <!-- Validaciones / mensajes -->
     <string name="error_required">Este campo es obligatorio</string>
     <string name="error_email">Correo electrónico no válido</string>
     <string name="msg_validation_error">Complete los campos obligatorios</string>
-    <string name="msg_data_saved">Datos guardados correctamente</string>
+    <string name="msg_data_logged">Datos registrados (ver Logcat)</string>
+    <string name="value_unspecified">No especificado</string>
 
-    <!-- Logcat -->
-    <string name="log_tag_personal">InformacionPersonal</string>
-    <string name="log_tag_contact">InformacionContacto</string>
+    <!-- Accesibilidad -->
+    <string name="cd_pick_date">Elegir fecha</string>
 
     <!-- Escolaridad -->
     <string-array name="schooling_levels">

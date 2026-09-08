@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Lab1UI" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Tema base de la app. La UI real se construye con Material 3 en Compose;
+         este tema solo aplica a la ventana (barra de estado, fondo). -->
+    <style name="Theme.Lab1UI" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#3F51B5</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
 </resources>

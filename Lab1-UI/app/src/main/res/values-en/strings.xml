@@ -3,6 +3,7 @@
     <string name="app_name">Contact Data</string>
 
     <string name="main_title">Contact Registration</string>
+    <string name="main_subtitle">Lab 1 - Graphical User Interface</string>
     <string name="btn_personal_data">Personal Information</string>
     <string name="btn_contact_data">Contact Information</string>
 
@@ -15,6 +16,7 @@
     <string name="label_birthdate">Date of birth *</string>
     <string name="hint_birthdate">Tap to select</string>
     <string name="label_schooling">Education level</string>
+    <string name="hint_select">Select…</string>
     <string name="btn_next">Next</string>
 
     <string name="title_contact_data">Contact Information</string>
@@ -28,10 +30,10 @@
     <string name="error_required">This field is required</string>
     <string name="error_email">Invalid email address</string>
     <string name="msg_validation_error">Please complete the required fields</string>
-    <string name="msg_data_saved">Data saved successfully</string>
+    <string name="msg_data_logged">Data recorded (see Logcat)</string>
+    <string name="value_unspecified">Not specified</string>
 
-    <string name="log_tag_personal">PersonalInformation</string>
-    <string name="log_tag_contact">ContactInformation</string>
+    <string name="cd_pick_date">Pick date</string>
 
     <string-array name="schooling_levels">
         <item>None</item>
