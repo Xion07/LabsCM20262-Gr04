@@ -35,7 +35,6 @@ Lab1-UI/
          ├─ values-en/strings.xml      inglés
          └─ mipmap-*/ic_launcher*      ícono personalizado (PNG para API<26 + adaptive para API 26+)
 ```
-(\* campos obligatorios)
 
 ### Características implementadas
 - Jetpack Compose + Material 3.
