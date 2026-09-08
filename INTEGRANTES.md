@@ -7,6 +7,6 @@
 |-----------------|-------------------|----------------------|
 | Juan Esteban Cardozo Rivera | _(completar)_ | juan.cardozor@udea.edu.co |
 | _(completar)_ | Xion07 | _(completar)_ |
-| _(completar)_ | _(completar)_ | _(completar)_ |
+| Valentina Roldán Preciado | Roldan21 | valentina.roldanp@udea.edu.co |
 
 > Completar la tabla con los datos reales de cada integrante antes de la entrega.
