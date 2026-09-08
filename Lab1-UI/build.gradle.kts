@@ -1,6 +1,7 @@
-// Top-level build file
+// Archivo de build de nivel superior. Las versiones de los plugins se declaran
+// aqui una sola vez y los modulos las aplican sin version.
 plugins {
-    id("com.android.application") version "9.4.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.2.10" apply false
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.10" apply false
+    id("com.android.application") version "8.6.1" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.20" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" apply false
 }
