@@ -7,16 +7,22 @@ import android.util.Patterns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
@@ -26,6 +32,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.FormScaffold
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.SectionCard
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.TwoSectionLayout
 import co.edu.udea.compumovil.gr04_20262.lab1.ui.theme.Lab1UITheme
 
 private const val TAG = "InformacionContacto"
@@ -40,7 +49,10 @@ class ContactDataActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Lab1UITheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     ContactDataScreen()
                 }
             }
@@ -83,11 +95,12 @@ fun ContactDataScreen() {
         }
     }
 
-    val phoneField = @Composable { modifier: Modifier ->
+    val phoneField = @Composable {
         OutlinedTextField(
             value = phone,
             onValueChange = { phone = it; phoneError = false },
             label = { Text(stringResource(R.string.label_phone)) },
+            leadingIcon = { Icon(Icons.Filled.Phone, contentDescription = null) },
             singleLine = true,
             isError = phoneError,
             supportingText = { if (phoneError) Text(requiredText) },
@@ -96,15 +109,18 @@ fun ContactDataScreen() {
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(onNext = { addressFocusRequester.requestFocus() }),
-            modifier = modifier.testTag("field_phone")
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("field_phone")
         )
     }
 
-    val addressField = @Composable { modifier: Modifier ->
+    val addressField = @Composable {
         OutlinedTextField(
             value = address,
             onValueChange = { address = it },
             label = { Text(stringResource(R.string.label_address)) },
+            leadingIcon = { Icon(Icons.Filled.Home, contentDescription = null) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -113,17 +129,19 @@ fun ContactDataScreen() {
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(onNext = { emailFocusRequester.requestFocus() }),
-            modifier = modifier
+            modifier = Modifier
+                .fillMaxWidth()
                 .focusRequester(addressFocusRequester)
                 .testTag("field_address")
         )
     }
 
-    val emailField = @Composable { modifier: Modifier ->
+    val emailField = @Composable {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it; emailError = false },
             label = { Text(stringResource(R.string.label_email)) },
+            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
             singleLine = true,
             isError = emailError,
             supportingText = {
@@ -134,13 +152,14 @@ fun ContactDataScreen() {
                 imeAction = ImeAction.Done // ultimo campo de teclado -> "Listo"
             ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-            modifier = modifier
+            modifier = Modifier
+                .fillMaxWidth()
                 .focusRequester(emailFocusRequester)
                 .testTag("field_email")
         )
     }
 
-    val countryField = @Composable { modifier: Modifier ->
+    val countryField = @Composable {
         AutocompleteField(
             label = stringResource(R.string.label_country),
             value = country,
@@ -148,12 +167,12 @@ fun ContactDataScreen() {
             options = countries,
             isError = countryError,
             errorText = requiredText,
-            testTag = "field_country",
-            modifier = modifier
+            leadingIcon = Icons.Filled.LocationOn,
+            testTag = "field_country"
         )
     }
 
-    val cityField = @Composable { modifier: Modifier ->
+    val cityField = @Composable {
         AutocompleteField(
             label = stringResource(R.string.label_city),
             value = city,
@@ -161,8 +180,8 @@ fun ContactDataScreen() {
             options = cities,
             isError = false,
             errorText = "",
-            testTag = "field_city",
-            modifier = modifier
+            leadingIcon = Icons.Filled.LocationOn,
+            testTag = "field_city"
         )
     }
 
@@ -185,44 +204,44 @@ fun ContactDataScreen() {
         }
     }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.title_contact_data)) }) },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (isLandscape) {
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    phoneField(Modifier.weight(1f))
-                    emailField(Modifier.weight(1f))
+    FormScaffold(
+        title = stringResource(R.string.title_contact_data),
+        snackbarHostState = snackbarHostState
+    ) {
+        TwoSectionLayout(
+            isLandscape = isLandscape,
+            first = {
+                SectionCard(
+                    title = stringResource(R.string.section_contact),
+                    icon = Icons.Filled.Phone
+                ) {
+                    phoneField()
+                    addressField()
+                    emailField()
                 }
-                addressField(Modifier.fillMaxWidth())
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    countryField(Modifier.weight(1f))
-                    cityField(Modifier.weight(1f))
+            },
+            second = {
+                SectionCard(
+                    title = stringResource(R.string.section_location),
+                    icon = Icons.Filled.LocationOn
+                ) {
+                    countryField()
+                    cityField()
                 }
-            } else {
-                phoneField(Modifier.fillMaxWidth())
-                addressField(Modifier.fillMaxWidth())
-                emailField(Modifier.fillMaxWidth())
-                countryField(Modifier.fillMaxWidth())
-                cityField(Modifier.fillMaxWidth())
             }
+        )
 
-            Button(
-                onClick = onSubmit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("btn_finish")
-            ) {
-                Text(stringResource(R.string.btn_finish))
-            }
+        Button(
+            onClick = onSubmit,
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .testTag("btn_finish")
+        ) {
+            Text(stringResource(R.string.btn_finish))
+            Spacer(Modifier.width(8.dp))
+            Icon(Icons.Filled.Check, contentDescription = null)
         }
     }
 }
@@ -240,6 +259,7 @@ private fun AutocompleteField(
     options: List<String>,
     isError: Boolean,
     errorText: String,
+    leadingIcon: ImageVector,
     testTag: String,
     modifier: Modifier = Modifier
 ) {
@@ -259,6 +279,7 @@ private fun AutocompleteField(
             value = value,
             onValueChange = { onValueChange(it); expanded = true },
             label = { Text(label) },
+            leadingIcon = { Icon(leadingIcon, contentDescription = null) },
             singleLine = true,
             isError = isError,
             supportingText = { if (isError) Text(errorText) },

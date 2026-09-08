@@ -8,18 +8,23 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalConfiguration
@@ -32,6 +37,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.FormScaffold
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.SectionCard
+import co.edu.udea.compumovil.gr04_20262.lab1.ui.TwoSectionLayout
 import co.edu.udea.compumovil.gr04_20262.lab1.ui.theme.Lab1UITheme
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -51,7 +59,10 @@ class PersonalDataActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Lab1UITheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     PersonalDataScreen()
                 }
             }
@@ -108,12 +119,13 @@ fun PersonalDataScreen() {
         }
     }
 
-    // ---- Campos reutilizables (se colocan distinto segun orientacion) ----
-    val namesField = @Composable { modifier: Modifier ->
+    // ---- Campos reutilizables ----
+    val namesField = @Composable {
         OutlinedTextField(
             value = names,
             onValueChange = { names = it; namesError = false },
             label = { Text(stringResource(R.string.label_names)) },
+            leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
             singleLine = true,
             isError = namesError,
             supportingText = { if (namesError) Text(stringResource(R.string.error_required)) },
@@ -124,15 +136,18 @@ fun PersonalDataScreen() {
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(onNext = { lastNamesFocusRequester.requestFocus() }),
-            modifier = modifier.testTag("field_names")
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("field_names")
         )
     }
 
-    val lastNamesField = @Composable { modifier: Modifier ->
+    val lastNamesField = @Composable {
         OutlinedTextField(
             value = lastNames,
             onValueChange = { lastNames = it; lastNamesError = false },
             label = { Text(stringResource(R.string.label_lastnames)) },
+            leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
             singleLine = true,
             isError = lastNamesError,
             supportingText = { if (lastNamesError) Text(stringResource(R.string.error_required)) },
@@ -143,29 +158,48 @@ fun PersonalDataScreen() {
                 imeAction = ImeAction.Done // ultimo campo con teclado -> "Listo"
             ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-            modifier = modifier
+            modifier = Modifier
+                .fillMaxWidth()
                 .focusRequester(lastNamesFocusRequester)
                 .testTag("field_lastnames")
         )
     }
 
-    val genderField = @Composable { modifier: Modifier ->
-        Column(modifier) {
-            Text(
-                text = stringResource(R.string.label_gender),
-                style = MaterialTheme.typography.labelLarge
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+    val genderField = @Composable {
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    Icons.Filled.Face,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = stringResource(R.string.label_gender),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.selectableGroup(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 genderOptions.forEach { (label, value) ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(end = 16.dp)
+                            .padding(end = 12.dp)
+                            .clip(RoundedCornerShape(50))
                             .selectable(
                                 selected = gender == value,
                                 onClick = { gender = value },
                                 role = Role.RadioButton
                             )
+                            .padding(end = 8.dp)
                             .testTag("radio_$value")
                     ) {
                         RadioButton(selected = gender == value, onClick = null)
@@ -176,13 +210,14 @@ fun PersonalDataScreen() {
         }
     }
 
-    val birthDateField = @Composable { modifier: Modifier ->
+    val birthDateField = @Composable {
         OutlinedTextField(
             value = birthDateMillis?.let { dateFormatter.format(Date(it)) } ?: "",
             onValueChange = {},
             readOnly = true,
             label = { Text(stringResource(R.string.label_birthdate)) },
             placeholder = { Text(stringResource(R.string.hint_birthdate)) },
+            leadingIcon = { Icon(Icons.Filled.DateRange, contentDescription = null) },
             isError = birthDateError,
             supportingText = { if (birthDateError) Text(stringResource(R.string.error_required)) },
             trailingIcon = {
@@ -193,44 +228,41 @@ fun PersonalDataScreen() {
                     )
                 }
             },
-            modifier = modifier
+            modifier = Modifier
+                .fillMaxWidth()
                 .clickableNoRipple { showDatePicker = true }
                 .testTag("field_birthdate")
         )
     }
 
-    val schoolingField = @Composable { modifier: Modifier ->
-        Column(modifier) {
-            Text(
-                text = stringResource(R.string.label_schooling),
-                style = MaterialTheme.typography.labelLarge
+    val schoolingField = @Composable {
+        ExposedDropdownMenuBox(
+            expanded = schoolingExpanded,
+            onExpandedChange = { schoolingExpanded = it }
+        ) {
+            OutlinedTextField(
+                value = if (schoolingIndex >= 0) schoolingLevels[schoolingIndex] else schoolingHint,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(stringResource(R.string.label_schooling)) },
+                leadingIcon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = schoolingExpanded)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                    .testTag("field_schooling")
             )
-            ExposedDropdownMenuBox(
+            ExposedDropdownMenu(
                 expanded = schoolingExpanded,
-                onExpandedChange = { schoolingExpanded = it }
+                onDismissRequest = { schoolingExpanded = false }
             ) {
-                OutlinedTextField(
-                    value = if (schoolingIndex >= 0) schoolingLevels[schoolingIndex] else schoolingHint,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = schoolingExpanded)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                        .testTag("field_schooling")
-                )
-                ExposedDropdownMenu(
-                    expanded = schoolingExpanded,
-                    onDismissRequest = { schoolingExpanded = false }
-                ) {
-                    schoolingLevels.forEachIndexed { index, level ->
-                        DropdownMenuItem(
-                            text = { Text(level) },
-                            onClick = { schoolingIndex = index; schoolingExpanded = false }
-                        )
-                    }
+                schoolingLevels.forEachIndexed { index, level ->
+                    DropdownMenuItem(
+                        text = { Text(level) },
+                        onClick = { schoolingIndex = index; schoolingExpanded = false }
+                    )
                 }
             }
         }
@@ -265,46 +297,44 @@ fun PersonalDataScreen() {
         }
     }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.title_personal_data)) }) },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (isLandscape) {
-                // Figura 3: version landscape -> campos en dos columnas.
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    namesField(Modifier.weight(1f))
-                    lastNamesField(Modifier.weight(1f))
+    FormScaffold(
+        title = stringResource(R.string.title_personal_data),
+        snackbarHostState = snackbarHostState
+    ) {
+        TwoSectionLayout(
+            isLandscape = isLandscape,
+            first = {
+                SectionCard(
+                    title = stringResource(R.string.section_basic_data),
+                    icon = Icons.Filled.Person
+                ) {
+                    namesField()
+                    lastNamesField()
+                    genderField()
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    genderField(Modifier.weight(1f))
-                    birthDateField(Modifier.weight(1f))
+            },
+            second = {
+                SectionCard(
+                    title = stringResource(R.string.section_birth_studies),
+                    icon = Icons.Filled.DateRange
+                ) {
+                    birthDateField()
+                    schoolingField()
                 }
-                schoolingField(Modifier.fillMaxWidth())
-            } else {
-                // Figura 2: version portrait -> una sola columna.
-                namesField(Modifier.fillMaxWidth())
-                lastNamesField(Modifier.fillMaxWidth())
-                genderField(Modifier.fillMaxWidth())
-                birthDateField(Modifier.fillMaxWidth())
-                schoolingField(Modifier.fillMaxWidth())
             }
+        )
 
-            Button(
-                onClick = onSubmit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("btn_next")
-            ) {
-                Text(stringResource(R.string.btn_next))
-            }
+        Button(
+            onClick = onSubmit,
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .testTag("btn_next")
+        ) {
+            Text(stringResource(R.string.btn_next))
+            Spacer(Modifier.width(8.dp))
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
         }
     }
 
