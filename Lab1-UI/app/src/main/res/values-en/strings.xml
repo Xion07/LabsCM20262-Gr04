@@ -6,6 +6,13 @@
     <string name="main_subtitle">Lab 1 - Graphical User Interface</string>
     <string name="btn_personal_data">Personal Information</string>
     <string name="btn_contact_data">Contact Information</string>
+    <string name="nav_personal_subtitle">Name, gender, birth date and studies</string>
+    <string name="nav_contact_subtitle">Phone, email and location</string>
+
+    <string name="section_basic_data">Personal data</string>
+    <string name="section_birth_studies">Birth date and studies</string>
+    <string name="section_contact">Contact</string>
+    <string name="section_location">Location</string>
 
     <string name="title_personal_data">Personal Information</string>
     <string name="label_names">First name *</string>

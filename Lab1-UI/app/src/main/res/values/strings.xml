@@ -7,6 +7,14 @@
     <string name="main_subtitle">Laboratorio 1 - Interfaz Gráfica de Usuario</string>
     <string name="btn_personal_data">Información Personal</string>
     <string name="btn_contact_data">Información de Contacto</string>
+    <string name="nav_personal_subtitle">Nombres, sexo, nacimiento y estudios</string>
+    <string name="nav_contact_subtitle">Teléfono, correo y ubicación</string>
+
+    <!-- Secciones de los formularios -->
+    <string name="section_basic_data">Datos personales</string>
+    <string name="section_birth_studies">Nacimiento y estudios</string>
+    <string name="section_contact">Contacto</string>
+    <string name="section_location">Ubicación</string>
 
     <!-- PersonalDataActivity -->
     <string name="title_personal_data">Información Personal</string>
