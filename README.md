@@ -11,9 +11,7 @@ Laboratorios del curso **Computación Móvil** — Universidad de Antioquia, sem
 
 ---
 
-## Lab 1 — `Lab1-UI/`
-## Flujo de la aplicación
-
+## Lab 1 — `Lab1-UI/`                                                                                                            ##Flujo de la aplicación
 La aplicación presenta un menú principal desde el cual el usuario puede acceder a dos formularios:
 
 1. **Datos personales:** permite ingresar nombres, apellidos, sexo, fecha de nacimiento y escolaridad.
