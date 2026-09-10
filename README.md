@@ -12,6 +12,14 @@ Laboratorios del curso **Computación Móvil** — Universidad de Antioquia, sem
 ---
 
 ## Lab 1 — `Lab1-UI/`
+## Flujo de la aplicación
+
+La aplicación presenta un menú principal desde el cual el usuario puede acceder a dos formularios:
+
+1. **Datos personales:** permite ingresar nombres, apellidos, sexo, fecha de nacimiento y escolaridad.
+2. **Datos de contacto:** permite ingresar teléfono, dirección, correo electrónico, país y ciudad.
+
+Los campos obligatorios son validados antes de registrar la información. Los datos ingresados correctamente se muestran en Logcat mediante las etiquetas `InformacionPersonal` e `InformacionContacto`.
 
 ### Requisitos
 - Android Studio (Koala 2024.1.1 o superior).
