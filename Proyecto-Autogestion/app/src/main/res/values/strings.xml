@@ -1,4 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Motos del Caribe</string>
+
+    <string name="nav_home">Inicio</string>
+    <string name="nav_balance">Saldo</string>
+    <string name="nav_fines">Multas</string>
+    <string name="nav_extension">Plazo</string>
+    <string name="nav_km">Km</string>
+
+    <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="km_format">%1$d km</string>
+
+    <string name="login_title">Motos del Caribe</string>
+    <string name="login_subtitle">Ingresa para gestionar tu contrato</string>
+    <string name="login_document">Cédula</string>
+    <string name="login_password">Clave</string>
+    <string name="login_submit">Ingresar</string>
+    <string name="login_show">Mostrar</string>
+    <string name="login_hide">Ocultar</string>
+    <string name="login_error_document">La cédula debe tener al menos 6 números</string>
+    <string name="login_error_password">La clave debe tener al menos 4 caracteres</string>
+    <string name="login_help">¿Olvidaste tu clave? Comunícate con cobranza.</string>
+
+    <string name="home_greeting">Hola, %1$s</string>
+    <string name="home_logout">Cerrar sesión</string>
+    <string name="home_next_payment">Tu próxima cuota</string>
+    <string name="home_due_on">Vence el %1$s</string>
+    <string name="home_due_today">Vence hoy</string>
+    <string name="home_due_tomorrow">Vence mañana</string>
+    <plurals name="home_due_in">
+        <item quantity="one">Vence en %1$d día</item>
+        <item quantity="other">Vence en %1$d días</item>
+    </plurals>
+    <plurals name="home_overdue">
+        <item quantity="one">Llevas %1$d día de mora</item>
+        <item quantity="other">Llevas %1$d días de mora</item>
+    </plurals>
+    <string name="home_cant_pay">¿No puedes pagar a tiempo?</string>
+    <string name="home_ask_extension">Pedir más plazo</string>
+    <string name="home_balance">Saldo pendiente</string>
+    <string name="home_term">Plazo restante</string>
+    <plurals name="months">
+        <item quantity="one">%1$d mes</item>
+        <item quantity="other">%1$d meses</item>
+    </plurals>
+    <string name="home_oil_soon">Cambio de aceite en %1$d km</string>
+    <string name="home_oil_over">Cambio de aceite vencido por %1$d km</string>
+    <string name="home_last_fines">Últimas multas</string>
+    <string name="no_fines">No tienes multas. ¡Vas al día!</string>
+    <string name="home_alerts_off">Las alertas están desactivadas. Actívalas para no olvidar tu cuota.</string>
+    <string name="home_alerts_enable">Activar</string>
+
+    <string name="balance_total">Total moto</string>
+    <string name="balance_km">Km recorridos: %1$d km</string>
+    <string name="balance_history">Historial de abonos</string>
+    <string name="balance_empty">Aún no registras abonos</string>
+
+    <string name="fines_title">Multas</string>
+    <string name="fines_remaining">Tiempo restante de pago: %1$s</string>
+    <string name="fine_reason_late">Pago tardío</string>
+    <string name="fine_installment">Cuota %1$d</string>
+
+    <string name="ext_title">Cuota del %1$s</string>
+    <string name="ext_pick_date">Elegir nueva fecha de pago</string>
+    <string name="ext_date_help">Elige la fecha en que podrás pagar. Si solo quieres explicar lo que pasó, déjala vacía.</string>
+    <string name="ext_story">¿Qué pasó? Cuéntanos tu situación</string>
+    <string name="ext_story_min">Mínimo %1$d caracteres</string>
+    <string name="ext_attach">Adjuntar soporte (foto)</string>
+    <string name="ext_attached">Soporte adjunto ✓ (cambiar)</string>
+    <string name="ext_remove">Quitar soporte</string>
+    <string name="ext_send">Enviar solicitud</string>
+    <string name="ext_note">Esta solicitud no cancela la mora: la revisa cobranza.</string>
+    <string name="ext_sent_title">Solicitud enviada</string>
+    <string name="ext_sent_text">Cobranza la revisará y te avisaremos.</string>
+    <string name="ext_status_pending">Estado: pendiente de revisión</string>
+    <string name="ext_status_date"> · nueva fecha %1$s</string>
+    <string name="ext_status_support"> · con soporte</string>
+
+    <string name="km_title">Kilometraje</string>
+    <string name="km_traveled_label">Km recorridos desde el inicio del contrato</string>
+    <string name="km_oil_coming">Pronto te avisaremos cuándo cambiar el aceite</string>
+    <string name="km_oil_coming_body">Estamos preparando este aviso para que no se te pase el cambio de aceite.</string>
+    <string name="km_oil_title">Cambio de aceite</string>
+    <string name="km_left">Faltan %1$d km</string>
+    <string name="km_over">Vencido por %1$d km</string>
+    <string name="km_progress">Actual %1$d km · próximo a los %2$d km</string>
+    <string name="km_history">Historial de kilometraje</string>
+
+    <string name="channel_reminders">Recordatorios</string>
+    <string name="channel_urgent">Vencimiento y mora</string>
+    <string name="notif_upcoming_title">Tu cuota vence pronto</string>
+    <plurals name="notif_upcoming_text">
+        <item quantity="one">Falta %1$d día para pagar %2$s. Toca para ver tu cuota.</item>
+        <item quantity="other">Faltan %1$d días para pagar %2$s. Toca para ver tu cuota.</item>
+    </plurals>
+    <string name="notif_today_title">Tu cuota vence hoy</string>
+    <string name="notif_today_text">Paga %1$s hoy para evitar multa. Si no puedes, pide más plazo.</string>
+    <string name="notif_overdue_title">Cuota en mora</string>
+    <plurals name="notif_overdue_text">
+        <item quantity="one">Llevas %1$d día de mora (%2$s). Paga o envía una excusa desde la app.</item>
+        <item quantity="other">Llevas %1$d días de mora (%2$s). Paga o envía una excusa desde la app.</item>
+    </plurals>
+    <string name="notif_public_title">Tienes un recordatorio de pago</string>
+    <string name="notif_action_extension">Pedir más plazo</string>
+    <string name="notif_oil_title">Mantenimiento preventivo</string>
+    <string name="notif_oil_over">Te pasaste %1$d km del cambio de aceite.</string>
+    <string name="notif_oil_left">Te faltan %1$d km para el cambio de aceite (%2$d km).</string>
+
+    <string name="perm_title">¿Quieres que te avisemos?</string>
+    <string name="perm_text">Te enviaremos un recordatorio antes de que venza tu cuota para que evites multas.</string>
+    <string name="perm_yes">Sí, avisarme</string>
+    <string name="perm_no">Ahora no</string>
 </resources>

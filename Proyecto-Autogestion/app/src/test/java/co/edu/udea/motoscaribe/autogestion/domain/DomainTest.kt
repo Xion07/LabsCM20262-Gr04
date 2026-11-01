@@ -9,14 +9,14 @@ import org.junit.Test
 class DomainTest {
     private val today = LocalDate.of(2026, 11, 1)
 
-    private fun alert(daysToDue: Long) =
-        AlertPolicy.evaluate(today, today.plusDays(daysToDue), "$ 350.000")
+    private fun alert(daysToDue: Long) = AlertPolicy.evaluate(today, today.plusDays(daysToDue))
 
     @Test fun noAlertWhenFarFromDue() = assertNull(alert(4))
 
     @Test fun upcomingAlertIsNotUrgent() {
         val a = alert(3)!!
         assertEquals(AlertLevel.UPCOMING, a.level)
+        assertEquals(3, a.days)
         assertTrue(!a.urgent)
     }
 
@@ -26,12 +26,17 @@ class DomainTest {
         assertTrue(a.urgent)
     }
 
+    @Test fun overdueCountsLateDays() {
+        val a = alert(-2)!!
+        assertEquals(AlertLevel.OVERDUE, a.level)
+        assertEquals(2, a.days)
+    }
+
     @Test fun overdueEscalatesFrequency() {
         val upcoming = alert(2)!!.nextCheckHours
         val dueToday = alert(0)!!.nextCheckHours
-        val overdue = alert(-2)!!
-        assertEquals(AlertLevel.OVERDUE, overdue.level)
-        assertTrue(upcoming > dueToday && dueToday > overdue.nextCheckHours)
+        val overdue = alert(-2)!!.nextCheckHours
+        assertTrue(upcoming > dueToday && dueToday > overdue)
     }
 
     @Test fun maintenanceStatusByKm() {

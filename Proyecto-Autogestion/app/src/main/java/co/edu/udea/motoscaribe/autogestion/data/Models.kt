@@ -22,11 +22,14 @@ data class Contract(
 
 data class Payment(val date: LocalDate, val amount: Long)
 
+/** Motivo de la multa; la UI lo traduce a texto segun el idioma del sistema. */
+enum class FineReason { LATE_PAYMENT }
+
 data class Fine(
     val date: LocalDate,
     val amount: Long,
-    val reason: String,
-    val installmentLabel: String,
+    val reason: FineReason,
+    val installment: Int,
 )
 
 data class KmReading(val date: LocalDate, val km: Int)
@@ -35,7 +38,7 @@ enum class RequestStatus { PENDING_REVIEW }
 
 /** Solicitud del arrendatario: ampliacion de plazo (newDate) y/o excusa con soporte. */
 data class ExtensionRequest(
-    val installmentLabel: String,
+    val dueDate: LocalDate,
     val newDate: LocalDate?,
     val excuse: String,
     val attachmentUri: String? = null,

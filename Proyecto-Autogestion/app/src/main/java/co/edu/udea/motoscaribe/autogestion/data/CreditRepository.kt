@@ -37,8 +37,8 @@ class MockCreditRepository : CreditRepository {
     )
 
     override suspend fun fines() = listOf(
-        Fine(today.minusMonths(2), 25_000, "Pago tardío", "Cuota 12"),
-        Fine(today.minusMonths(5), 25_000, "Pago tardío", "Cuota 5"),
+        Fine(today.minusMonths(2), 25_000, FineReason.LATE_PAYMENT, 12),
+        Fine(today.minusMonths(5), 25_000, FineReason.LATE_PAYMENT, 5),
     )
 
     override suspend fun kmHistory() = listOf(

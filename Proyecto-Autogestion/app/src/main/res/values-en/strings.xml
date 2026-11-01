@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Motos del Caribe</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_balance">Balance</string>
+    <string name="nav_fines">Fines</string>
+    <string name="nav_extension">Extension</string>
+    <string name="nav_km">Km</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="km_format">%1$d km</string>
+
+    <string name="login_title">Motos del Caribe</string>
+    <string name="login_subtitle">Sign in to manage your contract</string>
+    <string name="login_document">ID number</string>
+    <string name="login_password">Password</string>
+    <string name="login_submit">Sign in</string>
+    <string name="login_show">Show</string>
+    <string name="login_hide">Hide</string>
+    <string name="login_error_document">The ID number must have at least 6 digits</string>
+    <string name="login_error_password">The password must have at least 4 characters</string>
+    <string name="login_help">Forgot your password? Contact collections.</string>
+
+    <string name="home_greeting">Hi, %1$s</string>
+    <string name="home_logout">Sign out</string>
+    <string name="home_next_payment">Your next installment</string>
+    <string name="home_due_on">Due on %1$s</string>
+    <string name="home_due_today">Due today</string>
+    <string name="home_due_tomorrow">Due tomorrow</string>
+    <plurals name="home_due_in">
+        <item quantity="one">Due in %1$d day</item>
+        <item quantity="other">Due in %1$d days</item>
+    </plurals>
+    <plurals name="home_overdue">
+        <item quantity="one">%1$d day overdue</item>
+        <item quantity="other">%1$d days overdue</item>
+    </plurals>
+    <string name="home_cant_pay">Can\'t pay on time?</string>
+    <string name="home_ask_extension">Ask for more time</string>
+    <string name="home_balance">Outstanding balance</string>
+    <string name="home_term">Remaining term</string>
+    <plurals name="months">
+        <item quantity="one">%1$d month</item>
+        <item quantity="other">%1$d months</item>
+    </plurals>
+    <string name="home_oil_soon">Oil change in %1$d km</string>
+    <string name="home_oil_over">Oil change overdue by %1$d km</string>
+    <string name="home_last_fines">Latest fines</string>
+    <string name="no_fines">You have no fines. You are up to date!</string>
+    <string name="home_alerts_off">Alerts are off. Turn them on so you never miss an installment.</string>
+    <string name="home_alerts_enable">Turn on</string>
+
+    <string name="balance_total">Motorcycle total</string>
+    <string name="balance_km">Distance traveled: %1$d km</string>
+    <string name="balance_history">Payment history</string>
+    <string name="balance_empty">No payments recorded yet</string>
+
+    <string name="fines_title">Fines</string>
+    <string name="fines_remaining">Time left to pay: %1$s</string>
+    <string name="fine_reason_late">Late payment</string>
+    <string name="fine_installment">Installment %1$d</string>
+
+    <string name="ext_title">Installment due %1$s</string>
+    <string name="ext_pick_date">Choose a new payment date</string>
+    <string name="ext_date_help">Choose the date you will be able to pay. If you only want to explain what happened, leave it empty.</string>
+    <string name="ext_story">What happened? Tell us your situation</string>
+    <string name="ext_story_min">At least %1$d characters</string>
+    <string name="ext_attach">Attach proof (photo)</string>
+    <string name="ext_attached">Proof attached ✓ (change)</string>
+    <string name="ext_remove">Remove proof</string>
+    <string name="ext_send">Send request</string>
+    <string name="ext_note">This request does not cancel the overdue amount: collections will review it.</string>
+    <string name="ext_sent_title">Request sent</string>
+    <string name="ext_sent_text">Collections will review it and let you know.</string>
+    <string name="ext_status_pending">Status: pending review</string>
+    <string name="ext_status_date"> · new date %1$s</string>
+    <string name="ext_status_support"> · with proof</string>
+
+    <string name="km_title">Mileage</string>
+    <string name="km_traveled_label">Distance traveled since the contract started</string>
+    <string name="km_oil_coming">We will soon tell you when to change the oil</string>
+    <string name="km_oil_coming_body">We are preparing this alert so you never miss an oil change.</string>
+    <string name="km_oil_title">Oil change</string>
+    <string name="km_left">%1$d km left</string>
+    <string name="km_over">Overdue by %1$d km</string>
+    <string name="km_progress">Now %1$d km · next at %2$d km</string>
+    <string name="km_history">Mileage history</string>
+
+    <string name="channel_reminders">Reminders</string>
+    <string name="channel_urgent">Due and overdue</string>
+    <string name="notif_upcoming_title">Your installment is due soon</string>
+    <plurals name="notif_upcoming_text">
+        <item quantity="one">%1$d day left to pay %2$s. Tap to see your installment.</item>
+        <item quantity="other">%1$d days left to pay %2$s. Tap to see your installment.</item>
+    </plurals>
+    <string name="notif_today_title">Your installment is due today</string>
+    <string name="notif_today_text">Pay %1$s today to avoid a fine. If you cannot, ask for more time.</string>
+    <string name="notif_overdue_title">Installment overdue</string>
+    <plurals name="notif_overdue_text">
+        <item quantity="one">%1$d day overdue (%2$s). Pay or send an explanation from the app.</item>
+        <item quantity="other">%1$d days overdue (%2$s). Pay or send an explanation from the app.</item>
+    </plurals>
+    <string name="notif_public_title">You have a payment reminder</string>
+    <string name="notif_action_extension">Ask for more time</string>
+    <string name="notif_oil_title">Preventive maintenance</string>
+    <string name="notif_oil_over">You are %1$d km past the oil change.</string>
+    <string name="notif_oil_left">%1$d km left for the oil change (%2$d km).</string>
+
+    <string name="perm_title">Want us to notify you?</string>
+    <string name="perm_text">We will send you a reminder before your installment is due so you avoid fines.</string>
+    <string name="perm_yes">Yes, notify me</string>
+    <string name="perm_no">Not now</string>
+</resources>

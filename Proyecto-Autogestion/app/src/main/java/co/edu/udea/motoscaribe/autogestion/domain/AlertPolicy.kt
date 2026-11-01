@@ -5,10 +5,11 @@ import java.time.temporal.ChronoUnit
 
 enum class AlertLevel { UPCOMING, DUE_TODAY, OVERDUE }
 
+/** Decision de alerta sin texto: el texto sale de los recursos segun el idioma. */
 data class PaymentAlert(
     val level: AlertLevel,
-    val title: String,
-    val message: String,
+    /** Dias que faltan (UPCOMING) o dias de mora (OVERDUE); 0 si vence hoy. */
+    val days: Int,
     /** Las alertas de vencimiento y mora usan un canal de alta prioridad. */
     val urgent: Boolean,
     /** Horas hasta la siguiente revision: se acorta mientras el pago no se registre. */
@@ -19,35 +20,13 @@ object AlertPolicy {
     const val IDLE_CHECK_HOURS = 12L
 
     /** Devuelve la alerta que corresponde hoy, o null si aun falta mas de 3 dias. */
-    fun evaluate(today: LocalDate, dueDate: LocalDate, amountLabel: String): PaymentAlert? {
-        val days = ChronoUnit.DAYS.between(today, dueDate)
+    fun evaluate(today: LocalDate, dueDate: LocalDate): PaymentAlert? {
+        val days = ChronoUnit.DAYS.between(today, dueDate).toInt()
         return when {
             days > 3 -> null
-            days >= 1 -> PaymentAlert(
-                AlertLevel.UPCOMING,
-                "Tu cuota vence pronto",
-                "Faltan $days ${if (days == 1L) "día" else "días"} para pagar $amountLabel.",
-                urgent = false,
-                nextCheckHours = 24,
-            )
-            days == 0L -> PaymentAlert(
-                AlertLevel.DUE_TODAY,
-                "Tu cuota vence hoy",
-                "Paga $amountLabel hoy para evitar multa. Si no puedes, solicita ampliación de plazo.",
-                urgent = true,
-                nextCheckHours = 6,
-            )
-            else -> {
-                val late = -days
-                PaymentAlert(
-                    AlertLevel.OVERDUE,
-                    "Cuota en mora",
-                    "Llevas $late ${if (late == 1L) "día" else "días"} de mora ($amountLabel). " +
-                        "Paga o envía una excusa desde la app.",
-                    urgent = true,
-                    nextCheckHours = 3,
-                )
-            }
+            days >= 1 -> PaymentAlert(AlertLevel.UPCOMING, days, urgent = false, nextCheckHours = 24)
+            days == 0 -> PaymentAlert(AlertLevel.DUE_TODAY, 0, urgent = true, nextCheckHours = 6)
+            else -> PaymentAlert(AlertLevel.OVERDUE, -days, urgent = true, nextCheckHours = 3)
         }
     }
 }

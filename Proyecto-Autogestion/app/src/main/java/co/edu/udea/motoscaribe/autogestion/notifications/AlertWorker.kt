@@ -6,6 +6,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import co.edu.udea.motoscaribe.autogestion.R
+import co.edu.udea.motoscaribe.autogestion.Routes
 import co.edu.udea.motoscaribe.autogestion.data.MockCreditRepository
 import co.edu.udea.motoscaribe.autogestion.domain.AlertPolicy
 import co.edu.udea.motoscaribe.autogestion.domain.MaintenancePlan
@@ -23,23 +25,30 @@ private const val ID_MAINTENANCE = 2
  */
 class AlertWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
+        val ctx = applicationContext
         val contract = MockCreditRepository().contract() // pendiente: repositorio real
-        val alert = AlertPolicy.evaluate(
-            LocalDate.now(), contract.nextPaymentDate, contract.nextPaymentAmount.cop(),
-        )
-        alert?.let { Notifier.show(applicationContext, ID_PAYMENT, it.title, it.message, it.urgent) }
+        val alert = AlertPolicy.evaluate(LocalDate.now(), contract.nextPaymentDate)
+        alert?.let {
+            Notifier.show(
+                ctx, ID_PAYMENT,
+                AlertTexts.title(ctx, it),
+                AlertTexts.text(ctx, it, contract.nextPaymentAmount.cop()),
+                it.urgent,
+                AlertTexts.route(it),
+            )
+        }
 
         val plan = contract.lastOilChangeKm?.let { MaintenancePlan(contract.kmTraveled, it) }
         if (plan != null && plan.status != MaintenanceStatus.OK) {
             val text = if (plan.status == MaintenanceStatus.OVERDUE) {
-                "Te pasaste ${-plan.kmLeft} km del cambio de aceite."
+                ctx.getString(R.string.notif_oil_over, -plan.kmLeft)
             } else {
-                "Te faltan ${plan.kmLeft} km para el cambio de aceite (${plan.nextServiceKm} km)."
+                ctx.getString(R.string.notif_oil_left, plan.kmLeft, plan.nextServiceKm)
             }
-            Notifier.show(applicationContext, ID_MAINTENANCE, "Mantenimiento preventivo", text, false)
+            Notifier.show(ctx, ID_MAINTENANCE, ctx.getString(R.string.notif_oil_title), text, false, Routes.KM)
         }
 
-        AlertScheduler.scheduleNext(applicationContext, alert?.nextCheckHours ?: AlertPolicy.IDLE_CHECK_HOURS)
+        AlertScheduler.scheduleNext(ctx, alert?.nextCheckHours ?: AlertPolicy.IDLE_CHECK_HOURS)
         return Result.success()
     }
 }
@@ -47,13 +56,19 @@ class AlertWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx,
 object AlertScheduler {
     private const val WORK_NAME = "payment-alerts"
 
-    fun scheduleNext(ctx: Context, delayHours: Long) = enqueue(ctx, delayHours, TimeUnit.HOURS)
+    /** Reprograma la siguiente revision (reemplaza la pendiente). */
+    fun scheduleNext(ctx: Context, delayHours: Long) =
+        enqueue(ctx, delayHours, TimeUnit.HOURS, ExistingWorkPolicy.REPLACE)
 
-    /** Arranca la revision ya (al iniciar sesion). */
-    fun start(ctx: Context) = enqueue(ctx, 0, TimeUnit.SECONDS)
+    /** Arranca la revision ya; si ya hay una programada se conserva (rotar no la reinicia). */
+    fun start(ctx: Context) = enqueue(ctx, 0, TimeUnit.SECONDS, ExistingWorkPolicy.KEEP)
 
-    private fun enqueue(ctx: Context, delay: Long, unit: TimeUnit) {
+    fun cancel(ctx: Context) {
+        WorkManager.getInstance(ctx).cancelUniqueWork(WORK_NAME)
+    }
+
+    private fun enqueue(ctx: Context, delay: Long, unit: TimeUnit, policy: ExistingWorkPolicy) {
         val request = OneTimeWorkRequestBuilder<AlertWorker>().setInitialDelay(delay, unit).build()
-        WorkManager.getInstance(ctx).enqueueUniqueWork(WORK_NAME, ExistingWorkPolicy.REPLACE, request)
+        WorkManager.getInstance(ctx).enqueueUniqueWork(WORK_NAME, policy, request)
     }
 }

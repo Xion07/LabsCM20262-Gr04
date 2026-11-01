@@ -8,11 +8,12 @@ Todo funciona con **datos simulados** (`MockCreditRepository`). Falta conectar l
 
 | Módulo | Estado |
 |---|---|
-| Ingreso (cédula + clave) | Simulado: acepta cédula de 6+ dígitos y clave de 4+ caracteres |
+| Ingreso (cédula + clave) | Simulado: acepta cédula de 6+ dígitos y clave de 4+ caracteres. Cerrar sesión desde Inicio |
 | Inicio, Saldo y abonos, Multas | Listo con datos mock |
-| Plazo y excusas | Listo: DatePicker, texto, foto de soporte. No se envía a ningún servidor |
+| Plazo y excusas | Listo: fecha opcional, motivo (mín. 10 caracteres), foto de soporte y confirmación al enviar. No se envía a ningún servidor |
 | Kilometraje | Listo: muestra los km recorridos desde el inicio del contrato. El aviso de cambio de aceite (`MaintenancePlan`, cada 3.000 km, aviso a 200 km) queda apagado hasta que exista el dato del último cambio |
 | Alertas de pago | Listo con WorkManager y notificaciones locales; se acortan de 24 h a 6 h y 3 h al vencer y entrar en mora (`AlertPolicy`) |
+| Idiomas y pantallas | Español e inglés según el idioma del sistema; vertical, horizontal y tablet (riel lateral desde 600 dp); modo claro y oscuro |
 | API y autenticación reales | Pendiente |
 | Push desde servidor (FCM) | Pendiente: requiere proyecto Firebase y `google-services.json` |
 
@@ -53,3 +54,9 @@ No hay ningún dato en la BD que diga cuándo se hizo el último cambio de aceit
 - En el código, `Contract.lastOilChangeKm` es `null` mientras ese dato no exista. Con `null`, la pantalla Kilometraje muestra una tarjeta "Próximamente" y no se dispara ningún aviso de aceite.
 - Cuando el dato exista, basta que el repositorio lo llene: `MaintenancePlan`, las notificaciones y la tarjeta de progreso ya funcionan con él.
 - Ninguna de estas tablas está en el modelo de Power BI; la API tendrá que consultarlas directamente y sumar los km en la base, no en la app.
+
+## Revisión con agentes (1-nov-2026)
+
+Se revisó la app con cuatro agentes (seguridad, funcionalidad, experiencia de usuario e interfaz). Aplicado: textos en `strings.xml` (es/en), notificaciones que abren la pantalla correcta y no muestran montos en pantalla bloqueada, `allowBackup` apagado, release ofuscado (R8), tema Material 3 completo con la marca, barra de estado integrada, ícono propio, riel lateral en pantallas anchas, estados vacíos y de carga, y confirmación al enviar la solicitud.
+
+Pendiente por decisión o por dependencia externa: API y autenticación reales (JWT, token cifrado, HTTPS con pinning), notificaciones push desde servidor (FCM), splash screen, vistas previas de Compose, ventana horaria de las alertas y persistir la sesión.
