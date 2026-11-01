@@ -27,18 +27,18 @@ La app ya habla con la API (`../Proyecto-Autogestion-API`). Sin API (o con `-Pus
 
 ## Correr contra la API
 
-1. Levantar la API (ver `../Proyecto-Autogestion-API/README.md`): `API_JWT_SECRET=<32+ caracteres> ./mvnw spring-boot:run`.
-2. Compilar e instalar el debug en el emulador: la app apunta a `http://10.0.2.2:8080` (así el emulador ve el computador; el tráfico sin cifrar solo se permite hacia esa dirección y solo en debug).
-3. Ingresar con la cédula `1000000001` y la clave `demo1234` (usuario de demostración de la API).
+**Por defecto la app apunta a la API desplegada en Azure** (`https://autogestion-api-jc.azurewebsites.net`), así que quien clone el repo y compile ya puede usarla, sin levantar nada. Cédulas de demostración `1000000001` a `1000000020`, clave `demo1234`.
 
-Opciones de Gradle: `-PuseMock=true` (datos simulados, sin API), `-PapiBaseUrl=https://...` (otra URL; en release es obligatoria y debe ser https; vacía = datos simulados).
+Opciones de Gradle:
+- `-PapiBaseUrl=http://10.0.2.2:8080`: API local en el computador (en debug, el tráfico sin cifrar solo se permite hacia esa dirección). Levantarla con `API_JWT_SECRET=<32+ caracteres> ./mvnw spring-boot:run` en `../Proyecto-Autogestion-API`.
+- `-PuseMock=true`: datos simulados, sin API.
 
 Las alertas no usan el token: al cargar los datos la app guarda en el teléfono solo la próxima cuota (fecha, monto, km) y el trabajo de segundo plano lee esa copia; se borra al cerrar sesión.
 
 ### Apuntar a la API desplegada en Azure
 
 ```
-./gradlew assembleDebug -PapiBaseUrl=https://autogestion-api-jc.azurewebsites.net
+./gradlew assembleDebug
 ```
 
 Genera `app/build/outputs/apk/debug/app-debug.apk` (instalable en un celular). Ingresar con cualquier cédula de `1000000001` a `1000000020` y la clave `demo1234`. **La primera vez que se usa la API tras un rato sin tráfico tarda hasta ~1 minuto** (el plan gratis la duerme); la app espera y muestra el indicador de carga.

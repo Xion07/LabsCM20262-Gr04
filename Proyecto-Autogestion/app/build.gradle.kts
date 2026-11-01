@@ -4,6 +4,20 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+/** API de la demo en Azure (plan gratis). Cualquier build, tambien al clonar el repo, apunta aqui. */
+val azureApiUrl = "https://autogestion-api-jc.azurewebsites.net"
+
+/**
+ * URL de la API segun las propiedades de Gradle:
+ *  - sin propiedades: Azure;
+ *  - -PapiBaseUrl=http://10.0.2.2:8080: API local (el emulador ve el computador en 10.0.2.2);
+ *  - -PuseMock=true: datos simulados, sin API.
+ */
+fun Project.apiBaseUrl(): String = when {
+    findProperty("useMock") == "true" -> ""
+    else -> (findProperty("apiBaseUrl") as String?) ?: azureApiUrl
+}
+
 android {
     namespace = "co.edu.udea.motoscaribe.autogestion"
     compileSdk = 34
@@ -18,15 +32,10 @@ android {
 
     buildTypes {
         debug {
-            // Emulador: 10.0.2.2 es el computador. Con -PuseMock=true se usan datos simulados.
-            val base = if (project.findProperty("useMock") == "true") "" else
-                (project.findProperty("apiBaseUrl") as String?) ?: "http://10.0.2.2:8080"
-            buildConfigField("String", "API_BASE_URL", "\"$base\"")
+            buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl()}\"")
         }
         release {
-            // En release la URL (https) se pasa con -PapiBaseUrl=...; vacia = datos simulados.
-            val base = (project.findProperty("apiBaseUrl") as String?) ?: ""
-            buildConfigField("String", "API_BASE_URL", "\"$base\"")
+            buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl()}\"")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
