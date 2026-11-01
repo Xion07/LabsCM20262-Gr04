@@ -135,7 +135,7 @@
     <string name="home_plate">Plate %1$s</string>
     <string name="home_progress_title">Your contract progress</string>
     <string name="home_paid_pct">%1$d%% paid</string>
-    <string name="home_progress_body">You have paid %1$s of %2$s</string>
+    <string name="home_progress_body">You have paid %1$s of %2$s</string>
     <string name="home_refresh">Refresh</string>
     <string name="balance_subtitle">Your bike and what you have paid</string>
     <string name="balance_paid">Paid</string>
@@ -159,4 +159,9 @@
     <string name="km_subtitle">Your ride so far</string>
     <string name="km_last_reading">Last reading: %1$s</string>
     <string name="km_empty">No mileage readings yet</string>
+    <string name="balance_chart_title">Your payments</string>
+    <string name="balance_chart_last">Last payment: %1$s</string>
+    <string name="balance_chart_cd">Payments chart: %1$d payments, the latest on %2$s for %3$s</string>
+    <string name="km_chart_title">Mileage over time</string>
+    <string name="km_chart_cd">Mileage chart: %1$d readings, from %2$,d km to %3$,d km</string>
 </resources>

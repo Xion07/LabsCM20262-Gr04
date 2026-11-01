@@ -33,6 +33,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawOutline
@@ -185,4 +187,26 @@ fun Modifier.shimmer(shape: Shape = RoundedCornerShape(12.dp)): Modifier = compo
 @Composable
 fun SkeletonBox(height: Dp, modifier: Modifier = Modifier, shape: Shape = RoundedCornerShape(12.dp)) {
     Box(modifier.fillMaxWidth().height(height).shimmer(shape))
+}
+
+/** Brillo que recorre el elemento UNA vez al entrar (tras [delayMs]); nada si no hay animaciones. */
+fun Modifier.sheenOnce(delayMs: Long = 700L, color: Color = Color.White): Modifier = composed {
+    val play = LocalEntrance.current
+    val x = remember { Animatable(-1f) }
+    LaunchedEffect(play) {
+        if (play) { delay(delayMs); x.animateTo(2f, tween(900, easing = LinearEasing)) }
+    }
+    drawWithContent {
+        drawContent()
+        val p = x.value
+        if (p > -1f && p < 2f) {
+            val w = size.width
+            drawRect(
+                Brush.linearGradient(
+                    listOf(Color.Transparent, color.copy(alpha = 0.45f), Color.Transparent),
+                    start = Offset(p * w - w * 0.3f, 0f), end = Offset(p * w + w * 0.3f, size.height),
+                ),
+            )
+        }
+    }
 }

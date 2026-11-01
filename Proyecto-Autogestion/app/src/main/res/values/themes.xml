@@ -4,4 +4,11 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
+    <!-- Splash nativa (core-splashscreen): fondo rojo de marca y la moto; luego pasa a Theme.MotosCaribe. -->
+    <style name="Theme.MotosCaribe.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/brand_red</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_moto</item>
+        <item name="postSplashScreenTheme">@style/Theme.MotosCaribe</item>
+    </style>
 </resources>

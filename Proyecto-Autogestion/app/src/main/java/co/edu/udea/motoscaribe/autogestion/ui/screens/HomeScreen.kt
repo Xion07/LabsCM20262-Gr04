@@ -62,6 +62,8 @@ import co.edu.udea.motoscaribe.autogestion.ui.motion.enterFromBelow
 import co.edu.udea.motoscaribe.autogestion.ui.motion.pressFeedback
 import co.edu.udea.motoscaribe.autogestion.ui.motion.rememberCountingValue
 import co.edu.udea.motoscaribe.autogestion.ui.motion.rememberPulse
+import co.edu.udea.motoscaribe.autogestion.ui.motion.sheenOnce
+import androidx.compose.ui.draw.clip
 import co.edu.udea.motoscaribe.autogestion.ui.pretty
 import co.edu.udea.motoscaribe.autogestion.ui.theme.MotosTheme
 import java.time.LocalDate
@@ -164,7 +166,7 @@ fun HomeScreen(state: UiState, onRequestExtension: () -> Unit, onLogout: () -> U
             val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
             Button(
                 onRequestExtension,
-                Modifier.fillMaxWidth().heightIn(min = 50.dp).pressFeedback(interaction),
+                Modifier.fillMaxWidth().heightIn(min = 50.dp).pressFeedback(interaction).clip(MaterialTheme.shapes.medium).sheenOnce(color = x.heroStart),
                 interactionSource = interaction,
                 shape = MaterialTheme.shapes.medium,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = x.heroStart),

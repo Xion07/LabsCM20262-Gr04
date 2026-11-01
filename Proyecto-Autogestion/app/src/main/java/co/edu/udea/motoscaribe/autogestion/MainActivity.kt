@@ -22,6 +22,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,6 +53,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -64,6 +66,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -104,6 +108,10 @@ class MainActivity : ComponentActivity() {
     private var pendingRoute by mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Splash nativa (rojo + moto) que se funde suavemente con la intro de Compose.
+        installSplashScreen().setOnExitAnimationListener { splash ->
+            splash.view.animate().alpha(0f).setDuration(350L).withEndAction { splash.remove() }.start()
+        }
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         pendingRoute = intent.getStringExtra(Notifier.EXTRA_ROUTE)
@@ -112,6 +120,17 @@ class MainActivity : ComponentActivity() {
                 val state by viewModel.state.collectAsStateWithLifecycle()
                 // La intro se muestra una sola vez por sesion (sobrevive a la rotacion).
                 var introDone by rememberSaveable { mutableStateOf(false) }
+
+                // Iconos de la barra de estado: blancos sobre el login y la intro (arriba es rojo) y
+                // oscuros sobre el contenido claro. Se fija aqui porque tras la splash nativa el
+                // ajuste automatico los dejaba blancos sobre fondo claro (invisibles).
+                val darkTheme = isSystemInDarkTheme()
+                val redOnTop = !state.loggedIn || !introDone
+                SideEffect {
+                    val controller = WindowCompat.getInsetsController(window, window.decorView)
+                    controller.isAppearanceLightStatusBars = !darkTheme && !redOnTop
+                    controller.isAppearanceLightNavigationBars = !darkTheme
+                }
                 Box(Modifier.fillMaxSize()) {
                     AnimatedContent(
                         targetState = state.loggedIn,

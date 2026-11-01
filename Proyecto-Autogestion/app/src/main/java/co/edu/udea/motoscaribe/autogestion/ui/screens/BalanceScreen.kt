@@ -16,6 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.semantics.semantics
+import co.edu.udea.motoscaribe.autogestion.ui.motion.PaymentsBarChart
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Receipt
 import androidx.compose.material.icons.rounded.Savings
@@ -101,8 +105,33 @@ fun BalanceScreen(state: UiState) {
                         }
                     }
                 }
+                if (state.payments.isNotEmpty()) {
+                    item {
+                        // La API entrega los abonos del mas reciente al mas antiguo; el grafico va en orden cronologico.
+                        val shown = state.payments.sortedBy { it.date }.takeLast(8)
+                        val last = shown.last()
+                        val cd = stringResource(R.string.balance_chart_cd, state.payments.size, last.date.pretty(), last.amount.cop())
+                        Card(
+                            Modifier.fillMaxWidth().enterFromBelow(2).semantics(mergeDescendants = true) {},
+                            shape = MaterialTheme.shapes.large,
+                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                        ) {
+                            Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Column(Modifier.weight(1f)) {
+                                        Text(stringResource(R.string.balance_chart_title), style = MaterialTheme.typography.titleMedium)
+                                        Text(stringResource(R.string.balance_chart_last, last.date.pretty()), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    }
+                                    Text(last.amount.cop(), style = MaterialTheme.typography.titleLarge, color = x.success)
+                                }
+                                PaymentsBarChart(shown.map { it.date to it.amount }, cd, highlight = x.success, barColor = x.success.copy(alpha = 0.3f))
+                            }
+                        }
+                    }
+                }
                 item {
-                    Row(Modifier.enterFromBelow(2), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.enterFromBelow(3), verticalAlignment = Alignment.CenterVertically) {
                         SectionTitle(stringResource(R.string.balance_history), Modifier.weight(1f))
                         if (state.payments.isNotEmpty()) {
                             Text(
@@ -114,12 +143,12 @@ fun BalanceScreen(state: UiState) {
                     }
                 }
                 if (state.payments.isEmpty()) {
-                    item { EmptyState(stringResource(R.string.balance_empty), Icons.Rounded.Savings, Modifier.enterFromBelow(3), tint = MaterialTheme.colorScheme.primary) }
+                    item { EmptyState(stringResource(R.string.balance_empty), Icons.Rounded.Savings, Modifier.enterFromBelow(4), tint = MaterialTheme.colorScheme.primary) }
                 } else {
                     itemsIndexed(state.payments) { i, p ->
                         TimelineRow(
                             p.date.pretty(), p.amount.cop(), last = i == state.payments.lastIndex,
-                            modifier = Modifier.enterFromBelow(3 + i.coerceAtMost(6)),
+                            modifier = Modifier.enterFromBelow(4 + i.coerceAtMost(6)),
                             dotColor = x.success,
                         )
                     }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono de la splash screen nativa: la moto con piloto, centrada en los 2/3 interiores
+     (la pantalla de inicio recorta el icono en un circulo). Mismos trazados que MotoArt. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.58"
+        android:scaleY="0.58"
+        android:pivotX="54"
+        android:pivotY="54"
+        android:translateY="-2">
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="5"
+            android:pathData="M14,74 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="5"
+            android:pathData="M72,74 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2"
+            android:pathData="M20.5,74 a5.5,5.5 0 1,0 11,0 a5.5,5.5 0 1,0 -11,0" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2"
+            android:pathData="M78.5,74 a5.5,5.5 0 1,0 11,0 a5.5,5.5 0 1,0 -11,0" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="1.8" android:strokeLineCap="round"
+            android:pathData="M17,74 L35,74 M21.5,66.2 L30.5,81.8 M21.5,81.8 L30.5,66.2 M75,74 L93,74 M79.5,66.2 L88.5,81.8 M79.5,81.8 L88.5,66.2" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="4"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M12,70 A14,14 0 0 1 40,70 M70,70 A14,14 0 0 1 98,70 M84,74 L74,46 M70,44 L82,39 M26,74 L46,69 M50,74 L36,81" />
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M40,52 C44,43 60,41 69,48 L66,59 L42,59 Z M19,52 L42,51 L42,59 L22,61 Q18,61 19,52 Z M44,61 L62,61 Q65,61 65,64 L65,71 Q65,74 62,74 L47,74 Q44,74 44,71 Z" />
+        <path android:fillColor="#FFFFFF" android:pathData="M74,41 A5,5 0 1 1 73.9,41 Z" />
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.2" android:strokeLineCap="round"
+            android:pathData="M82,42 L93,37 M83,46 L96,46 M82,50 L93,55" />
+        <!-- Piloto -->
+        <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="4.5"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M44,53 L47,39 M47,41 L68,44 M44,53 L53,63" />
+        <path android:fillColor="#FFFFFF" android:pathData="M47,24 A7,7 0 1 1 46.9,24 Z" />
+    </group>
+</vector>

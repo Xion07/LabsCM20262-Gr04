@@ -135,7 +135,7 @@
     <string name="home_plate">Placa %1$s</string>
     <string name="home_progress_title">Avance de tu contrato</string>
     <string name="home_paid_pct">%1$d%% pagado</string>
-    <string name="home_progress_body">Has pagado %1$s de %2$s</string>
+    <string name="home_progress_body">Has pagado %1$s de %2$s</string>
     <string name="home_refresh">Actualizar</string>
     <string name="balance_subtitle">Tu moto y lo que llevas pagado</string>
     <string name="balance_paid">Abonado</string>
@@ -159,4 +159,9 @@
     <string name="km_subtitle">Tu recorrido con la moto</string>
     <string name="km_last_reading">Última lectura: %1$s</string>
     <string name="km_empty">Aún no hay lecturas de kilometraje</string>
+    <string name="balance_chart_title">Tus abonos</string>
+    <string name="balance_chart_last">Último abono: %1$s</string>
+    <string name="balance_chart_cd">Gráfico de abonos: %1$d abonos, el último el %2$s por %3$s</string>
+    <string name="km_chart_title">Evolución del kilometraje</string>
+    <string name="km_chart_cd">Gráfico de kilometraje: %1$d lecturas, de %2$,d km a %3$,d km</string>
 </resources>

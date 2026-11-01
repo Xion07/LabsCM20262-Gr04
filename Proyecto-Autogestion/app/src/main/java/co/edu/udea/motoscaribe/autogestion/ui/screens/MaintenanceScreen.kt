@@ -38,6 +38,7 @@ import co.edu.udea.motoscaribe.autogestion.ui.components.ScreenColumn
 import co.edu.udea.motoscaribe.autogestion.ui.components.ScreenHeader
 import co.edu.udea.motoscaribe.autogestion.ui.components.SectionTitle
 import co.edu.udea.motoscaribe.autogestion.ui.components.TimelineRow
+import co.edu.udea.motoscaribe.autogestion.ui.motion.KmSparkline
 import co.edu.udea.motoscaribe.autogestion.ui.motion.MotoRider
 import co.edu.udea.motoscaribe.autogestion.ui.motion.enterFromBelow
 import co.edu.udea.motoscaribe.autogestion.ui.motion.rememberCountingValue
@@ -128,6 +129,21 @@ fun MaintenanceScreen(state: UiState) {
             }
         }
 
+        if (state.kmHistory.isNotEmpty()) {
+            val sorted = state.kmHistory.sortedBy { it.date }
+            val cd = stringResource(R.string.km_chart_cd, sorted.size, sorted.first().km, sorted.last().km)
+            Card(
+                Modifier.fillMaxWidth().enterFromBelow(3).semantics(mergeDescendants = true) {},
+                shape = MaterialTheme.shapes.large,
+                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+            ) {
+                Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.km_chart_title), style = MaterialTheme.typography.titleMedium)
+                    KmSparkline(sorted.map { it.date to it.km }, cd)
+                }
+            }
+        }
         SectionTitle(stringResource(R.string.km_history), Modifier.enterFromBelow(3))
         val history = state.kmHistory.asReversed()
         if (history.isEmpty()) {

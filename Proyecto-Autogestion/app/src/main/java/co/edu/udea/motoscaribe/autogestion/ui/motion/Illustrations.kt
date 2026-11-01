@@ -47,39 +47,7 @@ import androidx.compose.ui.unit.dp
 import co.edu.udea.motoscaribe.autogestion.R
 import co.edu.udea.motoscaribe.autogestion.ui.theme.BrandRed
 import co.edu.udea.motoscaribe.autogestion.ui.theme.BrandRedDeep
-import kotlin.math.cos
 import kotlin.math.sin
-
-/*
- * Dibujo de la moto del icono de la app (viewport 108x108): dos ruedas, chasis en trazos,
- * manubrio y asiento. Se reutiliza en el splash, el login y el km.
- */
-private fun DrawScope.drawMoto(color: Color, wheelAngle: Float, scale: Float, bob: Float) {
-    val sw = 4f * scale
-    val stroke = Stroke(sw, cap = StrokeCap.Round, join = StrokeJoin.Round)
-    translate(0f, bob) {
-        // Chasis
-        val frame = Path().apply {
-            moveTo(33f * scale, 66f * scale); lineTo(46f * scale, 46f * scale)
-            lineTo(62f * scale, 46f * scale); lineTo(75f * scale, 66f * scale)
-            moveTo(62f * scale, 46f * scale); lineTo(58f * scale, 38f * scale); lineTo(68f * scale, 38f * scale)
-            moveTo(46f * scale, 46f * scale); lineTo(38f * scale, 46f * scale)
-        }
-        drawPath(frame, color, style = stroke)
-    }
-    // Ruedas con radios que giran
-    listOf(33f, 75f).forEach { cx ->
-        val c = Offset(cx * scale, 66f * scale)
-        drawCircle(color, 9f * scale, c, style = Stroke(sw))
-        rotate(wheelAngle, c) {
-            repeat(3) { i ->
-                val a = Math.toRadians(i * 60.0)
-                val dx = (cos(a) * 7f * scale).toFloat(); val dy = (sin(a) * 7f * scale).toFloat()
-                drawLine(color, Offset(c.x - dx, c.y - dy), Offset(c.x + dx, c.y + dy), sw * 0.55f, StrokeCap.Round)
-            }
-        }
-    }
-}
 
 /**
  * Moto en marcha: ruedas girando, chasis que vibra apenas y carretera discontinua que avanza.
@@ -91,6 +59,7 @@ fun MotoRider(
     color: Color = Color.White,
     running: Boolean = true,
     roadColor: Color = color.copy(alpha = 0.45f),
+    withRider: Boolean = true,
 ) {
     val motion = rememberMotionEnabled()
     val phase: State<Float> = if (running && motion) {
@@ -98,19 +67,26 @@ fun MotoRider(
             0f, 1f, infiniteRepeatable(tween(650, easing = LinearEasing)), label = "wheel",
         )
     } else remember { mutableFloatStateOf(0f) }
+    val glow: State<Float> = if (running && motion) {
+        rememberInfiniteTransition(label = "lamp").animateFloat(
+            0.35f, 1f, infiniteRepeatable(tween(1100, easing = LinearEasing), RepeatMode.Reverse), label = "rays",
+        )
+    } else remember { mutableFloatStateOf(1f) }
     Canvas(modifier.semantics { contentDescription = "" }) {
         // La moto ocupa el cuadrado inscrito (viewport 108) y se centra en el ancho disponible.
-        val s = minOf(size.width, size.height) / 108f
+        val s = minOf(size.width, size.height) / MotoArt.VIEWPORT
         val t = phase.value
-        val bob = if (running && motion) (sin(t * 2 * Math.PI) * 1.2f * s).toFloat() else 0f
+        val bob = if (running && motion) (sin(t * 2 * Math.PI) * 0.9f).toFloat() else 0f
         // Carretera: dashes que avanzan hacia atras (la moto "va hacia adelante")
         val dash = 10f * s
-        val roadY = 80f * s
+        val roadY = (MotoArt.rearWheel.y + MotoArt.WHEEL_R + 3f) * s
         drawLine(
             roadColor, Offset(0f, roadY), Offset(size.width, roadY), 2.5f * s, StrokeCap.Round,
             pathEffect = PathEffect.dashPathEffect(floatArrayOf(dash, dash), phase = t * dash * 2),
         )
-        translate((size.width - 108f * s) / 2f, 0f) { drawMoto(color, t * 360f, s, bob) }
+        translate((size.width - MotoArt.VIEWPORT * s) / 2f, 0f) {
+            drawMotorcycle(color, s, wheelAngle = t * 360f, bob = bob, rayGlow = glow.value, withRider = withRider)
+        }
     }
 }
 
@@ -213,10 +189,7 @@ fun IntroOverlay(onFinished: () -> Unit) {
                 Modifier
                     .width(180.dp)
                     .height(150.dp)
-                    .graphicsLayer {
-                        translationX = (1f - eased) * -size.width * 1.6f
-                        alpha = eased
-                    },
+                    .graphicsLayer { alpha = 0.6f + 0.4f * eased },
             )
             Text(
                 stringResource(R.string.app_name),
