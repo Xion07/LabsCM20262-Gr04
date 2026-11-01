@@ -35,6 +35,14 @@ Opciones de Gradle: `-PuseMock=true` (datos simulados, sin API), `-PapiBaseUrl=h
 
 Las alertas no usan el token: al cargar los datos la app guarda en el teléfono solo la próxima cuota (fecha, monto, km) y el trabajo de segundo plano lee esa copia; se borra al cerrar sesión.
 
+### Apuntar a la API desplegada en Azure
+
+```
+./gradlew assembleDebug -PapiBaseUrl=https://autogestion-api-jc.azurewebsites.net
+```
+
+Genera `app/build/outputs/apk/debug/app-debug.apk` (instalable en un celular). Ingresar con cualquier cédula de `1000000001` a `1000000020` y la clave `demo1234`. **La primera vez que se usa la API tras un rato sin tráfico tarda hasta ~1 minuto** (el plan gratis la duerme); la app espera y muestra el indicador de carga.
+
 ## Compilar (Git Bash)
 
 ```

@@ -51,6 +51,20 @@ Errores en JSON: `{"error": "..."}`; los de validación traen además `fields`.
 - Adjuntos: el tipo se decide por los primeros bytes (no por el nombre), límite de 12.000 px por lado y se re-codifican (se pierde el EXIF, que puede traer GPS). Se guardan en una carpeta privada, sin URL pública.
 - Respuestas de error sin trazas ni mensajes internos.
 
+## Desplegada en Azure (demo)
+
+**https://autogestion-api-jc.azurewebsites.net** (HTTPS obligatorio). Recursos nuevos y aislados, sin tocar ningún otro proyecto de la cuenta:
+
+| Recurso | Nombre | Detalle |
+|---|---|---|
+| Grupo de recursos | `rg-autogestion-demo` | Se puede borrar completo para eliminar todo: `az group delete -n rg-autogestion-demo` |
+| Plan de App Service | `plan-autogestion-f1` | F1 (gratis), Linux, España Central (la región North Central US ya usa su único plan gratis) |
+| Web app | `autogestion-api-jc` | Java 17, TLS 1.2 mínimo, FTP desactivado, HTTP redirige a HTTPS |
+
+Configuración (variables de la web app, **no están en el repo**): `API_JWT_SECRET` (generada al azar), `WEBSITES_PORT=8080`, `API_UPLOADS_DIR=/home/uploads`, `JAVA_OPTS=-Xmx400m`, `SPRING_PROFILES_ACTIVE=seed`.
+
+Para volver a publicar: `./mvnw -q package -DskipTests` y `az webapp deploy -g rg-autogestion-demo -n autogestion-api-jc --src-path target/autogestion-api-0.0.1-SNAPSHOT.jar --type jar`.
+
 ## Despliegue gratis en Azure (plan F1)
 
 El jar pesa ~25 MB. Se publica en un App Service Linux de plan **F1 (gratis)** con runtime Java 17 o 21 y estas variables: `API_JWT_SECRET` (32+ caracteres). Limitaciones del plan gratis: la API se duerme tras unos minutos sin uso y el primer pedido tarda hasta ~1 min (la app espera hasta 60 s), y tiene un tope diario de CPU. Las solicitudes de plazo y las fotos viven en memoria y en disco temporal: se pierden al reiniciar. Sin VPN, sin Relay y sin base de datos de pago.
