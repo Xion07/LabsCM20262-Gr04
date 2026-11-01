@@ -128,5 +128,17 @@ fun AmountRow(title: String, subtitle: String, amount: String) {
 fun FineReason.label(): String = stringResource(
     when (this) {
         FineReason.LATE_PAYMENT -> R.string.fine_reason_late
+        FineReason.OTHER -> R.string.fine_reason_other
     }
 )
+
+/** Fallo al cargar los datos: mensaje y boton para reintentar. */
+@Composable
+fun ErrorState(text: String, retryLabel: String, onRetry: () -> Unit) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(text, style = MaterialTheme.typography.bodyLarge)
+            androidx.compose.material3.Button(onRetry) { Text(retryLabel) }
+        }
+    }
+}

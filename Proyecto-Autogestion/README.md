@@ -4,7 +4,7 @@ App Android (Kotlin + Jetpack Compose) para que el arrendatario consulte su cont
 
 ## Estado
 
-Todo funciona con **datos simulados** (`MockCreditRepository`). Falta conectar la API real.
+La app ya habla con la API (`../Proyecto-Autogestion-API`). Sin API (o con `-PuseMock=true`) usa datos simulados (`MockCreditRepository`).
 
 | Módulo | Estado |
 |---|---|
@@ -14,7 +14,8 @@ Todo funciona con **datos simulados** (`MockCreditRepository`). Falta conectar l
 | Kilometraje | Listo: muestra los km recorridos desde el inicio del contrato. El aviso de cambio de aceite (`MaintenancePlan`, cada 3.000 km, aviso a 200 km) queda apagado hasta que exista el dato del último cambio |
 | Alertas de pago | Listo con WorkManager y notificaciones locales; se acortan de 24 h a 6 h y 3 h al vencer y entrar en mora (`AlertPolicy`) |
 | Idiomas y pantallas | Español e inglés según el idioma del sistema; vertical, horizontal y tablet (riel lateral desde 600 dp); modo claro y oscuro |
-| API y autenticación reales | Pendiente |
+| Conexión a la API | Listo: login con JWT, contrato, abonos, multas, km y solicitudes de plazo con foto. El token vive solo en memoria. Errores de red, clave incorrecta, bloqueo y sesión vencida con mensajes propios |
+| API con base de datos real y autenticación definitiva | Pendiente (la API usa datos simulados) |
 | Push desde servidor (FCM) | Pendiente: requiere proyecto Firebase y `google-services.json` |
 
 ## Estructura
@@ -23,6 +24,16 @@ Todo funciona con **datos simulados** (`MockCreditRepository`). Falta conectar l
 - `domain/`: reglas sin Android (`AlertPolicy`, `MaintenancePlan`), con pruebas en `src/test`.
 - `notifications/`: canales, `AlertWorker` y programador.
 - `ui/`: tema, formato y pantallas. `CreditViewModel` guarda el estado.
+
+## Correr contra la API
+
+1. Levantar la API (ver `../Proyecto-Autogestion-API/README.md`): `API_JWT_SECRET=<32+ caracteres> ./mvnw spring-boot:run`.
+2. Compilar e instalar el debug en el emulador: la app apunta a `http://10.0.2.2:8080` (así el emulador ve el computador; el tráfico sin cifrar solo se permite hacia esa dirección y solo en debug).
+3. Ingresar con la cédula `1000000001` y la clave `demo1234` (usuario de demostración de la API).
+
+Opciones de Gradle: `-PuseMock=true` (datos simulados, sin API), `-PapiBaseUrl=https://...` (otra URL; en release es obligatoria y debe ser https; vacía = datos simulados).
+
+Las alertas no usan el token: al cargar los datos la app guarda en el teléfono solo la próxima cuota (fecha, monto, km) y el trabajo de segundo plano lee esa copia; se borra al cerrar sesión.
 
 ## Compilar (Git Bash)
 
@@ -59,4 +70,4 @@ No hay ningún dato en la BD que diga cuándo se hizo el último cambio de aceit
 
 Se revisó la app con cuatro agentes (seguridad, funcionalidad, experiencia de usuario e interfaz). Aplicado: textos en `strings.xml` (es/en), notificaciones que abren la pantalla correcta y no muestran montos en pantalla bloqueada, `allowBackup` apagado, release ofuscado (R8), tema Material 3 completo con la marca, barra de estado integrada, ícono propio, riel lateral en pantallas anchas, estados vacíos y de carga, y confirmación al enviar la solicitud.
 
-Pendiente por decisión o por dependencia externa: API y autenticación reales (JWT, token cifrado, HTTPS con pinning), notificaciones push desde servidor (FCM), splash screen, vistas previas de Compose, ventana horaria de las alertas y persistir la sesión.
+Pendiente por decisión o por dependencia externa: base de datos real y autenticación definitiva en la API, HTTPS con certificate pinning, notificaciones push desde servidor (FCM), splash screen, vistas previas de Compose, ventana horaria de las alertas y persistir la sesión.

@@ -112,4 +112,15 @@
     <string name="perm_text">Te enviaremos un recordatorio antes de que venza tu cuota para que evites multas.</string>
     <string name="perm_yes">Sí, avisarme</string>
     <string name="perm_no">Ahora no</string>
+
+    <string name="fine_reason_other">Multa</string>
+    <string name="login_error_invalid">Cédula o clave incorrectas</string>
+    <string name="login_error_locked">Demasiados intentos. Intenta de nuevo en unos minutos.</string>
+    <string name="login_error_network">No pudimos conectarnos. Revisa tu internet e intenta de nuevo.</string>
+    <string name="login_error_session">Tu sesión expiró. Ingresa de nuevo.</string>
+    <string name="login_error_generic">Algo salió mal. Intenta de nuevo.</string>
+    <string name="load_error">No pudimos cargar tus datos.</string>
+    <string name="retry">Reintentar</string>
+    <string name="ext_sending">Enviando…</string>
+    <string name="ext_error_send">No pudimos enviar tu solicitud. Revisa tu conexión e intenta de nuevo.</string>
 </resources>

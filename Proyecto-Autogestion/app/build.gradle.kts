@@ -17,7 +17,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Emulador: 10.0.2.2 es el computador. Con -PuseMock=true se usan datos simulados.
+            val base = if (project.findProperty("useMock") == "true") "" else
+                (project.findProperty("apiBaseUrl") as String?) ?: "http://10.0.2.2:8080"
+            buildConfigField("String", "API_BASE_URL", "\"$base\"")
+        }
         release {
+            // En release la URL (https) se pasa con -PapiBaseUrl=...; vacia = datos simulados.
+            val base = (project.findProperty("apiBaseUrl") as String?) ?: ""
+            buildConfigField("String", "API_BASE_URL", "\"$base\"")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -38,6 +47,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -60,4 +70,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }

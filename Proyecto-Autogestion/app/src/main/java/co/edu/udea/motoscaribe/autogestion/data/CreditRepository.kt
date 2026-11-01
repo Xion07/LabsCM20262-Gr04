@@ -1,12 +1,17 @@
 package co.edu.udea.motoscaribe.autogestion.data
 
+import android.content.Context
+import co.edu.udea.motoscaribe.autogestion.BuildConfig
 import java.time.LocalDate
 
 /**
- * Contrato de acceso a datos. Hoy lo implementa [MockCreditRepository]; cuando
- * exista la API intermedia se agrega una implementacion remota sin tocar la UI.
+ * Contrato de acceso a datos. [RemoteCreditRepository] habla con la API; [MockCreditRepository]
+ * da datos de ejemplo (build con -PuseMock=true o sin URL de API).
  */
 interface CreditRepository {
+    /** Lanza [ApiException] (401 credenciales, 429 bloqueo) o [NetworkException]. */
+    suspend fun login(document: String, password: String)
+    fun logout()
     suspend fun contract(): Contract
     suspend fun payments(): List<Payment>
     suspend fun fines(): List<Fine>
@@ -14,8 +19,23 @@ interface CreditRepository {
     suspend fun requestExtension(request: ExtensionRequest)
 }
 
+object RepositoryProvider {
+    fun create(context: Context): CreditRepository =
+        if (BuildConfig.API_BASE_URL.isBlank()) {
+            MockCreditRepository()
+        } else {
+            RemoteCreditRepository(context.applicationContext, ApiClient(BuildConfig.API_BASE_URL))
+        }
+}
+
 class MockCreditRepository : CreditRepository {
     private val today = LocalDate.now()
+
+    override suspend fun login(document: String, password: String) {
+        if (document.length < 6 || password.length < 4) throw ApiException(401)
+    }
+
+    override fun logout() = Unit
 
     override suspend fun contract() = Contract(
         holderName = "Camilo",

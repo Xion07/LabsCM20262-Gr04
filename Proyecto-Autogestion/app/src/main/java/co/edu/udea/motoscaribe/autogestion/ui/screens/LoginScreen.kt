@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import co.edu.udea.motoscaribe.autogestion.LoginError
 import co.edu.udea.motoscaribe.autogestion.R
 
 private const val MAX_DOCUMENT = 12
@@ -40,7 +43,11 @@ private const val MIN_DOCUMENT = 6
 private const val MIN_PASSWORD = 4
 
 @Composable
-fun LoginScreen(onLogin: (document: String, password: String) -> Unit) {
+fun LoginScreen(
+    loading: Boolean,
+    error: LoginError?,
+    onLogin: (document: String, password: String) -> Unit,
+) {
     var document by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var showPassword by rememberSaveable { mutableStateOf(false) }
@@ -101,8 +108,28 @@ fun LoginScreen(onLogin: (document: String, password: String) -> Unit) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(onDone = { submit() }),
             )
-            Button(onClick = { submit() }, Modifier.fillMaxWidth().heightIn(min = 48.dp)) {
-                Text(stringResource(R.string.login_submit))
+            Button(
+                onClick = { submit() },
+                enabled = !loading,
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+            ) {
+                if (loading) CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                else Text(stringResource(R.string.login_submit))
+            }
+            error?.let {
+                Text(
+                    stringResource(
+                        when (it) {
+                            LoginError.INVALID -> R.string.login_error_invalid
+                            LoginError.LOCKED -> R.string.login_error_locked
+                            LoginError.NETWORK -> R.string.login_error_network
+                            LoginError.SESSION_EXPIRED -> R.string.login_error_session
+                            LoginError.GENERIC -> R.string.login_error_generic
+                        }
+                    ),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
             Text(
                 stringResource(R.string.login_help),

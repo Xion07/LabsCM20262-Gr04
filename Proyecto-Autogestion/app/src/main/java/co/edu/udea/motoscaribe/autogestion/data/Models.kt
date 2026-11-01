@@ -23,7 +23,7 @@ data class Contract(
 data class Payment(val date: LocalDate, val amount: Long)
 
 /** Motivo de la multa; la UI lo traduce a texto segun el idioma del sistema. */
-enum class FineReason { LATE_PAYMENT }
+enum class FineReason { LATE_PAYMENT, OTHER }
 
 data class Fine(
     val date: LocalDate,

@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import co.edu.udea.motoscaribe.autogestion.R
+import co.edu.udea.motoscaribe.autogestion.SubmitState
 import co.edu.udea.motoscaribe.autogestion.UiState
 import co.edu.udea.motoscaribe.autogestion.data.ExtensionRequest
 import co.edu.udea.motoscaribe.autogestion.ui.components.Loading
@@ -44,7 +46,7 @@ private const val MAX_STORY = 500
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit) {
+fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit, onSubmitConsumed: () -> Unit) {
     val c = state.contract
     if (c == null) {
         Loading()
@@ -58,6 +60,18 @@ fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit) {
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
         attachment = it?.toString()
     }
+
+    // Al terminar el envio con exito: se limpia el formulario y se confirma.
+    LaunchedEffect(state.submit) {
+        if (state.submit == SubmitState.SUCCESS) {
+            story = ""
+            newDateEpoch = null
+            attachment = null
+            showSent = true
+            onSubmitConsumed()
+        }
+    }
+    val sending = state.submit == SubmitState.SENDING
 
     val newDate = newDateEpoch?.let { LocalDate.ofEpochDay(it) }
     val storyOk = story.trim().length >= MIN_STORY
@@ -103,16 +117,13 @@ fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit) {
         }
 
         Button(
-            onClick = {
-                onSubmit(ExtensionRequest(c.nextPaymentDate, newDate, story.trim(), attachment))
-                story = ""
-                newDateEpoch = null
-                attachment = null
-                showSent = true
-            },
-            enabled = storyOk,
+            onClick = { onSubmit(ExtensionRequest(c.nextPaymentDate, newDate, story.trim(), attachment)) },
+            enabled = storyOk && !sending,
             modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
-        ) { Text(stringResource(R.string.ext_send)) }
+        ) { Text(stringResource(if (sending) R.string.ext_sending else R.string.ext_send)) }
+        if (state.submit == SubmitState.ERROR) {
+            Text(stringResource(R.string.ext_error_send), color = MaterialTheme.colorScheme.error)
+        }
 
         Text(stringResource(R.string.ext_note), style = MaterialTheme.typography.bodySmall)
 

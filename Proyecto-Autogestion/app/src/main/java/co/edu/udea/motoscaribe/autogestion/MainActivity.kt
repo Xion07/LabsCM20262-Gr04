@@ -51,6 +51,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import co.edu.udea.motoscaribe.autogestion.notifications.AlertScheduler
 import co.edu.udea.motoscaribe.autogestion.notifications.Notifier
+import co.edu.udea.motoscaribe.autogestion.ui.components.ErrorState
 import co.edu.udea.motoscaribe.autogestion.ui.screens.BalanceScreen
 import co.edu.udea.motoscaribe.autogestion.ui.screens.ExtensionScreen
 import co.edu.udea.motoscaribe.autogestion.ui.screens.FinesScreen
@@ -71,7 +72,7 @@ private enum class Dest(val route: String, @StringRes val label: Int, val icon: 
 private const val WIDE_DP = 600
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: CreditViewModel by viewModels()
+    private val viewModel: CreditViewModel by viewModels { CreditViewModel.factory(applicationContext) }
 
     /** Pantalla pedida por una notificacion; se consume al navegar. */
     private var pendingRoute by mutableStateOf<String?>(null)
@@ -83,7 +84,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             MotosCaribeTheme {
                 val state by viewModel.state.collectAsStateWithLifecycle()
-                if (state.loggedIn) MainContent(state) else LoginScreen { d, p -> viewModel.login(d, p) }
+                if (state.loggedIn) {
+                    MainContent(state)
+                } else {
+                    LoginScreen(state.loggingIn, state.loginError) { d, p -> viewModel.login(d, p) }
+                }
             }
         }
     }
@@ -154,20 +159,25 @@ class MainActivity : ComponentActivity() {
                     }
                 },
             ) { padding ->
+                if (state.loadError && state.contract == null) {
+                    ErrorState(
+                        stringResource(R.string.load_error), stringResource(R.string.retry), viewModel::load,
+                    )
+                    return@Scaffold
+                }
                 NavHost(nav, Routes.HOME, Modifier.padding(padding)) {
                     composable(Routes.HOME) {
                         HomeScreen(
                             state,
                             onRequestExtension = { nav.goTab(Routes.EXTENSION) },
-                            onLogout = {
-                                AlertScheduler.cancel(context)
-                                viewModel.logout()
-                            },
+                            onLogout = viewModel::logout,
                         )
                     }
                     composable(Routes.BALANCE) { BalanceScreen(state) }
                     composable(Routes.FINES) { FinesScreen(state) }
-                    composable(Routes.EXTENSION) { ExtensionScreen(state, viewModel::submitExtension) }
+                    composable(Routes.EXTENSION) {
+                        ExtensionScreen(state, viewModel::submitExtension, viewModel::submitConsumed)
+                    }
                     composable(Routes.KM) { MaintenanceScreen(state) }
                 }
             }

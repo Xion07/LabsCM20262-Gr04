@@ -8,7 +8,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import co.edu.udea.motoscaribe.autogestion.R
 import co.edu.udea.motoscaribe.autogestion.Routes
-import co.edu.udea.motoscaribe.autogestion.data.MockCreditRepository
+import co.edu.udea.motoscaribe.autogestion.data.AlertCache
 import co.edu.udea.motoscaribe.autogestion.domain.AlertPolicy
 import co.edu.udea.motoscaribe.autogestion.domain.MaintenancePlan
 import co.edu.udea.motoscaribe.autogestion.domain.MaintenanceStatus
@@ -26,19 +26,20 @@ private const val ID_MAINTENANCE = 2
 class AlertWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     override suspend fun doWork(): Result {
         val ctx = applicationContext
-        val contract = MockCreditRepository().contract() // pendiente: repositorio real
-        val alert = AlertPolicy.evaluate(LocalDate.now(), contract.nextPaymentDate)
-        alert?.let {
+        // Sin datos guardados (aun no ha ingresado o cerro sesion) no hay nada que avisar.
+        val snap = AlertCache.read(ctx)
+        val alert = snap?.let { AlertPolicy.evaluate(LocalDate.now(), it.dueDate) }
+        if (snap != null && alert != null) {
             Notifier.show(
                 ctx, ID_PAYMENT,
-                AlertTexts.title(ctx, it),
-                AlertTexts.text(ctx, it, contract.nextPaymentAmount.cop()),
-                it.urgent,
-                AlertTexts.route(it),
+                AlertTexts.title(ctx, alert),
+                AlertTexts.text(ctx, alert, snap.amount.cop()),
+                alert.urgent,
+                AlertTexts.route(alert),
             )
         }
 
-        val plan = contract.lastOilChangeKm?.let { MaintenancePlan(contract.kmTraveled, it) }
+        val plan = snap?.lastOilChangeKm?.let { MaintenancePlan(snap.kmTraveled, it) }
         if (plan != null && plan.status != MaintenanceStatus.OK) {
             val text = if (plan.status == MaintenanceStatus.OVERDUE) {
                 ctx.getString(R.string.notif_oil_over, -plan.kmLeft)
@@ -62,6 +63,9 @@ object AlertScheduler {
 
     /** Arranca la revision ya; si ya hay una programada se conserva (rotar no la reinicia). */
     fun start(ctx: Context) = enqueue(ctx, 0, TimeUnit.SECONDS, ExistingWorkPolicy.KEEP)
+
+    /** Revisa de inmediato (p. ej. cuando llegan datos nuevos) reemplazando lo programado. */
+    fun restart(ctx: Context) = enqueue(ctx, 0, TimeUnit.SECONDS, ExistingWorkPolicy.REPLACE)
 
     fun cancel(ctx: Context) {
         WorkManager.getInstance(ctx).cancelUniqueWork(WORK_NAME)

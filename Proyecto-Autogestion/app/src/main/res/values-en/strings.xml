@@ -112,4 +112,15 @@
     <string name="perm_text">We will send you a reminder before your installment is due so you avoid fines.</string>
     <string name="perm_yes">Yes, notify me</string>
     <string name="perm_no">Not now</string>
+
+    <string name="fine_reason_other">Fine</string>
+    <string name="login_error_invalid">Wrong ID number or password</string>
+    <string name="login_error_locked">Too many attempts. Try again in a few minutes.</string>
+    <string name="login_error_network">We could not connect. Check your internet and try again.</string>
+    <string name="login_error_session">Your session expired. Sign in again.</string>
+    <string name="login_error_generic">Something went wrong. Try again.</string>
+    <string name="load_error">We could not load your data.</string>
+    <string name="retry">Retry</string>
+    <string name="ext_sending">Sending…</string>
+    <string name="ext_error_send">We could not send your request. Check your connection and try again.</string>
 </resources>
