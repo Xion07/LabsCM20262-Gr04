@@ -1,25 +1,22 @@
 package co.edu.udea.motoscaribe.api.credit;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import co.edu.udea.motoscaribe.api.config.ApiProperties;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-/** Datos de demostracion para el unico usuario simulado. Las solicitudes viven en memoria. */
+/** Un unico usuario de demostracion (perfil {@code mock}, usado por las pruebas). */
 @Component
 @Profile("mock")
 class MockCreditData implements CreditData {
 
 	private final String demoDocument;
 	private final String holder;
-	private final ConcurrentHashMap<String, Credit.ExtensionRecord> extensions = new ConcurrentHashMap<>();
+	private final InMemoryExtensions extensions = new InMemoryExtensions();
 
 	MockCreditData(ApiProperties props) {
 		this.demoDocument = props.mock().document();
@@ -78,19 +75,16 @@ class MockCreditData implements CreditData {
 
 	@Override
 	public Credit.ExtensionRecord saveExtension(String document, LocalDate dueDate, LocalDate newDate, String excuse) {
-		var record = new Credit.ExtensionRecord(UUID.randomUUID().toString(), document, dueDate, newDate, excuse,
-				null, "PENDING_REVIEW", Instant.now());
-		extensions.put(record.id(), record);
-		return record;
+		return extensions.save(document, dueDate, newDate, excuse);
 	}
 
 	@Override
 	public Optional<Credit.ExtensionRecord> findExtension(String document, String id) {
-		return Optional.ofNullable(extensions.get(id)).filter(r -> r.document().equals(document));
+		return extensions.find(document, id);
 	}
 
 	@Override
 	public void attach(String document, String id, String attachmentId) {
-		findExtension(document, id).ifPresent(r -> extensions.put(id, r.withAttachment(attachmentId)));
+		extensions.attach(document, id, attachmentId);
 	}
 }
