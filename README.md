@@ -5,6 +5,7 @@ Laboratorios del curso **Computación Móvil** — Universidad de Antioquia, sem
 | Laboratorio | Carpeta | Descripción |
 |-------------|---------|-------------|
 | Lab 1 — Interfaz Gráfica de Usuario | [`Lab1-UI/`](Lab1-UI/) | App Android en Jetpack Compose para ingresar y mostrar los datos de un contacto. |
+| Proyecto de aula — Autogestión de crédito | [`Proyecto-Autogestion/`](Proyecto-Autogestion/) | App Android (Compose) para arrendatarios de Motos del Caribe: saldo, multas, plazo y excusas, kilometraje y alertas de pago. |
 
 - **Repositorio:** https://github.com/Xion07/LabsCM20262-Gr04
 - **Integrantes:** ver [`INTEGRANTES.md`](INTEGRANTES.md)

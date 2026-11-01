@@ -1,0 +1,55 @@
+# Motos del Caribe · Autogestión de crédito
+
+App Android (Kotlin + Jetpack Compose) para que el arrendatario consulte su contrato, vea multas, solicite ampliación de plazo, envíe excusas con soporte y reciba alertas. Proyecto de Computación Móvil, Universidad de Antioquia.
+
+## Estado
+
+Todo funciona con **datos simulados** (`MockCreditRepository`). Falta conectar la API real.
+
+| Módulo | Estado |
+|---|---|
+| Ingreso (cédula + clave) | Simulado: acepta cédula de 6+ dígitos y clave de 4+ caracteres |
+| Inicio, Saldo y abonos, Multas | Listo con datos mock |
+| Plazo y excusas | Listo: DatePicker, texto, foto de soporte. No se envía a ningún servidor |
+| Kilometraje | Listo: muestra los km recorridos desde el inicio del contrato. El aviso de cambio de aceite (`MaintenancePlan`, cada 3.000 km, aviso a 200 km) queda apagado hasta que exista el dato del último cambio |
+| Alertas de pago | Listo con WorkManager y notificaciones locales; se acortan de 24 h a 6 h y 3 h al vencer y entrar en mora (`AlertPolicy`) |
+| API y autenticación reales | Pendiente |
+| Push desde servidor (FCM) | Pendiente: requiere proyecto Firebase y `google-services.json` |
+
+## Estructura
+
+- `data/`: modelos y `CreditRepository` (interfaz + mock). Aquí se enchufa la API.
+- `domain/`: reglas sin Android (`AlertPolicy`, `MaintenancePlan`), con pruebas en `src/test`.
+- `notifications/`: canales, `AlertWorker` y programador.
+- `ui/`: tema, formato y pantallas. `CreditViewModel` guarda el estado.
+
+## Compilar (Git Bash)
+
+```
+export JAVA_HOME="$HOME/Java/jdk-17.0.20.1+1"
+export ANDROID_HOME="$LOCALAPPDATA/Android/Sdk"
+./gradlew testDebugUnitTest assembleDebug
+```
+
+APK en `app/build/outputs/apk/debug/app-debug.apk`. Requiere `local.properties` con `sdk.dir` (no versionado).
+
+## Datos reales (referencia)
+
+Las vistas de `db_packgps` que alimentan el tablero de Power BI (`reporte_estado_motos`, `vw_gd_recaudo_bruto`, `vw_gd_motos_app_proyeccion`, `np_justi_super_org`) cubren saldo, abonos, plazo y justificaciones.
+
+### Kilometraje (confirmado por el equipo de datos, 1-nov-2026)
+
+- Fuente: tabla `hist_distancia`, vista `vw_sv_hist_distancia`. Una fila por dispositivo y día, del 2-nov-2022 al 31-oct-2026, ~4.500 dispositivos (2,1 M de filas en 2025-2026).
+- Campos: `iddevice`, `fecha`, `distancia`, `movimiento`, `velocidadmax`, `hora_ini`, `hora_fin`, `alarma`, `sincronizo`, `placa`.
+- Distancia diaria típica ~100 km (mediana 95). **Se asume que está en km; falta confirmarlo con quien administra el GPS.**
+- Los km son de la **moto**, no del cliente. La columna `placa` viene vacía en ~7 de cada 10 filas desde 2025: **no usarla para unir**, ligar por `iddevice`.
+- Ruta de unión: `iddevice` → placa con `dispositivos` (3.187 filas: `iddevice`, `imei`, `placa`; la vista `ubicacion` también trae contrato e `iddevice`) → contrato con `motos_app_hist` (`placa`, `contrato`, `fecha_inicio` diario desde 2024).
+- Km del cliente = suma de `distancia` de la placa entre la fecha de inicio del episodio y su cierre.
+
+### Decisión sobre el cambio de aceite (1-nov-2026)
+
+No hay ningún dato en la BD que diga cuándo se hizo el último cambio de aceite. Decisión del equipo: la app **solo muestra los km recorridos** y se **propone a nivel de proyecto** agregar el registro del último cambio de aceite en el sistema.
+
+- En el código, `Contract.lastOilChangeKm` es `null` mientras ese dato no exista. Con `null`, la pantalla Kilometraje muestra una tarjeta "Próximamente" y no se dispara ningún aviso de aceite.
+- Cuando el dato exista, basta que el repositorio lo llene: `MaintenancePlan`, las notificaciones y la tarjeta de progreso ya funcionan con él.
+- Ninguna de estas tablas está en el modelo de Power BI; la API tendrá que consultarlas directamente y sumar los km en la base, no en la app.
