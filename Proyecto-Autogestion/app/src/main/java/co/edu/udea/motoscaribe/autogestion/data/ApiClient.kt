@@ -70,6 +70,7 @@ class ApiClient(private val baseUrl: String) {
 
     private companion object {
         const val CONNECT_TIMEOUT_MS = 10_000
-        const val READ_TIMEOUT_MS = 15_000
+        // El plan gratis de Azure duerme la API: el primer pedido puede tardar hasta ~1 min.
+        const val READ_TIMEOUT_MS = 60_000
     }
 }
