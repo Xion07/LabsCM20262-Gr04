@@ -10,7 +10,7 @@
 
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
-    <string name="km_format">%1$d km</string>
+    <string name="km_format">%1$,d km</string>
 
     <string name="login_title">Motos del Caribe</string>
     <string name="login_subtitle">Ingresa para gestionar tu contrato</string>
@@ -45,15 +45,15 @@
         <item quantity="one">%1$d mes</item>
         <item quantity="other">%1$d meses</item>
     </plurals>
-    <string name="home_oil_soon">Cambio de aceite en %1$d km</string>
-    <string name="home_oil_over">Cambio de aceite vencido por %1$d km</string>
+    <string name="home_oil_soon">Cambio de aceite en %1$,d km</string>
+    <string name="home_oil_over">Cambio de aceite vencido por %1$,d km</string>
     <string name="home_last_fines">Últimas multas</string>
     <string name="no_fines">No tienes multas. ¡Vas al día!</string>
     <string name="home_alerts_off">Las alertas están desactivadas. Actívalas para no olvidar tu cuota.</string>
     <string name="home_alerts_enable">Activar</string>
 
     <string name="balance_total">Total moto</string>
-    <string name="balance_km">Km recorridos: %1$d km</string>
+    <string name="balance_km">Km recorridos: %1$,d km</string>
     <string name="balance_history">Historial de abonos</string>
     <string name="balance_empty">Aún no registras abonos</string>
 
@@ -83,8 +83,8 @@
     <string name="km_oil_coming">Pronto te avisaremos cuándo cambiar el aceite</string>
     <string name="km_oil_coming_body">Estamos preparando este aviso para que no se te pase el cambio de aceite.</string>
     <string name="km_oil_title">Cambio de aceite</string>
-    <string name="km_left">Faltan %1$d km</string>
-    <string name="km_over">Vencido por %1$d km</string>
+    <string name="km_left">Faltan %1$,d km</string>
+    <string name="km_over">Vencido por %1$,d km</string>
     <string name="km_progress">Actual %1$d km · próximo a los %2$d km</string>
     <string name="km_history">Historial de kilometraje</string>
 
@@ -123,4 +123,40 @@
     <string name="retry">Reintentar</string>
     <string name="ext_sending">Enviando…</string>
     <string name="ext_error_send">No pudimos enviar tu solicitud. Revisa tu conexión e intenta de nuevo.</string>
+
+    <!-- Rediseño visual -->
+    <string name="intro_tagline">Tu moto y tu crédito, al día</string>
+    <string name="login_welcome">Bienvenido</string>
+    <string name="login_card_title">Ingresa a tu cuenta</string>
+    <string name="status_ok">Al día</string>
+    <string name="status_soon">Vence pronto</string>
+    <string name="status_today">Vence hoy</string>
+    <string name="status_overdue">En mora</string>
+    <string name="home_plate">Placa %1$s</string>
+    <string name="home_progress_title">Avance de tu contrato</string>
+    <string name="home_paid_pct">%1$d%% pagado</string>
+    <string name="home_progress_body">Has pagado %1$s de %2$s</string>
+    <string name="home_refresh">Actualizar</string>
+    <string name="balance_subtitle">Tu moto y lo que llevas pagado</string>
+    <string name="balance_paid">Abonado</string>
+    <string name="balance_pending">Pendiente</string>
+    <plurals name="payments_count">
+        <item quantity="one">%1$d abono</item>
+        <item quantity="other">%1$d abonos</item>
+    </plurals>
+    <string name="fines_subtitle">Cargos por pagos tardíos</string>
+    <string name="fines_total">Total en multas</string>
+    <string name="fines_remaining_label">Tiempo restante de pago</string>
+    <plurals name="fines_count">
+        <item quantity="one">%1$d multa</item>
+        <item quantity="other">%1$d multas</item>
+    </plurals>
+    <string name="ext_subtitle">Cuéntanos qué pasó y, si quieres, propón una fecha</string>
+    <string name="ext_step_date">1 · Nueva fecha (opcional)</string>
+    <string name="ext_step_story">2 · Tu situación</string>
+    <string name="ext_step_proof">3 · Soporte (opcional)</string>
+    <string name="ext_sent_cd">Solicitud enviada con éxito</string>
+    <string name="km_subtitle">Tu recorrido con la moto</string>
+    <string name="km_last_reading">Última lectura: %1$s</string>
+    <string name="km_empty">Aún no hay lecturas de kilometraje</string>
 </resources>

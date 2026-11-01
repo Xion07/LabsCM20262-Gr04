@@ -10,7 +10,7 @@
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="km_format">%1$d km</string>
+    <string name="km_format">%1$,d km</string>
 
     <string name="login_title">Motos del Caribe</string>
     <string name="login_subtitle">Sign in to manage your contract</string>
@@ -45,15 +45,15 @@
         <item quantity="one">%1$d month</item>
         <item quantity="other">%1$d months</item>
     </plurals>
-    <string name="home_oil_soon">Oil change in %1$d km</string>
-    <string name="home_oil_over">Oil change overdue by %1$d km</string>
+    <string name="home_oil_soon">Oil change in %1$,d km</string>
+    <string name="home_oil_over">Oil change overdue by %1$,d km</string>
     <string name="home_last_fines">Latest fines</string>
     <string name="no_fines">You have no fines. You are up to date!</string>
     <string name="home_alerts_off">Alerts are off. Turn them on so you never miss an installment.</string>
     <string name="home_alerts_enable">Turn on</string>
 
     <string name="balance_total">Motorcycle total</string>
-    <string name="balance_km">Distance traveled: %1$d km</string>
+    <string name="balance_km">Distance traveled: %1$,d km</string>
     <string name="balance_history">Payment history</string>
     <string name="balance_empty">No payments recorded yet</string>
 
@@ -84,7 +84,7 @@
     <string name="km_oil_coming_body">We are preparing this alert so you never miss an oil change.</string>
     <string name="km_oil_title">Oil change</string>
     <string name="km_left">%1$d km left</string>
-    <string name="km_over">Overdue by %1$d km</string>
+    <string name="km_over">Overdue by %1$,d km</string>
     <string name="km_progress">Now %1$d km · next at %2$d km</string>
     <string name="km_history">Mileage history</string>
 
@@ -123,4 +123,40 @@
     <string name="retry">Retry</string>
     <string name="ext_sending">Sending…</string>
     <string name="ext_error_send">We could not send your request. Check your connection and try again.</string>
+
+    <!-- Visual redesign -->
+    <string name="intro_tagline">Your bike and your credit, on track</string>
+    <string name="login_welcome">Welcome</string>
+    <string name="login_card_title">Sign in to your account</string>
+    <string name="status_ok">On track</string>
+    <string name="status_soon">Due soon</string>
+    <string name="status_today">Due today</string>
+    <string name="status_overdue">Overdue</string>
+    <string name="home_plate">Plate %1$s</string>
+    <string name="home_progress_title">Your contract progress</string>
+    <string name="home_paid_pct">%1$d%% paid</string>
+    <string name="home_progress_body">You have paid %1$s of %2$s</string>
+    <string name="home_refresh">Refresh</string>
+    <string name="balance_subtitle">Your bike and what you have paid</string>
+    <string name="balance_paid">Paid</string>
+    <string name="balance_pending">Pending</string>
+    <plurals name="payments_count">
+        <item quantity="one">%1$d payment</item>
+        <item quantity="other">%1$d payments</item>
+    </plurals>
+    <string name="fines_subtitle">Charges for late payments</string>
+    <string name="fines_total">Total in fines</string>
+    <string name="fines_remaining_label">Time left to pay</string>
+    <plurals name="fines_count">
+        <item quantity="one">%1$d fine</item>
+        <item quantity="other">%1$d fines</item>
+    </plurals>
+    <string name="ext_subtitle">Tell us what happened and, if you want, propose a date</string>
+    <string name="ext_step_date">1 · New date (optional)</string>
+    <string name="ext_step_story">2 · Your situation</string>
+    <string name="ext_step_proof">3 · Proof (optional)</string>
+    <string name="ext_sent_cd">Request sent successfully</string>
+    <string name="km_subtitle">Your ride so far</string>
+    <string name="km_last_reading">Last reading: %1$s</string>
+    <string name="km_empty">No mileage readings yet</string>
 </resources>

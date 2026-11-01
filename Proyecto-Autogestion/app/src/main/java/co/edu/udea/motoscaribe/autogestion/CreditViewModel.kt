@@ -37,6 +37,8 @@ data class UiState(
     val kmHistory: List<KmReading> = emptyList(),
     /** Fallo al cargar los datos tras ingresar (se ofrece reintentar). */
     val loadError: Boolean = false,
+    /** Recarga en curso (indicador de "deslizar para actualizar"). */
+    val refreshing: Boolean = false,
     val lastRequest: ExtensionRequest? = null,
     val submit: SubmitState = SubmitState.IDLE,
 ) {
@@ -72,19 +74,19 @@ class CreditViewModel(
     /** Carga (o recarga) todos los datos del usuario. */
     fun load() {
         viewModelScope.launch {
-            _state.update { it.copy(loadError = false) }
+            _state.update { it.copy(loadError = false, refreshing = true) }
             try {
                 val contract = repository.contract()
                 val payments = repository.payments()
                 val fines = repository.fines()
                 val km = repository.kmHistory()
                 _state.update {
-                    it.copy(contract = contract, payments = payments, fines = fines, kmHistory = km)
+                    it.copy(contract = contract, payments = payments, fines = fines, kmHistory = km, refreshing = false)
                 }
                 onContractLoaded(contract)
             } catch (e: Exception) {
                 if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
-                else _state.update { it.copy(loadError = true) }
+                else _state.update { it.copy(loadError = true, refreshing = false) }
             }
         }
     }

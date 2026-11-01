@@ -75,6 +75,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-core")
+    // Iconografia completa (Rounded/Outlined) para la barra de navegacion y las tarjetas; R8 descarta lo no usado.
+    implementation("androidx.compose.material:material-icons-extended")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 

@@ -10,7 +10,7 @@ fun Long.cop(): String =
     NumberFormat.getCurrencyInstance(Locale("es", "CO"))
         .apply { maximumFractionDigits = 0 }
         .format(this)
-        .replace(' ', ' ')
+        .replace(' ', ' ') // espacio no separable: '$ 250.000' no se parte en dos lineas
 
 /** La fecha sigue el idioma del sistema (es/en). */
 fun LocalDate.pretty(): String =

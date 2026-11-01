@@ -1,15 +1,25 @@
 package co.edu.udea.motoscaribe.autogestion.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 // Paleta derivada del rojo de marca #DC1C2E (anteproyecto).
+val BrandRed = Color(0xFFDC1C2E)
+val BrandRedDeep = Color(0xFFA3101F)
+
 private val Light = lightColorScheme(
-    primary = Color(0xFFDC1C2E), onPrimary = Color(0xFFFFFFFF),
+    primary = BrandRed, onPrimary = Color(0xFFFFFFFF),
     primaryContainer = Color(0xFFFFDAD8), onPrimaryContainer = Color(0xFF410006),
     secondary = Color(0xFF775653), onSecondary = Color(0xFFFFFFFF),
     secondaryContainer = Color(0xFFFFDAD7), onSecondaryContainer = Color(0xFF2C1513),
@@ -45,13 +55,73 @@ private val Dark = darkColorScheme(
     surfaceContainer = Color(0xFF271D1C), surfaceContainerHigh = Color(0xFF322826),
     surfaceContainerHighest = Color(0xFF3D3231),
     inverseSurface = Color(0xFFF1DFDC), inverseOnSurface = Color(0xFF392E2D),
-    inversePrimary = Color(0xFFDC1C2E),
+    inversePrimary = BrandRed,
+)
+
+/**
+ * Colores semanticos que Material 3 no trae: estado "al dia" (verde) y "atencion" (ambar),
+ * mas la superficie oscura "hero" de las tarjetas protagonistas. Todos los pares
+ * texto/fondo superan 4.5:1 (WCAG AA) en claro y oscuro.
+ */
+@Immutable
+data class ExtendedColors(
+    val success: Color,
+    val successContainer: Color,
+    val onSuccessContainer: Color,
+    val warning: Color,
+    val warningContainer: Color,
+    val onWarningContainer: Color,
+    val heroStart: Color,
+    val heroEnd: Color,
+    val onHero: Color,
+    val onHeroMuted: Color,
+    val heroSuccess: Color,
+    val heroWarning: Color,
+    val heroError: Color,
+)
+
+private val LightExtended = ExtendedColors(
+    success = Color(0xFF1B6E3A), successContainer = Color(0xFFD3F0DC), onSuccessContainer = Color(0xFF0B3D1F),
+    warning = Color(0xFF8A5A00), warningContainer = Color(0xFFFFE6B3), onWarningContainer = Color(0xFF4A3100),
+    heroStart = Color(0xFF2A1B1A), heroEnd = Color(0xFF3D2424),
+    onHero = Color(0xFFFFFFFF), onHeroMuted = Color(0xFFF1DFDC),
+    heroSuccess = Color(0xFF7FE0A3), heroWarning = Color(0xFFFFD166), heroError = Color(0xFFFF8A80),
+)
+
+private val DarkExtended = ExtendedColors(
+    success = Color(0xFF7FE0A3), successContainer = Color(0xFF1F4D30), onSuccessContainer = Color(0xFFB6EEC6),
+    warning = Color(0xFFFFD166), warningContainer = Color(0xFF5B4300), onWarningContainer = Color(0xFFFFDF9E),
+    heroStart = Color(0xFF2E1D1C), heroEnd = Color(0xFF451F22),
+    onHero = Color(0xFFFFFFFF), onHeroMuted = Color(0xFFF1DFDC),
+    heroSuccess = Color(0xFF7FE0A3), heroWarning = Color(0xFFFFD166), heroError = Color(0xFFFF8A80),
+)
+
+val LocalExtendedColors = staticCompositionLocalOf { LightExtended }
+
+/** Acceso corto: `MotosTheme.colors.success`. */
+object MotosTheme {
+    val colors: ExtendedColors
+        @Composable @ReadOnlyComposable get() = LocalExtendedColors.current
+}
+
+/** Radios generosos: la app se siente suave y "de tarjetas". */
+val MotosShapes = Shapes(
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(18.dp),
+    large = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(32.dp),
 )
 
 @Composable
 fun MotosCaribeTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = if (isSystemInDarkTheme()) Dark else Light,
-        content = content,
-    )
+    val dark = isSystemInDarkTheme()
+    CompositionLocalProvider(LocalExtendedColors provides if (dark) DarkExtended else LightExtended) {
+        MaterialTheme(
+            colorScheme = if (dark) Dark else Light,
+            typography = MotosTypography,
+            shapes = MotosShapes,
+            content = content,
+        )
+    }
 }
