@@ -11,6 +11,7 @@ import random
 from pathlib import Path
 
 rng = random.Random(2026)
+pay_rng = random.Random(7)  # aparte, para variar abonos sin alterar el resto de los datos
 
 FIRST = ["Camilo", "Andrés", "Luis", "Jorge", "Yeison", "Kevin", "Brayan", "Duván", "Edwin", "Fabián",
          "Wilmer", "Jhon", "Héctor", "Ricardo", "Sebastián", "Óscar", "Darwin", "Cristian", "Álvaro", "Mauricio"]
@@ -50,7 +51,9 @@ for i in range(20):
     km_total = int(days_since_start * rng.uniform(88, 110))
 
     payments = [] if i in NO_PAYMENTS else [
-        {"daysAgo": 7 * k + rng.randint(0, 2), "amount": installment} for k in range(1, 5)
+        {"daysAgo": 7 * k + rng.randint(0, 2),
+         "amount": int(round(installment * pay_rng.choice([0.6, 0.8, 1, 1, 1, 1.2, 1.5]), -4))}
+        for k in range(1, 5)
     ]
     fines = [] if i in NO_FINES else [
         {"monthsAgo": rng.randint(1, 6), "amount": 25_000, "reason": "LATE_PAYMENT",
