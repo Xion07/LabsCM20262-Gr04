@@ -189,6 +189,43 @@ fun SkeletonBox(height: Dp, modifier: Modifier = Modifier, shape: Shape = Rounde
     Box(modifier.fillMaxWidth().height(height).shimmer(shape))
 }
 
+/** "Tic" haptico suave (por ejemplo al cambiar la barra seleccionada en un grafico). */
+@Composable
+fun rememberHapticTick(): () -> Unit {
+    val view = LocalView.current
+    return remember(view) { { view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK) } }
+}
+
+/**
+ * Destello que recorre el elemento cada [periodMs] mientras [active] sea verdadero (llamada a la
+ * accion cuando hay mora). Sin animaciones o inactivo no dibuja nada.
+ */
+fun Modifier.sheenLoop(active: Boolean, periodMs: Int = 3400, color: Color = Color.White): Modifier = composed {
+    val motion = rememberMotionEnabled()
+    if (!active || !motion) return@composed this
+    val transition = rememberInfiniteTransition(label = "sheenLoop")
+    val t by transition.animateFloat(
+        initialValue = 0f, targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(periodMs, easing = LinearEasing)),
+        label = "sheenLoopT",
+    )
+    drawWithContent {
+        drawContent()
+        // Solo el primer 30 % del periodo es el barrido; el resto descansa.
+        val sweep = (t / 0.3f)
+        if (sweep in 0f..1f) {
+            val p = -1f + sweep * 3f
+            val w = size.width
+            drawRect(
+                Brush.linearGradient(
+                    listOf(Color.Transparent, color.copy(alpha = 0.4f), Color.Transparent),
+                    start = Offset(p * w - w * 0.3f, 0f), end = Offset(p * w + w * 0.3f, size.height),
+                ),
+            )
+        }
+    }
+}
+
 /** Brillo que recorre el elemento UNA vez al entrar (tras [delayMs]); nada si no hay animaciones. */
 fun Modifier.sheenOnce(delayMs: Long = 700L, color: Color = Color.White): Modifier = composed {
     val play = LocalEntrance.current

@@ -164,4 +164,27 @@
     <string name="balance_chart_cd">Gráfico de abonos: %1$d abonos, el último el %2$s por %3$s</string>
     <string name="km_chart_title">Evolución del kilometraje</string>
     <string name="km_chart_cd">Gráfico de kilometraje: %1$d lecturas, de %2$,d km a %3$,d km</string>
+
+    <!-- Ronda 3: estados vacíos, multas, plazo, gráficos -->
+    <string name="load_error_body">Revisa tu conexión y vuelve a intentarlo.</string>
+    <string name="no_fines_body">Sigue pagando a tiempo y así seguirá.</string>
+    <string name="balance_empty_body">Cuando hagas tu primer abono lo verás aquí.</string>
+    <string name="km_empty_body">Las lecturas del GPS aparecerán aquí a medida que ruedes.</string>
+    <string name="balance_chart_hint">Toca una barra para ver el detalle</string>
+    <string name="fines_detail">Detalle de multas</string>
+    <string name="fines_none_short">Sin multas</string>
+    <string name="fines_next_payment">Próxima cuota</string>
+    <string name="fines_next_payment_body">%1$s · %2$s</string>
+    <string name="fines_tip">Cada cuota pagada tarde genera una multa. Si no vas a llegar a tiempo, pide más plazo.</string>
+    <string name="ext_countdown_label">Cuenta regresiva</string>
+    <plurals name="ext_days_left">
+        <item quantity="one">%1$d día</item>
+        <item quantity="other">%1$d días</item>
+    </plurals>
+    <plurals name="ext_days_overdue">
+        <item quantity="one">%1$d día de mora</item>
+        <item quantity="other">%1$d días de mora</item>
+    </plurals>
+    <string name="ext_today">Hoy</string>
+    <string name="ext_countdown_cd">Cuota de %1$s. %2$s</string>
 </resources>

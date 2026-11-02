@@ -90,6 +90,113 @@ fun MotoRider(
     }
 }
 
+/** Tipo de ilustracion para estados vacios y de error. */
+enum class EmptyKind { FINES, PAYMENTS, KM, ERROR }
+
+/**
+ * Ilustracion vectorial (Canvas) para estados vacios: escudo con check (sin multas), monedas
+ * (sin abonos), carretera con marcador (sin km) y nube desconectada (error). Decorativa: el
+ * texto que la acompana lleva el significado.
+ */
+@Composable
+fun EmptyArt(kind: EmptyKind, tint: Color, modifier: Modifier = Modifier, size: Dp = 128.dp) {
+    val soft = MaterialTheme.colorScheme.surfaceContainerHighest
+    val paper = MaterialTheme.colorScheme.surfaceContainerLowest
+    Canvas(modifier.size(size).semantics { contentDescription = "" }) {
+        val s = this.size.minDimension
+        val c = center
+        // Medallon de fondo con dos halos
+        drawCircle(tint.copy(alpha = 0.10f), s * 0.5f, c)
+        drawCircle(tint.copy(alpha = 0.14f), s * 0.36f, c)
+        val stroke = Stroke(s * 0.045f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        when (kind) {
+            EmptyKind.FINES -> {
+                val shield = Path().apply {
+                    moveTo(c.x, c.y - s * 0.28f)
+                    lineTo(c.x + s * 0.2f, c.y - s * 0.2f)
+                    lineTo(c.x + s * 0.18f, c.y + s * 0.04f)
+                    quadraticBezierTo(c.x + s * 0.14f, c.y + s * 0.2f, c.x, c.y + s * 0.3f)
+                    quadraticBezierTo(c.x - s * 0.14f, c.y + s * 0.2f, c.x - s * 0.18f, c.y + s * 0.04f)
+                    lineTo(c.x - s * 0.2f, c.y - s * 0.2f)
+                    close()
+                }
+                drawPath(shield, paper)
+                drawPath(shield, tint, style = stroke)
+                val check = Path().apply {
+                    moveTo(c.x - s * 0.1f, c.y + s * 0.01f)
+                    lineTo(c.x - s * 0.02f, c.y + s * 0.09f)
+                    lineTo(c.x + s * 0.11f, c.y - s * 0.07f)
+                }
+                drawPath(check, tint, style = stroke)
+                // Destellos
+                listOf(Offset(c.x + s * 0.3f, c.y - s * 0.3f), Offset(c.x - s * 0.32f, c.y - s * 0.1f), Offset(c.x + s * 0.33f, c.y + s * 0.18f)).forEachIndexed { i, p ->
+                    val r = s * (0.035f - i * 0.006f)
+                    drawLine(tint, Offset(p.x - r, p.y), Offset(p.x + r, p.y), s * 0.02f, StrokeCap.Round)
+                    drawLine(tint, Offset(p.x, p.y - r), Offset(p.x, p.y + r), s * 0.02f, StrokeCap.Round)
+                }
+            }
+            EmptyKind.PAYMENTS -> {
+                // Tres monedas apiladas con sombra y una cuarta "entrando"
+                val rx = s * 0.2f
+                val ry = s * 0.07f
+                for (i in 0..2) {
+                    val y = c.y + s * 0.16f - i * s * 0.1f
+                    drawOval(paper, Offset(c.x - rx, y - ry), Size(rx * 2, ry * 2))
+                    drawOval(tint, Offset(c.x - rx, y - ry), Size(rx * 2, ry * 2), style = stroke)
+                    drawLine(tint, Offset(c.x - rx, y), Offset(c.x - rx, y + s * 0.1f), stroke.width)
+                    drawLine(tint, Offset(c.x + rx, y), Offset(c.x + rx, y + s * 0.1f), stroke.width)
+                }
+                val coin = Offset(c.x + s * 0.26f, c.y - s * 0.22f)
+                drawCircle(paper, s * 0.1f, coin)
+                drawCircle(tint, s * 0.1f, coin, style = stroke)
+                drawLine(tint, Offset(coin.x - s * 0.045f, coin.y), Offset(coin.x + s * 0.045f, coin.y), s * 0.03f, StrokeCap.Round)
+                drawLine(tint, Offset(coin.x, coin.y - s * 0.045f), Offset(coin.x, coin.y + s * 0.045f), s * 0.03f, StrokeCap.Round)
+            }
+            EmptyKind.KM -> {
+                // Carretera en perspectiva con linea discontinua y un marcador al final
+                val road = Path().apply {
+                    moveTo(c.x - s * 0.3f, c.y + s * 0.3f)
+                    lineTo(c.x - s * 0.08f, c.y - s * 0.12f)
+                    lineTo(c.x + s * 0.08f, c.y - s * 0.12f)
+                    lineTo(c.x + s * 0.3f, c.y + s * 0.3f)
+                    close()
+                }
+                drawPath(road, paper)
+                drawPath(road, tint, style = stroke)
+                drawLine(
+                    tint, Offset(c.x, c.y + s * 0.28f), Offset(c.x, c.y - s * 0.1f), s * 0.03f, StrokeCap.Round,
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(s * 0.07f, s * 0.06f)),
+                )
+                val pin = Offset(c.x, c.y - s * 0.22f)
+                val pinPath = Path().apply {
+                    moveTo(pin.x, pin.y + s * 0.12f)
+                    quadraticBezierTo(pin.x - s * 0.14f, pin.y - s * 0.04f, pin.x - s * 0.1f, pin.y - s * 0.1f)
+                    quadraticBezierTo(pin.x, pin.y - s * 0.24f, pin.x + s * 0.1f, pin.y - s * 0.1f)
+                    quadraticBezierTo(pin.x + s * 0.14f, pin.y - s * 0.04f, pin.x, pin.y + s * 0.12f)
+                    close()
+                }
+                drawPath(pinPath, tint)
+                drawCircle(paper, s * 0.04f, Offset(pin.x, pin.y - s * 0.07f))
+            }
+            EmptyKind.ERROR -> {
+                // Nube con una linea tachada: sin conexion
+                val cloud = Path().apply {
+                    moveTo(c.x - s * 0.22f, c.y + s * 0.12f)
+                    lineTo(c.x + s * 0.2f, c.y + s * 0.12f)
+                    arcTo(androidx.compose.ui.geometry.Rect(c.x + s * 0.08f, c.y - s * 0.1f, c.x + s * 0.32f, c.y + s * 0.12f), 90f, -180f, false)
+                    arcTo(androidx.compose.ui.geometry.Rect(c.x - s * 0.14f, c.y - s * 0.26f, c.x + s * 0.16f, c.y + s * 0.02f), 20f, -200f, false)
+                    arcTo(androidx.compose.ui.geometry.Rect(c.x - s * 0.34f, c.y - s * 0.12f, c.x - s * 0.1f, c.y + s * 0.12f), -60f, -210f, false)
+                    close()
+                }
+                drawPath(cloud, paper)
+                drawPath(cloud, tint, style = stroke)
+                drawLine(soft, Offset(c.x - s * 0.3f, c.y + s * 0.3f), Offset(c.x + s * 0.3f, c.y - s * 0.3f), s * 0.09f, StrokeCap.Round)
+                drawLine(tint, Offset(c.x - s * 0.3f, c.y + s * 0.3f), Offset(c.x + s * 0.3f, c.y - s * 0.3f), s * 0.045f, StrokeCap.Round)
+            }
+        }
+    }
+}
+
 /**
  * Anillo de progreso que se dibuja al entrar. [progress] 0..1. El contenido va centrado.
  */
