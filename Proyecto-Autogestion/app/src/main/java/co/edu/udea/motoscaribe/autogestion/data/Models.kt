@@ -34,7 +34,18 @@ data class Fine(
 
 data class KmReading(val date: LocalDate, val km: Int)
 
-enum class RequestStatus { PENDING_REVIEW }
+enum class RequestStatus { PENDING_REVIEW, APPROVED, REJECTED }
+
+/** Solicitud ya registrada en el servidor (historial). */
+data class ExtensionItem(
+    val id: String,
+    val dueDate: LocalDate,
+    val newDate: LocalDate?,
+    val excuse: String,
+    val hasAttachment: Boolean,
+    val status: RequestStatus,
+    val createdAt: java.time.Instant,
+)
 
 /** Solicitud del arrendatario: ampliacion de plazo (newDate) y/o excusa con soporte. */
 data class ExtensionRequest(

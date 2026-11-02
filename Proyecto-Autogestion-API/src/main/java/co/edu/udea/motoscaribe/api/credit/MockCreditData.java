@@ -79,6 +79,11 @@ class MockCreditData implements CreditData {
 	}
 
 	@Override
+	public List<Credit.ExtensionRecord> listExtensions(String document) {
+		return extensions.list(document);
+	}
+
+	@Override
 	public Optional<Credit.ExtensionRecord> findExtension(String document, String id) {
 		return extensions.find(document, id);
 	}
