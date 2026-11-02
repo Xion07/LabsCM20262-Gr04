@@ -1,0 +1,664 @@
+% ============================================================
+%  Presentación final (semana 12) · Aplicativo Móvil de Autogestión de Crédito
+%  Motos del Caribe · Computación Móvil · UdeA 2026-2 · Grupo 04
+%
+%  COMPILADOR: pdfLaTeX (Overleaf: Menu > Compiler > pdfLaTeX).
+%  Compilar DOS veces (los TikZ con "remember picture" y el total de
+%  diapositivas se resuelven en la segunda pasada; Overleaf lo hace solo).
+%  Solo paquetes estándar de TeX Live: beamer, tikz, xcolor, graphicx,
+%  amssymb, babel, inputenc, fontenc, lmodern.
+% ============================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,fit,arrows.meta,backgrounds}
+
+\graphicspath{{img/}}
+
+% ------------------------------------------------------------
+%  Paleta de la marca (hero oscuro cálido + rojo carmesí)
+% ------------------------------------------------------------
+\definecolor{caribedark}{HTML}{2B1D1F}   % fondo de las diapositivas
+\definecolor{cardbg}{HTML}{3B2A2D}       % tarjetas
+\definecolor{cardbgb}{HTML}{47353A}      % tarjetas resaltadas
+\definecolor{caribered}{HTML}{D81B3A}    % rojo carmesí
+\definecolor{caribedeep}{HTML}{8E1226}   % rojo profundo
+\definecolor{cream}{HTML}{FFF5F3}        % texto principal
+\definecolor{muted}{HTML}{BFA9AC}        % texto secundario
+\definecolor{mint}{HTML}{7BE0A6}         % estado "al día"
+\definecolor{amber}{HTML}{F0B429}        % estado "pendiente"
+\definecolor{phoneframe}{HTML}{14090B}   % marco del teléfono
+
+% ------------------------------------------------------------
+%  Tema Beamer mínimo sobre fondo oscuro
+% ------------------------------------------------------------
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=caribedark}
+\setbeamercolor{normal text}{fg=cream}
+\setbeamercolor{structure}{fg=caribered}
+\setbeamercolor{frametitle}{fg=cream}
+\setbeamercolor{alerted text}{fg=caribered}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamertemplate{itemize item}{\raisebox{0.35ex}{\tikz\fill[caribered] (0,0) circle [radius=1.6pt];}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.35ex}{\tikz\fill[amber] (0,0) circle [radius=1.2pt];}}
+
+\makeatletter
+\setbeamertemplate{frametitle}{%
+  \vskip3mm
+  \hspace*{1mm}{\color{caribered}\rule[-1.2mm]{1.4mm}{6mm}}\hspace{2.5mm}%
+  {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}%
+  \ifx\insertframesubtitle\@empty\else
+    \hspace{3mm}{\color{muted}\normalfont\small\insertframesubtitle}%
+  \fi
+  \vskip1mm
+}
+\makeatother
+\setbeamertemplate{footline}{%
+  \hspace*{6mm}{\color{muted}\tiny Autogestión de crédito · Motos del Caribe · Grupo 04}%
+  \hfill{\color{muted}\tiny\insertframenumber\,/\,\inserttotalframenumber}\hspace*{6mm}%
+  \vskip3mm
+}
+\setlength{\parskip}{3pt}
+
+% ------------------------------------------------------------
+%  Macros: marco de teléfono (vertical y horizontal), etiquetas
+% ------------------------------------------------------------
+% \phone[ancho]{imagen}  -> captura vertical 720x1600 dentro de un marco
+\newcommand{\phone}[2][2.4cm]{%
+  \begin{tikzpicture}
+    \pgfmathsetlengthmacro{\phW}{#1}
+    \pgfmathsetlengthmacro{\phH}{2.2222*#1}
+    \pgfmathsetlengthmacro{\phM}{0.045*#1}
+    \pgfmathsetlengthmacro{\phRa}{0.13*#1}
+    \pgfmathsetlengthmacro{\phRb}{0.09*#1}
+    \pgfmathsetlengthmacro{\phC}{0.025*#1}
+    \fill[phoneframe,rounded corners=\phRa]
+      (-\phM,-\phM) rectangle ($(\phW,\phH)+(\phM,\phM)$);
+    \draw[muted!35,line width=0.3pt,rounded corners=\phRa]
+      (-\phM,-\phM) rectangle ($(\phW,\phH)+(\phM,\phM)$);
+    \begin{scope}
+      \clip[rounded corners=\phRb] (0,0) rectangle (\phW,\phH);
+      \node[anchor=south west,inner sep=0pt] at (0,0) {\includegraphics[width=#1]{#2}};
+    \end{scope}
+    % cámara frontal (perforación)
+    \fill[phoneframe] ($(0.5*\phW,\phH)+(0,-2*\phC)$) circle [radius=\phC];
+  \end{tikzpicture}%
+}
+% \phoneland[ancho]{imagen} -> captura horizontal 1080x486
+\newcommand{\phoneland}[2][6cm]{%
+  \begin{tikzpicture}
+    \pgfmathsetlengthmacro{\phW}{#1}
+    \pgfmathsetlengthmacro{\phH}{0.45*#1}
+    \pgfmathsetlengthmacro{\phM}{0.02*#1}
+    \pgfmathsetlengthmacro{\phRa}{0.06*#1}
+    \pgfmathsetlengthmacro{\phRb}{0.04*#1}
+    \fill[phoneframe,rounded corners=\phRa]
+      (-\phM,-\phM) rectangle ($(\phW,\phH)+(\phM,\phM)$);
+    \draw[muted!35,line width=0.3pt,rounded corners=\phRa]
+      (-\phM,-\phM) rectangle ($(\phW,\phH)+(\phM,\phM)$);
+    \begin{scope}
+      \clip[rounded corners=\phRb] (0,0) rectangle (\phW,\phH);
+      \node[anchor=south west,inner sep=0pt] at (0,0) {\includegraphics[width=#1]{#2}};
+    \end{scope}
+  \end{tikzpicture}%
+}
+% Pastilla de estado: \pill{color}{texto}
+\newcommand{\pill}[2]{\tikz[baseline=(pillnode.base)]\node[fill=#1!25,text=#1,rounded corners=4pt,inner xsep=5pt,inner ysep=2pt,font=\scriptsize\bfseries] (pillnode) {#2};}
+% Número grande: \bignum{color}{número}{texto}
+\newcommand{\bignum}[3]{%
+  \begin{tabular}{@{}l@{}}
+    {\color{#1}\fontsize{30}{32}\selectfont\bfseries #2}\\[-1pt]
+    {\color{muted}\small #3}
+  \end{tabular}}
+% Numeración de objetivos / etiquetas pequeñas
+\newcommand{\onum}[1]{{\Large\bfseries\color{caribered}#1}}
+\newcommand{\secic}[1]{{\large\bfseries\color{caribered}#1}}
+\newcommand{\futtag}[1]{{\scriptsize\bfseries\color{amber}#1}}
+
+% Estilos TikZ compartidos
+\tikzset{
+  card/.style={fill=cardbg,rounded corners=5pt,inner sep=7pt,text=cream,align=left,font=\small},
+  cardred/.style={card,fill=caribered},
+  ent/.style={fill=cardbg,draw=muted!40,line width=0.4pt,rounded corners=3pt,inner sep=4pt,text=cream,align=center,font=\tiny,text width=2.15cm},
+  entnew/.style={ent,draw=caribered,line width=1pt},
+  entprop/.style={ent,draw=amber,line width=1pt,dashed},
+  rel/.style={muted,line width=0.6pt},
+  rellbl/.style={font=\tiny,text=muted,fill=caribedark,inner sep=1pt},
+  box/.style={fill=cardbg,draw=muted!40,rounded corners=4pt,inner sep=5pt,text=cream,align=center,font=\scriptsize,text width=2.6cm,minimum height=0.95cm},
+  boxred/.style={box,draw=caribered,line width=1pt},
+  boxplan/.style={box,draw=amber,dashed,text=muted},
+  flow/.style={-{Stealth[length=2mm]},cream,line width=0.8pt},
+  flowplan/.style={-{Stealth[length=2mm]},amber,dashed,line width=0.7pt},
+  flowlbl/.style={font=\tiny,text=muted,fill=caribedark,inner sep=1.5pt},
+}
+
+\title{Aplicativo Móvil de Autogestión de Crédito}
+\author{Grupo 04}
+\date{Noviembre de 2026}
+
+\begin{document}
+
+% ============================================================
+%  1. PORTADA
+% ============================================================
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    % formas de la marca (círculos rojos como en el hero de la app)
+    \fill[caribered] ($(current page.north east)+(1.2,1.5)$) circle [radius=4.2cm];
+    \fill[caribedeep] ($(current page.north east)+(-3.6,-1.0)$) circle [radius=1.9cm];
+    \fill[caribered!60!caribedark] ($(current page.south west)+(-1.0,-1.2)$) circle [radius=2.6cm];
+    % franja de carretera punteada
+    \draw[muted!60,line width=1.4pt,dash pattern=on 6pt off 5pt]
+      ($(current page.south west)+(0,1.55)$) -- ($(current page.south east)+(0,1.55)$);
+    % teléfono con el login a la derecha
+    \node[anchor=east] at ($(current page.east)+(-1.0,-0.25)$) {\phone[2.9cm]{login}};
+    % textos
+    \node[anchor=west,text=muted,font=\small] at ($(current page.west)+(1.0,2.6)$)
+      {Computación Móvil · Universidad de Antioquia · 2026-2 · Grupo 04};
+    \node[anchor=west,text=cream,font=\fontsize{26}{30}\selectfont\bfseries,align=left]
+      at ($(current page.west)+(1.0,1.2)$) {Aplicativo Móvil de\\Autogestión de Crédito};
+    \node[anchor=west,text=caribered,font=\Large\bfseries] at ($(current page.west)+(1.0,-0.5)$)
+      {Motos del Caribe};
+    \node[anchor=west,text=cream,font=\small,align=left] at ($(current page.west)+(1.0,-1.6)$)
+      {Juan Esteban Cardozo Rivera · David Penagos · Valentina Roldán Preciado};
+    \node[anchor=west,text=muted,font=\scriptsize] at ($(current page.west)+(1.0,-2.2)$)
+      {Presentación final · Semana 12};
+  \end{tikzpicture}
+\end{frame}
+
+% ============================================================
+%  2. PROBLEMA Y OBJETIVO
+% ============================================================
+\begin{frame}{El problema}{y lo que queremos lograr}
+  \begin{columns}[T]
+    \begin{column}{0.56\textwidth}
+      \vspace{2mm}
+      \begin{tikzpicture}
+        \node[card,text width=6.3cm] (p) at (0,0) {%
+          {\color{caribered}\bfseries Hoy}\\[2pt]
+          El arrendatario de una moto financiada \textbf{llama a cobranza} para
+          preguntar lo mismo una y otra vez:\\[3pt]
+          \pill{amber}{¿Cuánto debo?}\ \pill{amber}{¿Tengo multas?}\ \pill{amber}{¿Cuánto me falta?}\\[3pt]
+          Cada llamada ocupa a un asesor y no deja registro para el cliente.};
+        \node[cardred,text width=6.3cm,below=4mm of p] (o) {%
+          {\bfseries Objetivo}\\[2pt]
+          Que el cliente \textbf{se autogestione} desde el celular y así
+          \textbf{reducir un 20\,\%} las llamadas de consulta a cobranza.};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \centering
+      \vspace{1mm}
+      \begin{tikzpicture}
+        \node[font=\scriptsize,text=muted,align=center] at (0,3.9) {Flujo actual};
+        \node[circle,fill=cardbg,minimum size=1.1cm,font=\large] (c) at (-1.6,2.8) {\color{cream}\bfseries ?};
+        \node[font=\tiny,text=muted,below=1mm of c] {Cliente};
+        \node[circle,fill=cardbg,minimum size=1.1cm] (a) at (1.6,2.8) {\color{amber}\scriptsize\bfseries COB};
+        \node[font=\tiny,text=muted,below=1mm of a] {Cobranza};
+        \draw[flow,caribered] (c) to[bend left=25] node[above,font=\tiny,text=cream] {llamada} (a);
+        \draw[flow,caribered] (a) to[bend left=25] node[below,font=\tiny,text=cream] {respuesta} (c);
+        \node[font=\scriptsize,text=muted,align=center] at (0,0.9) {Con la app};
+        \node[circle,fill=cardbg,minimum size=1.1cm,font=\large] (cb) at (-1.6,-0.2) {\color{cream}\bfseries ?};
+        \node[rounded corners=3pt,fill=caribered,minimum width=1.3cm,minimum height=1.1cm,font=\scriptsize\bfseries,text=cream] (app) at (1.6,-0.2) {App};
+        \draw[flow,mint] (cb) -- node[above,font=\tiny,text=cream] {consulta} (app);
+        \node[font=\tiny,text=mint,below=1mm of app] {24/7, sin llamar};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  3. LOS 7 OBJETIVOS
+% ============================================================
+\begin{frame}{Siete objetivos}{todos cubiertos en la demo}
+  \centering
+  \begin{tikzpicture}[
+      obj/.style={card,text width=3.0cm,minimum height=1.9cm,font=\scriptsize,anchor=north west},
+    ]
+    \node[obj] at (0,0) {\onum{1}\quad Consultar \textbf{saldo}, abonos y km\\[2pt]{\color{muted}Pantallas Inicio, Saldo y Km}};
+    \node[obj] at (3.6,0) {\onum{2}\quad \textbf{Historial de multas} y tiempo restante\\[2pt]{\color{muted}Pantalla Multas}};
+    \node[obj] at (7.2,0) {\onum{3}\quad Pedir \textbf{ampliación de plazo}\\[2pt]{\color{muted}Nueva fecha opcional}};
+    \node[obj] at (10.8,0) {\onum{4}\quad \textbf{Justificación} con foto de soporte\\[2pt]{\color{muted}JPEG o PNG, máx.\ 5 MB}};
+    \node[obj] at (0,-2.3) {\onum{5}\quad \textbf{Alertas de pago} con escalamiento\\[2pt]{\color{muted}24 h $\to$ 6 h $\to$ 3 h}};
+    \node[obj] at (3.6,-2.3) {\onum{6}\quad \textbf{Mantenimiento} por kilometraje\\[2pt]{\color{muted}Km recorridos; aviso de aceite listo, a la espera del dato}};
+    \node[obj,fill=caribered] at (7.2,-2.3) {{\Large\bfseries 7}\quad \textbf{Reducir 20\,\%} las llamadas a cobranza\\[2pt]{\color{cream!80}El resultado de los seis anteriores}};
+    \node[obj,fill=cardbg!60,draw=muted!40,dashed] at (10.8,-2.3) {{\color{muted}Todo con datos \textbf{ficticios}: la demo nunca toca información real de la empresa.}};
+  \end{tikzpicture}
+\end{frame}
+
+% ============================================================
+%  4. LA SOLUCIÓN EN UNA DIAPOSITIVA
+% ============================================================
+\begin{frame}{La solución}{en una diapositiva}
+  \begin{columns}[c]
+    \begin{column}{0.30\textwidth}
+      \centering
+      \phone[2.6cm]{inicio_aldia}
+    \end{column}
+    \begin{column}{0.68\textwidth}
+      \begin{tikzpicture}
+        \node[card,text width=8.6cm] (a) at (0,0) {%
+          {\color{caribered}\bfseries App Android nativa}\ \ {\color{muted}Kotlin · Jetpack Compose · Material 3}\\[2pt]
+          Cinco pestañas: \textbf{Inicio · Saldo · Multas · Plazo · Km}. Español e inglés,
+          modo claro y oscuro, vertical, horizontal y tablet.};
+        \node[card,text width=8.6cm,below=3mm of a] (b) {%
+          {\color{caribered}\bfseries API REST propia}\ \ {\color{muted}Spring Boot · Java 17 · Azure App Service}\\[2pt]
+          Login con \textbf{JWT}, contrato, abonos, multas, kilometraje y solicitudes de plazo con foto.
+          Toda consulta se resuelve con la cédula \textbf{del token}.};
+        \node[card,text width=8.6cm,below=3mm of b] (c) {%
+          {\color{caribered}\bfseries Alertas en el teléfono}\ \ {\color{muted}WorkManager · notificaciones locales}\\[2pt]
+          Recordatorios que se acercan a medida que vence la cuota, sin depender del servidor.};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  5. RECORRIDO: INICIO
+% ============================================================
+\begin{frame}{Inicio}{el estado del crédito de un vistazo}
+  \begin{columns}[c]
+    \begin{column}{0.27\textwidth}
+      \centering
+      \phone[2.6cm]{inicio_aldia}\\[1mm]
+      \pill{mint}{Al día} {\scriptsize\color{muted}vence en 5 días}
+    \end{column}
+    \begin{column}{0.27\textwidth}
+      \centering
+      \phone[2.6cm]{inicio_mora}\\[1mm]
+      \pill{caribered}{En mora} {\scriptsize\color{muted}3 días de mora}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}\small
+        \item Saludo con nombre y \textbf{placa}.
+        \item Tarjeta hero: \textbf{próxima cuota}, fecha y estado (verde o rojo).
+        \item Botón directo a \textbf{Pedir más plazo}.
+        \item Anillo de \textbf{avance del contrato} (pagado / total).
+        \item Saldo pendiente, plazo restante y últimas multas.
+        \item Cerrar sesión desde el ícono superior.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  6. RECORRIDO: SALDO Y MULTAS
+% ============================================================
+\begin{frame}{Saldo y Multas}{objetivos 1 y 2}
+  \begin{columns}[c]
+    \begin{column}{0.27\textwidth}
+      \centering
+      \phone[2.6cm]{saldo_tooltip}
+    \end{column}
+    \begin{column}{0.22\textwidth}
+      \begin{itemize}\scriptsize
+        \item Total de la moto, \textbf{abonado} y pendiente.
+        \item Km recorridos.
+        \item Gráfico de abonos: al \textbf{tocar una barra} aparece el detalle (fecha y monto).
+        \item Historial completo de abonos.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.27\textwidth}
+      \centering
+      \phone[2.6cm]{multas}
+    \end{column}
+    \begin{column}{0.22\textwidth}
+      \begin{itemize}\scriptsize
+        \item \textbf{Total en multas} y cuántas son.
+        \item Próxima cuota y \textbf{plazo restante} en meses.
+        \item Detalle por multa: motivo, número de cuota, fecha y valor.
+        \item Consejo: si no vas a llegar, pide plazo.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  7. RECORRIDO: PLAZO
+% ============================================================
+\begin{frame}{Plazo y justificación}{objetivos 3 y 4}
+  \begin{columns}[c]
+    \begin{column}{0.235\textwidth}
+      \centering
+      \phone[2.3cm]{plazo}\\[1mm]
+      {\scriptsize\color{muted}Cuenta regresiva: {\color{mint}\bfseries 5 días}}
+    \end{column}
+    \begin{column}{0.235\textwidth}
+      \centering
+      \phone[2.3cm]{plazo_enviada}\\[1mm]
+      {\scriptsize\color{muted}Confirmación al enviar}
+    \end{column}
+    \begin{column}{0.235\textwidth}
+      \centering
+      \phone[2.3cm]{plazo_historial}\\[1mm]
+      {\scriptsize\color{muted}``Mis solicitudes'' \pill{amber}{En revisión}}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+      \begin{itemize}\scriptsize
+        \item \textbf{1 · Nueva fecha} (opcional), posterior al vencimiento.
+        \item \textbf{2 · Tu situación}: motivo de 10 a 500 caracteres.
+        \item \textbf{3 · Soporte}: foto JPEG o PNG, máx.\ 5 MB.
+        \item La API responde \texttt{201} y la solicitud queda en \textbf{Mis solicitudes} con su estado.
+        \item En mora, la cuenta regresiva pasa a rojo: \pill{caribered}{3 días de mora}
+        \item Aviso claro: la solicitud \textbf{no cancela la mora}, la revisa cobranza.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  8. RECORRIDO: KM, MODO OSCURO, HORIZONTAL
+% ============================================================
+\begin{frame}{Kilometraje, modo oscuro y horizontal}{objetivo 6 y adaptabilidad}
+  \begin{columns}[c]
+    \begin{column}{0.22\textwidth}
+      \centering
+      \phone[2.2cm]{km}\\[1mm]
+      {\scriptsize\color{muted}Km desde el inicio}
+    \end{column}
+    \begin{column}{0.22\textwidth}
+      \centering
+      \phone[2.2cm]{inicio_oscuro}\\[1mm]
+      {\scriptsize\color{muted}Modo oscuro}
+    \end{column}
+    \begin{column}{0.54\textwidth}
+      \centering
+      \phoneland[6.4cm]{saldo_horizontal}\\[1mm]
+      {\scriptsize\color{muted}Horizontal: riel lateral de navegación (desde 600 dp)}\\[3mm]
+      \begin{itemize}\scriptsize
+        \item Km recorridos, última lectura, evolución y historial.
+        \item Tarjeta ``Pronto te avisaremos cuándo cambiar el aceite'': la regla
+              (cada 3.000 km, aviso 200 km antes) ya existe; falta el dato del último cambio.
+        \item Tema Material 3 completo con la marca en claro y oscuro.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  9. ALERTAS Y NOTIFICACIONES
+% ============================================================
+\begin{frame}{Alertas de pago}{objetivo 5 · escalamiento 24 h $\to$ 6 h $\to$ 3 h}
+  \begin{columns}[c]
+    \begin{column}{0.72\textwidth}
+      \centering
+      \resizebox{\textwidth}{!}{%
+      \begin{tikzpicture}
+        % línea de tiempo
+        \draw[muted!50,line width=2pt] (0,0) -- (9.6,0);
+        \draw[caribered,line width=2pt] (6.4,0) -- (9.6,0);
+        \foreach \px/\pcol in {0/mint,3.2/amber,6.4/caribered,9.6/caribered} {
+          \fill[\pcol] (\px,0) circle [radius=5pt];
+          \fill[caribedark] (\px,0) circle [radius=2.5pt];
+        }
+        \node[above=4pt,font=\scriptsize,text=mint] at (0,0) {Antes};
+        \node[above=4pt,font=\scriptsize,text=amber] at (3.2,0) {Falta poco};
+        \node[above=4pt,font=\scriptsize,text=caribered] at (6.4,0) {Vence hoy};
+        \node[above=4pt,font=\scriptsize,text=caribered] at (9.6,0) {En mora};
+        \node[card,text width=2.5cm,font=\scriptsize,anchor=north,align=center] at (0,-0.5)
+          {\textbf{cada 24 h}\\recordatorio suave};
+        \node[card,text width=2.5cm,font=\scriptsize,anchor=north,align=center] at (3.2,-0.5)
+          {\textbf{cada 6 h}\\al acercarse la fecha};
+        \node[card,text width=2.5cm,font=\scriptsize,anchor=north,align=center,fill=cardbgb] at (6.4,-0.5)
+          {\textbf{cada 3 h}\\al vencer};
+        \node[cardred,text width=2.5cm,font=\scriptsize,anchor=north,align=center] at (9.6,-0.5)
+          {\textbf{cada 3 h}\\mientras siga en mora};
+        \node[font=\tiny,text=muted,anchor=north west,align=left,text width=10.8cm] at (-1.4,-2.1)
+          {Regla \texttt{AlertPolicy} (sin dependencias de Android, con pruebas unitarias). El trabajo lo programa
+           \textbf{WorkManager}; al cargar los datos la app guarda en el teléfono solo la próxima cuota
+           (fecha, monto, km) y el trabajo lee esa copia; se borra al cerrar sesión.};
+      \end{tikzpicture}}
+    \end{column}
+    \begin{column}{0.27\textwidth}
+      \begin{itemize}\scriptsize
+        \item La notificación \textbf{abre la pantalla correcta}.
+        \item \textbf{No muestra montos} en la pantalla bloqueada.
+        \item Canal propio de notificaciones.
+        \item Funciona \textbf{sin el token} y sin servidor.
+        \item Push desde servidor (FCM): planeado.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  10. ARQUITECTURA
+% ============================================================
+\begin{frame}{Arquitectura}{lo implementado en línea continua; lo planeado, punteado}
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}
+    % ---- dispositivo Android ----
+    \node[box,text width=2.4cm] (user) at (0,1.2) {\textbf{Arrendatario}\\cliente con crédito};
+    \node[boxred,text width=2.9cm] (app) at (3.6,1.2) {\textbf{App Android}\\Compose · ViewModel\\CreditRepository};
+    \node[box,text width=2.9cm] (worker) at (3.6,-0.9) {\textbf{AlertWorker}\\WorkManager · 24h$\to$6h$\to$3h};
+    \node[box,text width=2.4cm] (notif) at (0,-0.9) {\textbf{Notificación local}\\alerta en el teléfono};
+    \node[box,text width=2.9cm] (cache) at (3.6,-2.9) {\textbf{AlertCache}\\SharedPreferences\\solo la próxima cuota};
+    \begin{scope}[on background layer]
+      \node[draw=muted!40,rounded corners=6pt,dashed,fit=(app)(worker)(cache),inner sep=4pt,
+        label={[font=\tiny,text=muted]above left:Dispositivo Android}] {};
+    \end{scope}
+    % ---- Azure ----
+    \node[boxred,text width=2.6cm] (sec) at (8.3,1.2) {\textbf{Spring Security}\\JWT HS256 · 15 min\\bloqueo tras 5 fallos};
+    \node[box,text width=2.6cm] (api) at (11.6,1.2) {\textbf{MeController}\\\texttt{/api/v1/me/*}\\contrato · abonos · multas · km};
+    \node[box,text width=2.6cm] (seed) at (14.6,-0.9) {\textbf{SeedCreditData}\\20 clientes ficticios};
+    \node[box,text width=2.6cm] (att) at (8.3,-0.9) {\textbf{AttachmentStore}\\valida bytes · sin EXIF};
+    \node[box,text width=2.6cm] (mem) at (11.6,-0.9) {\textbf{Solicitudes}\\en memoria de la API};
+    \begin{scope}[on background layer]
+      \node[draw=amber!70,rounded corners=6pt,fit=(sec)(api)(seed)(att)(mem),inner sep=5pt,
+        label={[font=\tiny,text=amber]above:Azure App Service · plan F1 (gratis) · Linux · Java 17 · HTTPS obligatorio}] {};
+    \end{scope}
+    % ---- planeado ----
+    \node[boxplan,text width=2.6cm] (fcm) at (3.6,3.3) {\textbf{Push FCM}\\planeado};
+    \node[boxplan,text width=2.6cm] (db) at (14.6,-2.9) {\textbf{Vistas MySQL}\\solo lectura · planeado};
+    \node[boxplan,text width=2.6cm] (tbl) at (11.6,-2.9) {\textbf{Tablas propias}\\solicitudes · credenciales};
+    % ---- flujos ----
+    \draw[flow] (user) -- node[flowlbl,above] {consulta} (app);
+    \draw[flow] (app) -- node[flowlbl,above] {HTTPS + Bearer JWT} (sec);
+    \draw[flow] (sec) -- node[flowlbl,above] {autoriza} (api);
+    \draw[flow] (api) -| node[flowlbl,pos=0.25,above] {lee} (seed);
+    \draw[flow] (api) -- node[flowlbl,right] {solicitud} (mem);
+    \draw[flow] ($(api.south)+(-0.7,0)$) |- node[flowlbl,pos=0.75,above] {adjunto} (att.east);
+    \draw[flow] (app) -- node[flowlbl,right] {programa} (worker);
+    \draw[flow] (worker) -- node[flowlbl,right] {lee} (cache);
+    \draw[flow] (worker) -- node[flowlbl,above] {notifica} (notif);
+    \draw[flow] (notif) -- node[flowlbl,left] {aviso} (user);
+    \draw[flowplan] (fcm) -- node[flowlbl,right] {push (planeado)} (app);
+    \draw[flowplan] (seed) -- node[flowlbl,right] {reemplazo} (db);
+    \draw[flowplan] (mem) -- node[flowlbl,right] {migrará} (tbl);
+  \end{tikzpicture}}
+\end{frame}
+
+% ============================================================
+%  11. MODELO ENTIDAD-RELACIÓN
+% ============================================================
+\begin{frame}{Modelo entidad-relación}{existente en la BD de la empresa vs.\ lo que hay que crear}
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}
+    % fila superior
+    \node[ent] (arr) at (1.4,5.0) {\textbf{ARRENDATARIO}\\documento (PK) · nombre};
+    \node[ent] (con) at (5.6,5.0) {\textbf{CONTRATO}\\id (PK) · documento · placa\\valor\_total · saldo · valor\_cuota\\proxima\_fecha\_pago · meses\_restantes};
+    \node[ent] (moto) at (9.8,5.0) {\textbf{MOTO}\\placa (PK)};
+    \node[ent] (gps) at (13.6,5.0) {\textbf{DISPOSITIVO\_GPS}\\iddevice (PK) · placa};
+    % fila media
+    \node[entnew] (cred) at (1.4,2.9) {\textbf{CREDENCIAL}\\documento (PK, FK) · clave\_hash\\intentos\_fallidos · bloqueado\_hasta};
+    \node[ent] (abo) at (4.2,2.9) {\textbf{ABONO}\\id (PK) · contrato\_id\\fecha · monto};
+    \node[ent] (mul) at (7.0,2.9) {\textbf{MULTA}\\id (PK) · contrato\_id\\fecha · monto · motivo · cuota};
+    \node[entprop] (ace) at (9.8,2.9) {\textbf{CAMBIO\_ACEITE}\\id (PK) · placa\\km\_al\_cambio · fecha};
+    \node[ent] (lec) at (13.6,2.9) {\textbf{LECTURA\_KM}\\iddevice (FK) · fecha · km};
+    % fila inferior
+    \node[entnew] (sol) at (5.6,0.8) {\textbf{SOLICITUD\_PLAZO}\\id (PK) · contrato\_id · fecha\_vencimiento\\nueva\_fecha · motivo · estado · creada\_en};
+    \node[entnew] (adj) at (9.8,0.8) {\textbf{ADJUNTO}\\id (PK) · solicitud\_id\\tipo\_mime · contenido (sin EXIF)};
+    % relaciones
+    \draw[rel] (arr) -- node[rellbl] {1 : 0..1} (cred);
+    \draw[rel] (arr) -- node[rellbl] {1 : n firma} (con);
+    \draw[rel] (moto) -- node[rellbl] {1 : n} (con);
+    \draw[rel] (moto) -- node[rellbl] {1 : n} (gps);
+    \draw[rel] (gps) -- node[rellbl] {1 : n reporta} (lec);
+    \draw[rel] (moto) -- node[rellbl] {1 : n} (ace);
+    \draw[rel] ($(con.south)+(-0.5,0)$) |- (abo.east);
+    \draw[rel] ($(con.south)+(0.5,0)$) |- (mul.west);
+    \draw[rel] (con.south) -- node[rellbl,pos=0.82] {1 : n origina} (sol.north);
+    \draw[rel] (sol) -- node[rellbl] {1 : 0..1} (adj);
+    % leyenda
+    \node[font=\tiny,text=muted,anchor=west] at (11.4,1.15) {\tikz\draw[muted!40,fill=cardbg,rounded corners=1pt] (0,0) rectangle (0.3,0.18); Existente (se lee, no se modifica)};
+    \node[font=\tiny,text=muted,anchor=west] at (11.4,0.8) {\tikz\draw[caribered,line width=0.8pt,fill=cardbg,rounded corners=1pt] (0,0) rectangle (0.3,0.18); Nueva (tabla propia del aplicativo)};
+    \node[font=\tiny,text=muted,anchor=west] at (11.4,0.45) {\tikz\draw[amber,dashed,line width=0.8pt,fill=cardbg,rounded corners=1pt] (0,0) rectangle (0.3,0.18); Propuesta (hoy no existe en la BD)};
+  \end{tikzpicture}}
+\end{frame}
+
+% ============================================================
+%  12. SEGURIDAD
+% ============================================================
+\begin{frame}{Seguridad}{lo que ya está implementado}
+  \centering
+  \begin{tikzpicture}[
+      sec/.style={card,text width=6.4cm,minimum height=1.75cm,anchor=north west,font=\scriptsize},
+    ]
+    \node[sec] at (0,0) {\secic{JWT}\ \ \textbf{Sesión con token de 15 minutos}\\[2pt]
+      HS256, clave de 32+ caracteres por variable de entorno, nunca en el repositorio.
+      El token vive solo en memoria de la app.};
+    \node[sec] at (6.9,0) {\secic{5}\ \ \textbf{Bloqueo tras 5 intentos fallidos}\\[2pt]
+      15 minutos por cédula. Mismo mensaje y tiempo parecido para cédula inexistente
+      y clave incorrecta.};
+    \node[sec] at (0,-2.25) {\secic{ID}\ \ \textbf{Aislamiento por token}\\[2pt]
+      La cédula sale siempre del token, nunca de un parámetro. Una solicitud ajena
+      responde \texttt{404}: ``no encontrada''.};
+    \node[sec] at (6.9,-2.25) {\secic{IMG}\ \ \textbf{Adjuntos sin EXIF}\\[2pt]
+      El tipo se decide por los primeros bytes (no por el nombre), máx.\ 5 MB y 12.000 px por lado;
+      se re-codifica (se pierde el GPS de la foto) y se guarda en carpeta privada sin URL pública.};
+    \node[font=\tiny,text=muted,anchor=north west,text width=13.3cm,align=left] at (0,-4.5)
+      {Además: HTTPS obligatorio y TLS 1.2 mínimo en Azure · errores sin trazas internas ·
+       \texttt{allowBackup} apagado · release ofuscado con R8 · las notificaciones no muestran montos en pantalla bloqueada.};
+  \end{tikzpicture}
+\end{frame}
+
+% ============================================================
+%  13. CALIDAD
+% ============================================================
+\begin{frame}{Calidad}{pruebas y verificación}
+  \begin{columns}[c]
+    \begin{column}{0.36\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node[card,text width=4.6cm,align=center,anchor=north] at (0,0)
+          {\bignum{caribered}{13}{pruebas unitarias de la app}\\[3pt]
+           {\scriptsize\color{muted}\texttt{AlertPolicy}, \texttt{MaintenancePlan} y reglas de dominio}};
+        \node[card,text width=4.6cm,align=center,anchor=north] at (0,-3.3)
+          {\bignum{mint}{18}{pruebas de la API}\\[3pt]
+           {\scriptsize\color{muted}login, bloqueo, aislamiento por token, validación de solicitudes y adjuntos}};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.62\textwidth}
+      {\small\bfseries Verificado a mano en el emulador}
+      \begin{tikzpicture}[chk/.style={card,text width=3.6cm,font=\scriptsize,anchor=north west,minimum height=1.05cm}]
+        \node[chk] at (0,0) {{\color{mint}\bfseries\checkmark}\ Español e inglés\\{\color{muted}según idioma del sistema}};
+        \node[chk] at (4.0,0) {{\color{mint}\bfseries\checkmark}\ Claro y oscuro\\{\color{muted}tema Material 3 con la marca}};
+        \node[chk] at (0,-1.35) {{\color{mint}\bfseries\checkmark}\ Vertical, horizontal y tablet\\{\color{muted}riel lateral desde 600 dp}};
+        \node[chk] at (4.0,-1.35) {{\color{mint}\bfseries\checkmark}\ Accesibilidad\\{\color{muted}descripciones de contenido en tarjetas y gráficos}};
+        \node[chk] at (0,-2.7) {{\color{mint}\bfseries\checkmark}\ Estados vacíos y de carga\\{\color{muted}sin multas, sin abonos, API dormida}};
+        \node[chk] at (4.0,-2.7) {{\color{mint}\bfseries\checkmark}\ Errores con mensaje propio\\{\color{muted}red, clave incorrecta, bloqueo, sesión vencida}};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  14. DATOS DE DEMO
+% ============================================================
+\begin{frame}{Datos de demostración}{nunca datos reales}
+  \begin{columns}[c]
+    \begin{column}{0.56\textwidth}
+      \begin{tikzpicture}
+        \node[card,text width=7.4cm] (a) at (0,0) {%
+          {\color{caribered}\bfseries 20 clientes ficticios}\ \ {\color{muted}perfil \texttt{seed} de la API}\\[2pt]
+          Nombres, cédulas y placas inventados. Las fechas se calculan respecto a ``hoy'',
+          así la demo siempre muestra los casos interesantes:};
+        \node[card,text width=7.4cm,below=3mm of a,font=\scriptsize] (b) {%
+          \pill{mint}{Al día}\ vence en 5 días \hfill \pill{caribered}{En mora}\ varios clientes\\[3pt]
+          \pill{amber}{Vence hoy}\ y \pill{amber}{Vence mañana} \hfill \pill{mint}{Sin multas}\\[3pt]
+          \pill{muted}{Cliente nuevo}\ sin abonos todavía};
+        \node[card,text width=7.4cm,below=3mm of b,font=\scriptsize] (c) {%
+          El generador es determinista y el formato admite reemplazarlo por datos reales
+          \textbf{anonimizados}. Es un proyecto de la universidad: \textbf{no va a producción y no toca la base de la empresa}.};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \foreach \ii in {0,...,19} {
+          \pgfmathsetmacro{\cx}{mod(\ii,5)*0.95}
+          \pgfmathsetmacro{\cy}{-floor(\ii/5)*0.95}
+          \fill[cardbg,rounded corners=2pt] (\cx,\cy) rectangle ++(0.8,0.8);
+        }
+        % resaltar algunos casos
+        \foreach \ii/\cc in {0/mint,1/caribered,2/amber,3/amber,4/mint,5/caribered,6/caribered,9/mint,11/caribered,14/amber,17/caribered} {
+          \pgfmathsetmacro{\cx}{mod(\ii,5)*0.95}
+          \pgfmathsetmacro{\cy}{-floor(\ii/5)*0.95}
+          \fill[\cc,rounded corners=2pt] (\cx,\cy) rectangle ++(0.8,0.8);
+        }
+        \node[font=\tiny,text=muted,anchor=north,align=center,text width=4.6cm] at (2.2,-3.95) {20 cédulas de demostración, cada una con una situación distinta};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============================================================
+%  15. QUÉ FALTA / TRABAJO FUTURO
+% ============================================================
+\begin{frame}{Qué falta}{trabajo futuro, por decisión o por dependencia externa}
+  \centering
+  \begin{tikzpicture}[
+      nx/.style={card,text width=4.1cm,minimum height=1.9cm,anchor=north west,font=\scriptsize},
+    ]
+    \node[nx] at (0,0) {\futtag{01}\ \ \textbf{Base de datos real}\\[2pt]
+      Vistas propias de \textbf{solo lectura} sobre MySQL (\texttt{reporte\_estado\_motos},
+      \texttt{vw\_gd\_recaudo\_bruto}, \texttt{vw\_sv\_hist\_distancia}\ldots). Km sumados en la base.};
+    \node[nx] at (4.75,0) {\futtag{02}\ \ \textbf{Autenticación definitiva}\\[2pt]
+      La BD no guarda credenciales de arrendatarios: decidir entre clave propia o OTP por WhatsApp.
+      Refresh token rotativo.};
+    \node[nx] at (9.5,0) {\futtag{03}\ \ \textbf{Push desde servidor (FCM)}\\[2pt]
+      Requiere proyecto Firebase. Hoy las alertas son locales con WorkManager.};
+    \node[nx] at (0,-2.5) {\futtag{04}\ \ \textbf{Registro de cambio de aceite}\\[2pt]
+      Propuesta a la empresa: con ese dato la app ya avisa el mantenimiento (regla y tarjeta listas).};
+    \node[nx] at (4.75,-2.5) {\futtag{05}\ \ \textbf{Solicitudes persistentes}\\[2pt]
+      Tabla propia para solicitudes y adjuntos (hoy en memoria) y aviso a cobranza.};
+    \node[nx] at (9.5,-2.5) {\futtag{06}\ \ \textbf{APK firmado y cierre}\\[2pt]
+      Firma de release, certificate pinning, splash, ventana horaria de alertas y persistir la sesión.};
+  \end{tikzpicture}
+\end{frame}
+
+% ============================================================
+%  16. CIERRE
+% ============================================================
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[caribered] ($(current page.south east)+(1.5,-1.5)$) circle [radius=4.0cm];
+    \fill[caribedeep] ($(current page.north west)+(-1.2,1.0)$) circle [radius=2.4cm];
+    \node[anchor=east] at ($(current page.east)+(-0.6,0.6)$) {\phoneland[5.6cm]{inicio_horizontal}};
+    \node[anchor=west,text=cream,font=\fontsize{24}{28}\selectfont\bfseries,align=left]
+      at ($(current page.west)+(1.0,2.4)$) {Gracias};
+    \node[anchor=west,text=muted,font=\small,align=left,text width=8.2cm]
+      at ($(current page.west)+(1.0,1.3)$)
+      {Una app para que el arrendatario consulte, pida plazo y reciba alertas sin llamar a cobranza.};
+    \node[anchor=west,text=cream,font=\small,align=left] at ($(current page.west)+(1.0,0.0)$)
+      {{\color{caribered}\bfseries Repositorio}\\\href{https://github.com/Xion07/LabsCM20262-Gr04}{\texttt{github.com/Xion07/LabsCM20262-Gr04}}};
+    \node[anchor=west,text=cream,font=\small,align=left] at ($(current page.west)+(1.0,-1.1)$)
+      {{\color{caribered}\bfseries API de demostración}\\\href{https://autogestion-api-jc.azurewebsites.net}{\texttt{autogestion-api-jc.azurewebsites.net}}};
+    \node[anchor=west,text=muted,font=\scriptsize,align=left,text width=8.6cm] at ($(current page.west)+(1.0,-2.2)$)
+      {Cédulas de demo \texttt{1000000001} a \texttt{1000000020} · la primera consulta puede tardar hasta un minuto (plan gratis).};
+    \node[anchor=west,text=muted,font=\scriptsize,align=left] at ($(current page.west)+(1.0,-2.85)$)
+      {Juan Esteban Cardozo Rivera · David Penagos · Valentina Roldán Preciado · Grupo 04};
+  \end{tikzpicture}
+\end{frame}
+
+\end{document}
