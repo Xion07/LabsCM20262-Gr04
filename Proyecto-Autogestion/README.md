@@ -4,23 +4,23 @@ App Android (Kotlin + Jetpack Compose) para que el arrendatario consulte su cont
 
 ## Estado
 
-La app ya habla con la API (`../Proyecto-Autogestion-API`). Sin API (o con `-PuseMock=true`) usa datos simulados (`MockCreditRepository`).
+La app habla con la API desplegada en Azure (`../Proyecto-Autogestion-API`). Sin API (o con `-PuseMock=true`) usa datos simulados (`MockCreditRepository`).
 
 | Módulo | Estado |
 |---|---|
-| Ingreso (cédula + clave) | Simulado: acepta cédula de 6+ dígitos y clave de 4+ caracteres. Cerrar sesión desde Inicio |
-| Inicio, Saldo y abonos, Multas | Listo con datos mock |
-| Plazo y excusas | Listo: fecha opcional, motivo (mín. 10 caracteres), foto de soporte y confirmación al enviar. No se envía a ningún servidor |
-| Kilometraje | Listo: muestra los km recorridos desde el inicio del contrato. El aviso de cambio de aceite (`MaintenancePlan`, cada 3.000 km, aviso a 200 km) queda apagado hasta que exista el dato del último cambio |
+| Ingreso (cédula + clave) | Listo contra la API: JWT en memoria, bloqueo tras intentos fallidos y mensajes propios. La sesión no se conserva al cerrar la app |
+| Inicio, Saldo y abonos, Multas | Listo. Tarjeta principal por estado (al día, vence pronto, en mora), anillo de avance del contrato, gráfico de abonos que se toca para ver el detalle |
+| Plazo y excusas | Listo: fecha opcional, motivo (mín. 10 caracteres), foto de soporte, cuenta regresiva de la cuota y sección **Mis solicitudes** con el historial y su estado (en revisión, aprobada, rechazada) |
+| Kilometraje | Listo: km recorridos desde el inicio del contrato e historial. El aviso de cambio de aceite (`MaintenancePlan`, cada 3.000 km, aviso a 200 km) queda apagado hasta que exista el dato del último cambio |
 | Alertas de pago | Listo con WorkManager y notificaciones locales; se acortan de 24 h a 6 h y 3 h al vencer y entrar en mora (`AlertPolicy`) |
-| Idiomas y pantallas | Español e inglés según el idioma del sistema; vertical, horizontal y tablet (riel lateral desde 600 dp); modo claro y oscuro |
-| Conexión a la API | Listo: login con JWT, contrato, abonos, multas, km y solicitudes de plazo con foto. El token vive solo en memoria. Errores de red, clave incorrecta, bloqueo y sesión vencida con mensajes propios |
-| API con base de datos real y autenticación definitiva | Pendiente (la API usa datos simulados) |
+| Diseño | Tipografía Plus Jakarta Sans, animaciones (entrada en cascada, contadores, gráficos, esqueletos de carga, arrastrar para recargar) que respetan el ajuste "quitar animaciones" de Android, pantalla de bienvenida nativa, estados vacíos y de error ilustrados |
+| Idiomas y pantallas | Español e inglés según el idioma del sistema; vertical, horizontal y tablet (riel lateral desde 600 dp y dos columnas desde 840 dp); modo claro y oscuro |
+| API con base de datos real y autenticación definitiva | Pendiente: la API usa 20 clientes ficticios y guarda las solicitudes en memoria (ver `docs/modelo-entidad-relacion.md`) |
 | Push desde servidor (FCM) | Pendiente: requiere proyecto Firebase y `google-services.json` |
 
 ## Estructura
 
-- `data/`: modelos y `CreditRepository` (interfaz + mock). Aquí se enchufa la API.
+- `data/`: modelos, `CreditRepository` (interfaz, implementación remota y mock) y `ApiClient`.
 - `domain/`: reglas sin Android (`AlertPolicy`, `MaintenancePlan`), con pruebas en `src/test`.
 - `notifications/`: canales, `AlertWorker` y programador.
 - `ui/`: tema, formato y pantallas. `CreditViewModel` guarda el estado.
@@ -78,4 +78,4 @@ No hay ningún dato en la BD que diga cuándo se hizo el último cambio de aceit
 
 Se revisó la app con cuatro agentes (seguridad, funcionalidad, experiencia de usuario e interfaz). Aplicado: textos en `strings.xml` (es/en), notificaciones que abren la pantalla correcta y no muestran montos en pantalla bloqueada, `allowBackup` apagado, release ofuscado (R8), tema Material 3 completo con la marca, barra de estado integrada, ícono propio, riel lateral en pantallas anchas, estados vacíos y de carga, y confirmación al enviar la solicitud.
 
-Pendiente por decisión o por dependencia externa: base de datos real y autenticación definitiva en la API, HTTPS con certificate pinning, notificaciones push desde servidor (FCM), splash screen, vistas previas de Compose, ventana horaria de las alertas y persistir la sesión.
+Pendiente por decisión o por dependencia externa: base de datos real y autenticación definitiva en la API, HTTPS con certificate pinning, notificaciones push desde servidor (FCM), vistas previas de Compose, ventana horaria de las alertas y persistir la sesión. Ya resueltos después de esa revisión: pantalla de bienvenida nativa y conexión con la API.
