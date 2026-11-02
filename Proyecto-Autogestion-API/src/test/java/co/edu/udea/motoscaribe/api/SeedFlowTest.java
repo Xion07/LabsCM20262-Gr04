@@ -107,6 +107,12 @@ class SeedFlowTest {
 	}
 
 	@Test
+	void homePageIsPublicButApiStillNeedsToken() throws Exception {
+		mvc.perform(get("/")).andExpect(status().isOk());
+		mvc.perform(get("/api/v1/me/contract")).andExpect(status().isUnauthorized());
+	}
+
+	@Test
 	void unknownDocumentIsRejected() throws Exception {
 		mvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"document\":\"999999999\",\"password\":\"demo1234\"}"))

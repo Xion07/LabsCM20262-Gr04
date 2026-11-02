@@ -65,6 +65,7 @@ class SecurityConfig {
 				.csrf(csrf -> csrf.disable()) // API sin cookies: el token va en el encabezado
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(a -> a
+						.requestMatchers(HttpMethod.GET, "/").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
 						.anyRequest().authenticated())
 				.oauth2ResourceServer(o -> o.jwt(Customizer.withDefaults()));
