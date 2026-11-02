@@ -53,6 +53,25 @@ export ANDROID_HOME="$LOCALAPPDATA/Android/Sdk"
 
 APK en `app/build/outputs/apk/debug/app-debug.apk`. Requiere `local.properties` con `sdk.dir` (no versionado).
 
+## APK firmado (release)
+
+El release sale firmado y ofuscado (R8, ~1,7 MB) si existe `keystore.properties` en esta carpeta. Ese archivo y el keystore **no se versionan** (`.gitignore`). Para generarlos una sola vez:
+
+```
+keytool -genkeypair -keystore autogestion-release.jks -alias autogestion -keyalg RSA -keysize 2048 -validity 10000
+```
+
+y crear `keystore.properties` con:
+
+```
+storeFile=autogestion-release.jks
+storePassword=TU_CLAVE
+keyAlias=autogestion
+keyPassword=TU_CLAVE
+```
+
+Luego `./gradlew assembleRelease` deja el APK en `app/build/outputs/apk/release/app-release.apk`. **Guarda una copia del keystore y la clave en un lugar seguro**: sin ellos no se puede publicar una actualización que se instale sobre la anterior. Sin `keystore.properties` el release queda sin firmar.
+
 ## Datos reales (referencia)
 
 Las vistas de `db_packgps` que alimentan el tablero de Power BI (`reporte_estado_motos`, `vw_gd_recaudo_bruto`, `vw_gd_motos_app_proyeccion`, `np_justi_super_org`) cubren saldo, abonos, plazo y justificaciones.
