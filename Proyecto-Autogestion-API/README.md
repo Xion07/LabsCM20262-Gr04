@@ -10,7 +10,7 @@ API REST (Spring Boot 4.0.9, Java 17) para la app móvil de `Proyecto-Autogestio
 export JAVA_HOME="$HOME/Java/jdk-17.0.20.1+1"
 export API_JWT_SECRET="una-clave-de-minimo-32-caracteres"   # obligatoria; sin ella no arranca
 ./mvnw spring-boot:run          # http://localhost:8080
-./mvnw test                     # 18 pruebas
+./mvnw test                     # 19 pruebas
 ```
 
 Clientes de demostración (perfil `seed`): cédulas `1000000001` a `1000000020`, todas con la clave `demo1234`.
