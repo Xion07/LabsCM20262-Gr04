@@ -89,6 +89,24 @@ class SeedFlowTest {
 	}
 
 	@Test
+	void extensionHistoryIsPerUserAndNewestFirst() throws Exception {
+		String a = login("1000000009");
+		String b = login("1000000010");
+		for (String excuse : new String[] { "Primera solicitud de prueba", "Segunda solicitud de prueba" }) {
+			mvc.perform(post("/api/v1/me/extension-requests").header("Authorization", a)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content("{\"dueDate\":\"" + LocalDate.now() + "\",\"excuse\":\"" + excuse + "\"}"))
+					.andExpect(status().isCreated());
+		}
+		mvc.perform(get("/api/v1/me/extension-requests").header("Authorization", a))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(jsonPath("$[0].excuse").value("Segunda solicitud de prueba"));
+		mvc.perform(get("/api/v1/me/extension-requests").header("Authorization", b))
+				.andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(0)));
+	}
+
+	@Test
 	void unknownDocumentIsRejected() throws Exception {
 		mvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"document\":\"999999999\",\"password\":\"demo1234\"}"))

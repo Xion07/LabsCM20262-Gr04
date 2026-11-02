@@ -2,6 +2,8 @@ package co.edu.udea.motoscaribe.api.credit;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +23,12 @@ class InMemoryExtensions {
 	/** Solo devuelve la solicitud si pertenece a {@code document}. */
 	Optional<Credit.ExtensionRecord> find(String document, String id) {
 		return Optional.ofNullable(byId.get(id)).filter(r -> r.document().equals(document));
+	}
+
+	/** Solicitudes del dueno, la mas reciente primero. */
+	List<Credit.ExtensionRecord> list(String document) {
+		return byId.values().stream().filter(r -> r.document().equals(document))
+				.sorted(Comparator.comparing(Credit.ExtensionRecord::createdAt).reversed()).toList();
 	}
 
 	void attach(String document, String id, String attachmentId) {

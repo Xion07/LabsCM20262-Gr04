@@ -8,12 +8,14 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -54,12 +56,16 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import co.edu.udea.motoscaribe.autogestion.R
 import co.edu.udea.motoscaribe.autogestion.SubmitState
 import co.edu.udea.motoscaribe.autogestion.UiState
+import co.edu.udea.motoscaribe.autogestion.data.ExtensionItem
 import co.edu.udea.motoscaribe.autogestion.data.ExtensionRequest
+import co.edu.udea.motoscaribe.autogestion.data.RequestStatus
 import co.edu.udea.motoscaribe.autogestion.ui.components.Adaptive
 import co.edu.udea.motoscaribe.autogestion.ui.components.HeroCard
 import co.edu.udea.motoscaribe.autogestion.ui.components.Loading
@@ -77,6 +83,7 @@ import co.edu.udea.motoscaribe.autogestion.ui.pretty
 import co.edu.udea.motoscaribe.autogestion.ui.theme.MotosTheme
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
 
 private const val MIN_STORY = 10
@@ -230,25 +237,9 @@ fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit, onSubm
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
-                AnimatedVisibility(state.lastRequest != null, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
-                    state.lastRequest?.let {
-                        Card(
-                            Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
-                            shape = MaterialTheme.shapes.medium,
-                            colors = CardDefaults.cardColors(x.warningContainer),
-                        ) {
-                            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                                Icon(Icons.Rounded.HourglassTop, null, tint = x.onWarningContainer)
-                                Text(
-                                    stringResource(R.string.ext_status_pending) +
-                                        (it.newDate?.let { d -> stringResource(R.string.ext_status_date, d.pretty()) } ?: "") +
-                                        (if (it.attachmentUri != null) stringResource(R.string.ext_status_support) else ""),
-                                    color = x.onWarningContainer,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                )
-                            }
-                        }
-                    }
+                if (state.requests.isNotEmpty()) {
+                    SectionTitle(stringResource(R.string.ext_history_title), Modifier.padding(top = 8.dp))
+                    state.requests.forEach { RequestCard(it) }
                 }
             },
         )
@@ -290,3 +281,51 @@ fun ExtensionScreen(state: UiState, onSubmit: (ExtensionRequest) -> Unit, onSubm
         ) { DatePicker(pickerState) }
     }
 }
+
+@Composable
+private fun RequestCard(item: ExtensionItem) {
+    val x = MotosTheme.colors
+    val look = when (item.status) {
+        RequestStatus.PENDING_REVIEW -> StatusLook(R.string.ext_status_review, x.warningContainer, x.onWarningContainer, Icons.Rounded.HourglassTop)
+        RequestStatus.APPROVED -> StatusLook(R.string.ext_status_approved, x.successContainer, x.onSuccessContainer, Icons.Rounded.CheckCircle)
+        RequestStatus.REJECTED -> StatusLook(
+            R.string.ext_status_rejected, MaterialTheme.colorScheme.errorContainer,
+            MaterialTheme.colorScheme.onErrorContainer, Icons.Rounded.ErrorOutline,
+        )
+    }
+    val sent = item.createdAt.atZone(ZoneId.systemDefault()).toLocalDate().pretty()
+    val extras = listOfNotNull(
+        item.newDate?.let { stringResource(R.string.ext_new_date_short, it.pretty()) },
+        if (item.hasAttachment) stringResource(R.string.ext_with_proof) else null,
+    ).joinToString(" · ")
+    Card(
+        Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLow),
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    stringResource(R.string.ext_history_sent, sent),
+                    Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Row(
+                    Modifier.background(look.container, CircleShape).padding(horizontal = 10.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Icon(look.icon, null, Modifier.size(16.dp), tint = look.onContainer)
+                    Text(stringResource(look.label), style = MaterialTheme.typography.labelMedium, color = look.onContainer)
+                }
+            }
+            Text(item.excuse, style = MaterialTheme.typography.bodyMedium, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            if (extras.isNotEmpty()) {
+                Text(extras, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+private class StatusLook(val label: Int, val container: Color, val onContainer: Color, val icon: ImageVector)

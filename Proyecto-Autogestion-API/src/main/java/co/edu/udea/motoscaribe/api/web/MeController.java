@@ -87,6 +87,11 @@ class MeController {
 		}
 	}
 
+	@GetMapping("/extension-requests")
+	List<ExtensionView> extensions(@AuthenticationPrincipal Jwt jwt) {
+		return data.listExtensions(jwt.getSubject()).stream().map(ExtensionView::of).toList();
+	}
+
 	@PostMapping("/extension-requests")
 	@ResponseStatus(HttpStatus.CREATED)
 	ExtensionView createExtension(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ExtensionBody body) {

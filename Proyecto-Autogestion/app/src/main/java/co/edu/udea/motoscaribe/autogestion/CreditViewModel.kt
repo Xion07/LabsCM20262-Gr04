@@ -9,6 +9,7 @@ import co.edu.udea.motoscaribe.autogestion.data.AlertCache
 import co.edu.udea.motoscaribe.autogestion.data.ApiException
 import co.edu.udea.motoscaribe.autogestion.data.Contract
 import co.edu.udea.motoscaribe.autogestion.data.CreditRepository
+import co.edu.udea.motoscaribe.autogestion.data.ExtensionItem
 import co.edu.udea.motoscaribe.autogestion.data.ExtensionRequest
 import co.edu.udea.motoscaribe.autogestion.data.Fine
 import co.edu.udea.motoscaribe.autogestion.data.KmReading
@@ -39,7 +40,8 @@ data class UiState(
     val loadError: Boolean = false,
     /** Recarga en curso (indicador de "deslizar para actualizar"). */
     val refreshing: Boolean = false,
-    val lastRequest: ExtensionRequest? = null,
+    /** Solicitudes de plazo ya enviadas, la mas reciente primero. */
+    val requests: List<ExtensionItem> = emptyList(),
     val submit: SubmitState = SubmitState.IDLE,
 ) {
     /** Solo hay plan si se conoce el ultimo cambio de aceite (propuesta, no existe en BD). */
@@ -83,11 +85,22 @@ class CreditViewModel(
                 _state.update {
                     it.copy(contract = contract, payments = payments, fines = fines, kmHistory = km, refreshing = false)
                 }
+                loadRequests()
                 onContractLoaded(contract)
             } catch (e: Exception) {
                 if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
                 else _state.update { it.copy(loadError = true, refreshing = false) }
             }
+        }
+    }
+
+    /** El historial de solicitudes es secundario: si falla, no se bloquea el resto de la app. */
+    private suspend fun loadRequests() {
+        try {
+            val list = repository.extensions()
+            _state.update { it.copy(requests = list) }
+        } catch (e: Exception) {
+            if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
         }
     }
 
@@ -105,7 +118,8 @@ class CreditViewModel(
             _state.update { it.copy(submit = SubmitState.SENDING) }
             try {
                 repository.requestExtension(request)
-                _state.update { it.copy(submit = SubmitState.SUCCESS, lastRequest = request) }
+                _state.update { it.copy(submit = SubmitState.SUCCESS) }
+                loadRequests()
             } catch (e: Exception) {
                 if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
                 else _state.update { it.copy(submit = SubmitState.ERROR) }

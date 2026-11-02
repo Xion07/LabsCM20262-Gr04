@@ -16,6 +16,7 @@ interface CreditRepository {
     suspend fun payments(): List<Payment>
     suspend fun fines(): List<Fine>
     suspend fun kmHistory(): List<KmReading>
+    suspend fun extensions(): List<ExtensionItem>
     suspend fun requestExtension(request: ExtensionRequest)
 }
 
@@ -68,7 +69,15 @@ class MockCreditRepository : CreditRepository {
         KmReading(today, 2_870),
     )
 
+    private val sent = mutableListOf<ExtensionItem>()
+
+    override suspend fun extensions() = sent.reversed()
+
     override suspend fun requestExtension(request: ExtensionRequest) {
-        // Mock: sin persistencia.
+        sent += ExtensionItem(
+            id = "mock-${sent.size}", dueDate = request.dueDate, newDate = request.newDate, excuse = request.excuse,
+            hasAttachment = request.attachmentUri != null, status = RequestStatus.PENDING_REVIEW,
+            createdAt = java.time.Instant.now(),
+        )
     }
 }

@@ -74,6 +74,13 @@
     <string name="ext_note">Esta solicitud no cancela la mora: la revisa cobranza.</string>
     <string name="ext_sent_title">Solicitud enviada</string>
     <string name="ext_sent_text">Cobranza la revisará y te avisaremos.</string>
+    <string name="ext_history_title">Mis solicitudes</string>
+    <string name="ext_history_sent">Enviada el %1$s</string>
+    <string name="ext_status_review">En revisión</string>
+    <string name="ext_status_approved">Aprobada</string>
+    <string name="ext_status_rejected">Rechazada</string>
+    <string name="ext_new_date_short">Nueva fecha: %1$s</string>
+    <string name="ext_with_proof">Con soporte</string>
     <string name="ext_status_pending">Estado: pendiente de revisión</string>
     <string name="ext_status_date"> · nueva fecha %1$s</string>
     <string name="ext_status_support"> · con soporte</string>

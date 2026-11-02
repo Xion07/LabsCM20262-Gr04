@@ -27,6 +27,8 @@ class RemoteCreditRepository(
 
     override suspend fun kmHistory() = JsonMapping.kmHistory(api.get("/api/v1/me/km-history"))
 
+    override suspend fun extensions() = JsonMapping.extensions(api.get("/api/v1/me/extension-requests"))
+
     override suspend fun requestExtension(request: ExtensionRequest) {
         val id = JsonMapping.extensionId(
             api.postJson("/api/v1/me/extension-requests", JsonMapping.extensionBody(request))

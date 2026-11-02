@@ -24,5 +24,8 @@ public interface CreditData {
 	/** Solo devuelve la solicitud si pertenece a {@code document}. */
 	Optional<Credit.ExtensionRecord> findExtension(String document, String id);
 
+	/** Solicitudes del dueno, la mas reciente primero. */
+	List<Credit.ExtensionRecord> listExtensions(String document);
+
 	void attach(String document, String id, String attachmentId);
 }

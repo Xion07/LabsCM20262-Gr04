@@ -49,4 +49,18 @@ class JsonMappingTest {
         assertEquals("2026-11-06", body.getString("dueDate"))
         assertEquals(false, body.has("newDate"))
     }
+
+    @Test fun extensionHistoryMapsStatusAndFallsBack() {
+        val list = JsonMapping.extensions(
+            """[{"id":"a","dueDate":"2026-11-06","newDate":"2026-11-10","excuse":"Se dañó la moto","hasAttachment":true,
+                 "status":"PENDING_REVIEW","createdAt":"2026-11-01T15:30:00Z"},
+                {"id":"b","dueDate":"2026-11-06","newDate":null,"excuse":"Otra","hasAttachment":false,
+                 "status":"ALGO_NUEVO","createdAt":"2026-11-02T15:30:00Z"}]"""
+        )
+        assertEquals(2, list.size)
+        assertEquals(LocalDate.of(2026, 11, 10), list[0].newDate)
+        assertEquals(true, list[0].hasAttachment)
+        assertNull(list[1].newDate)
+        assertEquals(RequestStatus.PENDING_REVIEW, list[1].status)
+    }
 }

@@ -74,6 +74,13 @@
     <string name="ext_note">This request does not cancel the overdue amount: collections will review it.</string>
     <string name="ext_sent_title">Request sent</string>
     <string name="ext_sent_text">Collections will review it and let you know.</string>
+    <string name="ext_history_title">My requests</string>
+    <string name="ext_history_sent">Sent on %1$s</string>
+    <string name="ext_status_review">Under review</string>
+    <string name="ext_status_approved">Approved</string>
+    <string name="ext_status_rejected">Rejected</string>
+    <string name="ext_new_date_short">New date: %1$s</string>
+    <string name="ext_with_proof">With proof</string>
     <string name="ext_status_pending">Status: pending review</string>
     <string name="ext_status_date"> · new date %1$s</string>
     <string name="ext_status_support"> · with proof</string>

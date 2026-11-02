@@ -44,6 +44,19 @@ object JsonMapping {
 
     fun extensionId(json: String): String = JSONObject(json).getString("id")
 
+    fun extensions(json: String): List<ExtensionItem> = list(json) {
+        ExtensionItem(
+            id = it.getString("id"),
+            dueDate = LocalDate.parse(it.getString("dueDate")),
+            newDate = if (it.isNull("newDate")) null else LocalDate.parse(it.getString("newDate")),
+            excuse = it.getString("excuse"),
+            hasAttachment = it.optBoolean("hasAttachment", false),
+            // Un estado que la app aun no conoce se muestra como "en revision".
+            status = RequestStatus.entries.firstOrNull { s -> s.name == it.optString("status") } ?: RequestStatus.PENDING_REVIEW,
+            createdAt = java.time.Instant.parse(it.getString("createdAt")),
+        )
+    }
+
     fun extensionBody(request: ExtensionRequest): JSONObject = JSONObject().apply {
         put("dueDate", request.dueDate.toString())
         request.newDate?.let { put("newDate", it.toString()) }
