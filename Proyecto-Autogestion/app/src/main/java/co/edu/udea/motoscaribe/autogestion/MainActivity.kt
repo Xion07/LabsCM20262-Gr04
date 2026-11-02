@@ -20,7 +20,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -228,7 +229,8 @@ class MainActivity : ComponentActivity() {
             ) { padding ->
                 if (state.loadError && state.contract == null) {
                     ErrorState(
-                        stringResource(R.string.load_error), stringResource(R.string.retry), viewModel::load,
+                        stringResource(R.string.load_error), stringResource(R.string.load_error_body),
+                        stringResource(R.string.retry), viewModel::load,
                     )
                     return@Scaffold
                 }
@@ -238,14 +240,20 @@ class MainActivity : ComponentActivity() {
                     onRefresh = viewModel::load,
                     modifier = Modifier.padding(padding),
                 ) {
+                    // Cambio de pestana coherente con la barra: la nueva entra desde el lado hacia el
+                    // que se movio el usuario y la anterior se va hacia el contrario.
                     NavHost(
                         nav, Routes.HOME, Modifier.fillMaxSize(),
                         enterTransition = {
+                            val dir = tabDirection(initialState.destination.route, targetState.destination.route)
                             fadeIn(tween(DURATION_ENTER, easing = EmphasizedDecelerate)) +
-                                slideInVertically(tween(DURATION_ENTER, easing = EmphasizedDecelerate)) { it / 18 } +
+                                slideInHorizontally(tween(DURATION_ENTER, easing = EmphasizedDecelerate)) { dir * it / 12 } +
                                 scaleIn(tween(DURATION_ENTER, easing = EmphasizedDecelerate), initialScale = 0.985f)
                         },
-                        exitTransition = { fadeOut(tween(DURATION_EXIT)) },
+                        exitTransition = {
+                            val dir = tabDirection(initialState.destination.route, targetState.destination.route)
+                            fadeOut(tween(DURATION_EXIT)) + slideOutHorizontally(tween(DURATION_EXIT)) { -dir * it / 24 }
+                        },
                         popEnterTransition = { fadeIn(tween(DURATION_ENTER, easing = EmphasizedDecelerate)) },
                         popExitTransition = { fadeOut(tween(DURATION_EXIT)) },
                     ) {
@@ -302,6 +310,13 @@ private fun TabIcon(d: Dest, selected: Boolean) {
         contentDescription = null,
         modifier = Modifier.graphicsLayer { scaleX = scale; scaleY = scale },
     )
+}
+
+/** +1 si la pestana destino esta a la derecha de la actual en la barra, -1 si a la izquierda. */
+private fun tabDirection(from: String?, to: String?): Int {
+    val a = Dest.entries.indexOfFirst { it.route == from }
+    val b = Dest.entries.indexOfFirst { it.route == to }
+    return if (a < 0 || b < 0 || b >= a) 1 else -1
 }
 
 /** Cambia de pestana conservando lo escrito en cada una. */

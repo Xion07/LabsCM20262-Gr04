@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +23,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,13 +43,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import co.edu.udea.motoscaribe.autogestion.R
 import co.edu.udea.motoscaribe.autogestion.data.FineReason
+import co.edu.udea.motoscaribe.autogestion.ui.motion.EmptyArt
+import co.edu.udea.motoscaribe.autogestion.ui.motion.EmptyKind
 import co.edu.udea.motoscaribe.autogestion.ui.motion.EntranceScope
 import co.edu.udea.motoscaribe.autogestion.ui.motion.SkeletonBox
 import co.edu.udea.motoscaribe.autogestion.ui.motion.enterFromBelow
@@ -57,21 +63,56 @@ import co.edu.udea.motoscaribe.autogestion.ui.theme.MotosTheme
 /** Ancho maximo del contenido: en tablet u horizontal no se estira a todo el ancho. */
 val ContentMaxWidth = 640.dp
 
+/** Ancho maximo cuando la pantalla es expandida (>= 840 dp) y el contenido va a dos columnas. */
+val ContentMaxWidthExpanded = 1080.dp
+
+/** Separacion vertical estandar entre bloques de una pantalla. */
+val BlockGap = 14.dp
+
+/** Ancho (dp) desde el que las pantallas se organizan en dos columnas (tablet u horizontal). */
+const val EXPANDED_DP = 840
+
+/** `true` en tablet u horizontal ancho: las pantallas reparten su contenido en dos columnas. */
+@Composable
+fun isExpandedWidth(): Boolean = LocalConfiguration.current.screenWidthDp >= EXPANDED_DP
+
 /** Pantalla con scroll vertical, contenido centrado, limitado en ancho y con entrada escalonada. */
 @Composable
 fun ScreenColumn(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    val maxWidth = if (isExpandedWidth()) ContentMaxWidthExpanded else ContentMaxWidth
     EntranceScope {
         Box(modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
             Column(
                 Modifier
-                    .widthIn(max = ContentMaxWidth)
+                    .widthIn(max = maxWidth)
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp),
+                verticalArrangement = Arrangement.spacedBy(BlockGap),
                 content = content,
             )
         }
+    }
+}
+
+/**
+ * Dos columnas en pantallas expandidas; en telefono [primary] y luego [secondary] en vertical.
+ * Cada columna conserva la separacion estandar entre bloques.
+ */
+@Composable
+fun ColumnScope.Adaptive(
+    primary: @Composable ColumnScope.() -> Unit,
+    secondary: @Composable ColumnScope.() -> Unit,
+    primaryWeight: Float = 1f,
+) {
+    if (isExpandedWidth()) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+            Column(Modifier.weight(primaryWeight), verticalArrangement = Arrangement.spacedBy(BlockGap), content = primary)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(BlockGap), content = secondary)
+        }
+    } else {
+        primary()
+        secondary()
     }
 }
 
@@ -120,37 +161,64 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-/** Estado vacio con icono en medallon y mensaje amable. */
+/** Estado vacio con ilustracion dibujada en Canvas, titulo y mensaje amable. */
 @Composable
-fun EmptyState(text: String, icon: ImageVector, modifier: Modifier = Modifier, tint: Color = MotosTheme.colors.success) {
+fun EmptyState(
+    title: String,
+    body: String?,
+    kind: EmptyKind,
+    modifier: Modifier = Modifier,
+    tint: Color = MotosTheme.colors.success,
+) {
     Column(
-        modifier.fillMaxWidth().padding(vertical = 16.dp).semantics(mergeDescendants = true) {},
+        modifier.fillMaxWidth().padding(vertical = 12.dp).semantics(mergeDescendants = true) {},
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Box(
-            Modifier
-                .size(72.dp)
-                .drawBehind {
-                    drawCircle(tint.copy(alpha = 0.12f))
-                    drawCircle(tint.copy(alpha = 0.18f), radius = size.minDimension / 2.8f)
-                },
-            contentAlignment = Alignment.Center,
-        ) { Icon(icon, null, Modifier.size(32.dp), tint = tint) }
-        Text(
-            text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-        )
+        EmptyArt(kind, tint, Modifier.padding(bottom = 6.dp))
+        Text(title, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+        if (body != null) {
+            Text(
+                body,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+/** Fila de [StatCard]s de la misma altura. */
+@Composable
+fun StatRow(modifier: Modifier = Modifier, content: @Composable RowScope.() -> Unit) {
+    Row(
+        modifier.fillMaxWidth().height(IntrinsicSize.Min),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        content = content,
+    )
+}
+
+/** Chip informativo con icono: para cifras cortas ("3 multas", "Cuota 12"). */
+@Composable
+fun InfoChip(text: String, modifier: Modifier = Modifier, icon: ImageVector? = null, color: Color = MaterialTheme.colorScheme.onSurfaceVariant, container: Color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+    Row(
+        modifier
+            .background(container, CircleShape)
+            .padding(horizontal = 10.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        if (icon != null) Icon(icon, null, Modifier.size(14.dp), tint = color)
+        Text(text, style = MaterialTheme.typography.labelMedium, color = color)
     }
 }
 
 /** Dato con icono, titulo pequeno y valor destacado (lee junto en TalkBack). */
 @Composable
 fun StatCard(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier, accent: Color = MaterialTheme.colorScheme.primary) {
+    // fillMaxHeight: en una fila con height(IntrinsicSize.Min) todas las tarjetas quedan igual de altas.
     Card(
-        modifier.semantics(mergeDescendants = true) {},
+        modifier.fillMaxHeight().semantics(mergeDescendants = true) {},
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
@@ -328,9 +396,9 @@ fun OutlineButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifi
     }
 }
 
-/** Fallo al cargar los datos: mensaje y boton para reintentar. */
+/** Fallo al cargar los datos: ilustracion, mensaje y boton para reintentar. */
 @Composable
-fun ErrorState(text: String, retryLabel: String, onRetry: () -> Unit) {
+fun ErrorState(title: String, body: String, retryLabel: String, onRetry: () -> Unit) {
     EntranceScope {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(
@@ -338,9 +406,39 @@ fun ErrorState(text: String, retryLabel: String, onRetry: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                EmptyState(text, Icons.Rounded.CloudOff, tint = MaterialTheme.colorScheme.error)
+                EmptyState(title, body, EmptyKind.ERROR, tint = MaterialTheme.colorScheme.error)
                 PrimaryButton(retryLabel, onRetry, icon = Icons.Rounded.Refresh)
             }
+        }
+    }
+}
+
+/** Fila de monto con un chip de contexto (p. ej. numero de cuota) bajo el titulo. */
+@Composable
+fun AmountRowChip(title: String, chip: String, subtitle: String, amount: String, icon: ImageVector, modifier: Modifier = Modifier, amountColor: Color = MaterialTheme.colorScheme.error) {
+    Card(
+        modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+    ) {
+        Row(
+            Modifier.padding(horizontal = 16.dp, vertical = 14.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                Modifier.size(40.dp).background(amountColor.copy(alpha = 0.12f), CircleShape),
+                contentAlignment = Alignment.Center,
+            ) { Icon(icon, null, Modifier.size(20.dp), tint = amountColor) }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(title, style = MaterialTheme.typography.titleSmall)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    InfoChip(chip)
+                    Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+            Text(amount, color = amountColor, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         }
     }
 }
