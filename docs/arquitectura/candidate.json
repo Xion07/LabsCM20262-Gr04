@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Autogestión de Crédito - Motos del Caribe",
+    "locale": "es",
+    "output": "arquitectura-autogestion.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "tenant", "type": "external", "label": "Arrendatario", "sublabel": "Cliente con crédito", "pos": [40, 200], "size": [120, 64] },
+    { "id": "notif", "type": "external", "label": "Notificación local", "sublabel": "Alerta en el teléfono", "pos": [40, 360], "size": [130, 64] },
+    { "id": "app", "type": "frontend", "label": "App Android", "sublabel": "Compose · ViewModel · Repository", "pos": [290, 200], "size": [160, 64], "tag": "Kotlin · minSdk 26" },
+    { "id": "worker", "type": "frontend", "label": "AlertWorker", "sublabel": "WorkManager · 24h→6h→3h", "pos": [290, 360], "size": [160, 64], "tag": "sin token" },
+    { "id": "cache", "type": "database", "label": "AlertCache", "sublabel": "SharedPreferences", "pos": [290, 500], "size": [160, 64] },
+    { "id": "fcm", "type": "cloud", "label": "Push FCM", "sublabel": "PLANEADO · no existe hoy", "pos": [290, 40], "size": [160, 64] },
+
+    { "id": "auth", "type": "backend", "label": "AuthController", "sublabel": "Emite JWT", "pos": [580, 40], "size": [140, 64] },
+    { "id": "throttle", "type": "security", "label": "LoginThrottle", "sublabel": "5 fallos → bloqueo 15 min", "pos": [830, 40], "size": [150, 64] },
+    { "id": "sec", "type": "security", "label": "Spring Security", "sublabel": "JWT HS256 · 15 min", "pos": [580, 200], "size": [140, 64] },
+    { "id": "me", "type": "backend", "label": "MeController", "sublabel": "/api/v1/me", "pos": [830, 200], "size": [140, 64] },
+    { "id": "seed", "type": "database", "label": "SeedCreditData", "sublabel": "20 clientes ficticios", "pos": [1070, 200], "size": [150, 64] },
+    { "id": "att", "type": "database", "label": "AttachmentStore", "sublabel": "Valida bytes · sin EXIF · 5 MB", "pos": [740, 360], "size": [140, 64] },
+    { "id": "ext", "type": "database", "label": "InMemoryExtensions", "sublabel": "Solicitudes en memoria", "pos": [920, 360], "size": [140, 64] },
+
+    { "id": "views", "type": "database", "label": "Vistas MySQL", "sublabel": "PLANEADO · db_packgps", "pos": [1320, 200], "size": [150, 64] },
+    { "id": "tables", "type": "database", "label": "Tablas propias", "sublabel": "PLANEADO · solicitudes", "pos": [1320, 360], "size": [150, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Dispositivo Android", "wraps": ["app", "worker", "cache"] },
+    { "kind": "region", "label": "Azure App Service Linux F1 · España Central · autogestion-api-jc", "wraps": ["auth", "throttle", "sec", "me", "seed", "att", "ext"] }
+  ],
+  "connections": [
+    { "id": "tenant-app", "from": "tenant", "to": "app", "label": "consulta", "variant": "emphasis" },
+    { "id": "app-sec", "from": "app", "to": "sec", "label": "HTTPS + Bearer", "variant": "emphasis" },
+    { "id": "app-auth", "from": "app", "to": "auth", "label": "login" },
+    { "id": "auth-throttle", "from": "auth", "to": "throttle", "label": "limita", "variant": "security" },
+    { "id": "sec-me", "from": "sec", "to": "me", "label": "autoriza", "variant": "security" },
+    { "id": "me-seed", "from": "me", "to": "seed", "label": "lee" },
+    { "id": "me-att", "from": "me", "to": "att", "label": "adjunto" },
+    { "id": "me-ext", "from": "me", "to": "ext", "label": "solicitud" },
+    { "id": "worker-cache", "from": "worker", "to": "cache", "label": "lee alertas" },
+    { "id": "worker-notif", "from": "worker", "to": "notif", "label": "notifica" },
+    { "id": "notif-tenant", "from": "notif", "to": "tenant", "label": "aviso" },
+    { "id": "fcm-app", "from": "fcm", "to": "app", "label": "push (planeado)", "variant": "dashed" },
+    { "id": "seed-views", "from": "seed", "to": "views", "label": "reemplazo", "variant": "dashed" },
+    { "id": "ext-tables", "from": "ext", "to": "tables", "label": "migrará", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Cliente Android", "items": ["Pantallas: Inicio, Saldo, Multas, Plazo, Km", "CreditRepository: RemoteCreditRepository (HTTP) o MockCreditRepository", "domain: AlertPolicy y MaintenancePlan"] },
+    { "dot": "emerald", "title": "API y despliegue", "items": ["Spring Boot 4.0.9, Java 17", "HTTPS obligatorio, TLS 1.2", "API_JWT_SECRET fuera del repositorio"] },
+    { "dot": "amber", "title": "Planeado (no existe hoy)", "items": ["Vistas de solo lectura sobre la BD MySQL de la empresa", "Tabla propia de solicitudes y credenciales", "Push FCM; hoy solo alertas locales con WorkManager"] }
+  ]
+}

@@ -10,7 +10,7 @@ API REST (Spring Boot 4.0.9, Java 17) para la app móvil de `Proyecto-Autogestio
 export JAVA_HOME="$HOME/Java/jdk-17.0.20.1+1"
 export API_JWT_SECRET="una-clave-de-minimo-32-caracteres"   # obligatoria; sin ella no arranca
 ./mvnw spring-boot:run          # http://localhost:8080
-./mvnw test                     # 17 pruebas
+./mvnw test                     # 18 pruebas
 ```
 
 Clientes de demostración (perfil `seed`): cédulas `1000000001` a `1000000020`, todas con la clave `demo1234`.
@@ -37,6 +37,7 @@ Todo exige `Authorization: Bearer <token>` salvo el login. La cédula sale **sie
 | `GET /api/v1/me/payments` | Historial de abonos |
 | `GET /api/v1/me/fines` | Multas (`reason` es un código; la app lo traduce) |
 | `GET /api/v1/me/km-history` | Historial de kilometraje |
+| `GET /api/v1/me/extension-requests` | Historial de solicitudes del usuario, la más reciente primero (`status`: `PENDING_REVIEW`, `APPROVED` o `REJECTED`) |
 | `POST /api/v1/me/extension-requests` | `{dueDate, newDate?, excuse}` → 201. Motivo de 10 a 500 caracteres; `newDate` posterior a `dueDate` |
 | `POST /api/v1/me/extension-requests/{id}/attachment` | Multipart `file`: JPEG o PNG, máx. 5 MB |
 

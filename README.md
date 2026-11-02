@@ -7,6 +7,12 @@ Laboratorios del curso **Computación Móvil** — Universidad de Antioquia, sem
 | Lab 1 — Interfaz Gráfica de Usuario | [`Lab1-UI/`](Lab1-UI/) | App Android en Jetpack Compose para ingresar y mostrar los datos de un contacto. |
 | Proyecto de aula — Autogestión de crédito | [`Proyecto-Autogestion/`](Proyecto-Autogestion/) | App Android (Compose) para arrendatarios de Motos del Caribe: saldo, multas, plazo y excusas, kilometraje y alertas de pago. |
 
+### Documentación del proyecto de aula
+
+- **Arquitectura (diagrama interactivo):** [verla en línea](https://htmlpreview.github.io/?https://github.com/Xion07/LabsCM20262-Gr04/blob/main/docs/arquitectura/index.html) · archivo en [`docs/arquitectura/`](docs/arquitectura/)
+- **Modelo entidad-relación:** [`docs/modelo-entidad-relacion.md`](docs/modelo-entidad-relacion.md)
+- **API desplegada (demo):** https://autogestion-api-jc.azurewebsites.net · detalles en [`Proyecto-Autogestion-API/`](Proyecto-Autogestion-API/)
+
 - **Repositorio:** https://github.com/Xion07/LabsCM20262-Gr04
 - **Integrantes:** ver [`INTEGRANTES.md`](INTEGRANTES.md)
 
