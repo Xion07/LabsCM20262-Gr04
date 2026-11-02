@@ -17,7 +17,7 @@
         },
         {
           "daysAgo": 14,
-          "amount": 180000
+          "amount": 140000
         },
         {
           "daysAgo": 21,
@@ -25,7 +25,7 @@
         },
         {
           "daysAgo": 30,
-          "amount": 180000
+          "amount": 220000
         }
       ],
       "fines": [
@@ -80,15 +80,15 @@
       "payments": [
         {
           "daysAgo": 8,
-          "amount": 250000
+          "amount": 150000
         },
         {
           "daysAgo": 15,
-          "amount": 250000
+          "amount": 150000
         },
         {
           "daysAgo": 23,
-          "amount": 250000
+          "amount": 380000
         },
         {
           "daysAgo": 30,
@@ -147,7 +147,7 @@
       "payments": [
         {
           "daysAgo": 9,
-          "amount": 280000
+          "amount": 170000
         },
         {
           "daysAgo": 16,
@@ -159,7 +159,7 @@
         },
         {
           "daysAgo": 28,
-          "amount": 280000
+          "amount": 170000
         }
       ],
       "fines": [
@@ -212,15 +212,15 @@
         },
         {
           "daysAgo": 16,
-          "amount": 210000
+          "amount": 170000
         },
         {
           "daysAgo": 23,
-          "amount": 210000
+          "amount": 130000
         },
         {
           "daysAgo": 28,
-          "amount": 210000
+          "amount": 130000
         }
       ],
       "fines": [
@@ -283,11 +283,11 @@
         },
         {
           "daysAgo": 22,
-          "amount": 350000
+          "amount": 210000
         },
         {
           "daysAgo": 29,
-          "amount": 350000
+          "amount": 280000
         }
       ],
       "fines": [],
@@ -323,7 +323,7 @@
       "payments": [
         {
           "daysAgo": 8,
-          "amount": 250000
+          "amount": 150000
         },
         {
           "daysAgo": 16,
@@ -335,7 +335,7 @@
         },
         {
           "daysAgo": 29,
-          "amount": 250000
+          "amount": 150000
         }
       ],
       "fines": [
@@ -390,7 +390,7 @@
       "payments": [
         {
           "daysAgo": 9,
-          "amount": 250000
+          "amount": 380000
         },
         {
           "daysAgo": 15,
@@ -398,11 +398,11 @@
         },
         {
           "daysAgo": 21,
-          "amount": 250000
+          "amount": 150000
         },
         {
           "daysAgo": 29,
-          "amount": 250000
+          "amount": 200000
         }
       ],
       "fines": [
@@ -445,11 +445,11 @@
       "payments": [
         {
           "daysAgo": 8,
-          "amount": 310000
+          "amount": 370000
         },
         {
           "daysAgo": 14,
-          "amount": 310000
+          "amount": 370000
         },
         {
           "daysAgo": 21,
@@ -457,7 +457,7 @@
         },
         {
           "daysAgo": 29,
-          "amount": 310000
+          "amount": 190000
         }
       ],
       "fines": [
@@ -524,7 +524,7 @@
         },
         {
           "daysAgo": 29,
-          "amount": 350000
+          "amount": 210000
         }
       ],
       "fines": [
@@ -573,11 +573,11 @@
       "payments": [
         {
           "daysAgo": 8,
-          "amount": 310000
+          "amount": 250000
         },
         {
           "daysAgo": 15,
-          "amount": 310000
+          "amount": 190000
         },
         {
           "daysAgo": 21,
@@ -585,7 +585,7 @@
         },
         {
           "daysAgo": 29,
-          "amount": 310000
+          "amount": 460000
         }
       ],
       "fines": [],
@@ -621,7 +621,7 @@
       "payments": [
         {
           "daysAgo": 7,
-          "amount": 280000
+          "amount": 220000
         },
         {
           "daysAgo": 16,
@@ -633,7 +633,7 @@
         },
         {
           "daysAgo": 28,
-          "amount": 280000
+          "amount": 220000
         }
       ],
       "fines": [
@@ -680,7 +680,7 @@
         },
         {
           "daysAgo": 14,
-          "amount": 210000
+          "amount": 130000
         },
         {
           "daysAgo": 21,
@@ -735,15 +735,15 @@
         },
         {
           "daysAgo": 15,
-          "amount": 280000
+          "amount": 420000
         },
         {
           "daysAgo": 22,
-          "amount": 280000
+          "amount": 340000
         },
         {
           "daysAgo": 28,
-          "amount": 280000
+          "amount": 220000
         }
       ],
       "fines": [
@@ -798,7 +798,7 @@
       "payments": [
         {
           "daysAgo": 9,
-          "amount": 180000
+          "amount": 110000
         },
         {
           "daysAgo": 16,
@@ -810,7 +810,7 @@
         },
         {
           "daysAgo": 28,
-          "amount": 180000
+          "amount": 220000
         }
       ],
       "fines": [
@@ -853,7 +853,7 @@
       "payments": [
         {
           "daysAgo": 7,
-          "amount": 180000
+          "amount": 140000
         },
         {
           "daysAgo": 14,
@@ -861,7 +861,7 @@
         },
         {
           "daysAgo": 23,
-          "amount": 180000
+          "amount": 110000
         },
         {
           "daysAgo": 28,
@@ -901,11 +901,11 @@
       "payments": [
         {
           "daysAgo": 7,
-          "amount": 250000
+          "amount": 300000
         },
         {
           "daysAgo": 14,
-          "amount": 250000
+          "amount": 150000
         },
         {
           "daysAgo": 22,
@@ -913,7 +913,7 @@
         },
         {
           "daysAgo": 29,
-          "amount": 250000
+          "amount": 150000
         }
       ],
       "fines": [
@@ -966,7 +966,7 @@
         },
         {
           "daysAgo": 15,
-          "amount": 350000
+          "amount": 280000
         },
         {
           "daysAgo": 23,
@@ -974,7 +974,7 @@
         },
         {
           "daysAgo": 28,
-          "amount": 350000
+          "amount": 420000
         }
       ],
       "fines": [
@@ -1075,7 +1075,7 @@
         },
         {
           "daysAgo": 23,
-          "amount": 180000
+          "amount": 270000
         },
         {
           "daysAgo": 30,
