@@ -19,10 +19,27 @@ LAST = ["Restrepo", "Pérez", "Gómez", "Herrera", "Martínez", "Torres", "Ruiz"
         "Álvarez", "Díaz", "Vargas", "Rojas", "Cabrera", "Jiménez", "Salcedo", "Meza", "Barrios", "Polo"]
 LETTERS = "ABCDEFGHJKLMNPRSTUVWXYZ"
 
-# (dueInDays, descripcion). Negativo = dias de mora. Cuotas semanales: el desfase va de -6 a 7.
+# dueInDays: dias hasta la proxima cuota (negativo = dias de mora). Cuotas semanales.
 DUE = [5, -3, 0, 1, 2, -10, -1, 3, 7, 4, 6, -6, 2, 5, 1, 7, 3, -2, 4, 6]
 NO_FINES = {4, 9, 14}       # clientes sin multas (estado vacio)
-NO_PAYMENTS = {17}          # cliente nuevo sin abonos (estado vacio)
+NO_PAYMENTS = {17}          # cliente nuevo: aun no ha pagado ninguna cuota (estado vacio)
+
+# Perfil de pago de cada cliente (indice 0 = cedula ...001).
+#   puntual: paga cada semana, a veces antes del dia.
+#   ocasional: casi siempre puntual, con algun atraso de 2 a 3 dias.
+#   irregular: se salta semanas, paga parcial y luego se pone al dia.
+PROFILE = {}
+for i in (0, 2, 3, 7, 9, 13, 15, 18):
+    PROFILE[i] = "puntual"
+for i in (4, 8, 10, 14, 16, 19):
+    PROFILE[i] = "ocasional"
+for i in (1, 5, 6, 11, 12):
+    PROFILE[i] = "irregular"
+PROFILE[17] = "nuevo"
+
+# plazo en semanas -> rango del valor total del contrato (moto + intereses), en COP
+TOTALS = {52: (6_500_000, 9_000_000), 78: (8_500_000, 11_500_000), 104: (10_000_000, 12_500_000)}
+MAX_HISTORY = 12                                                        # abonos mas recientes que se guardan
 
 
 def plate():
@@ -40,27 +57,67 @@ def history(km_total):
     return readings
 
 
+def payment_history(profile, installment, due, weeks_paid):
+    """Abonos semanales recientes (mas nuevo primero) y las cuotas que llegaron tarde.
+
+    La cuota k vencio hace (7k - due) dias. Se paga ese dia, antes o, si hay atraso, despues.
+    Devuelve (abonos, cuotas_tardias) donde cada tardia es (k, numero_de_cuota).
+    """
+    payments, late = [], []
+    carry = 0  # lo que quedo debiendo de semanas saltadas, se paga junto con la siguiente cuota
+    for k in range(1, min(MAX_HISTORY, weeks_paid) + 1):
+        due_ago = 7 * k - due
+        amount = installment + carry
+        delay = 0
+        if profile == "puntual":
+            delay = -pay_rng.choice([0, 0, 0, 1, 2])           # a tiempo o 1-2 dias antes
+        elif profile == "ocasional":
+            if pay_rng.random() < 0.15:
+                delay = pay_rng.randint(2, 3)
+            else:
+                delay = -pay_rng.choice([0, 0, 1])
+        elif profile == "irregular":
+            r = pay_rng.random()
+            if r < 0.2:                                        # se salta la semana
+                carry += installment
+                late.append((k, weeks_paid - k + 1))
+                continue
+            if r < 0.45:                                       # abono parcial
+                amount = int(round(installment * pay_rng.choice([0.5, 0.7]), -4)) + carry
+                late.append((k, weeks_paid - k + 1))
+            else:
+                delay = pay_rng.randint(1, 4)
+                late.append((k, weeks_paid - k + 1))
+        carry = 0
+        if delay > 1 and profile != "irregular":
+            late.append((k, weeks_paid - k + 1))
+        payments.append({"daysAgo": max(1, due_ago - delay), "amount": amount})
+    return payments, late
+
+
 clients = []
 for i in range(20):
-    installment = rng.choice([180_000, 210_000, 250_000, 280_000, 310_000, 350_000])
-    weeks_total = rng.choice([78, 104, 130])
-    weeks_paid = rng.randint(6, weeks_total - 10)
+    profile = PROFILE[i]
+    weeks_total = rng.choice(list(TOTALS))
+    low, high = TOTALS[weeks_total]
+    installment = int(round(rng.uniform(low, high) / weeks_total, -4))   # cuota semanal, multiplo de 10.000
+    weeks_paid = rng.randint(8, weeks_total - 10)
+    if i == 0:                                   # usuario de demostracion de siempre
+        installment, weeks_total, weeks_paid = 150_000, 78, 30
+    if profile == "nuevo":
+        weeks_paid = 0
     total = installment * weeks_total
     balance = installment * (weeks_total - weeks_paid)
-    days_since_start = weeks_paid * 7
-    km_total = int(days_since_start * rng.uniform(88, 110))
+    km_total = int(max(1, weeks_paid) * 7 * rng.uniform(88, 110))
 
-    payments = [] if i in NO_PAYMENTS else [
-        {"daysAgo": 7 * k + rng.randint(0, 2),
-         "amount": int(round(installment * pay_rng.choice([0.6, 0.8, 1, 1, 1, 1.2, 1.5]), -4))}
-        for k in range(1, 5)
+    if profile == "nuevo":
+        payments, late = [], []
+    else:
+        payments, late = payment_history(profile, installment, DUE[i], weeks_paid)
+    fines = [] if (i in NO_FINES or profile in ("puntual", "nuevo")) else [
+        {"monthsAgo": max(1, k // 4), "amount": 25_000, "reason": "LATE_PAYMENT", "installment": n}
+        for k, n in late[:3]
     ]
-    fines = [] if i in NO_FINES else [
-        {"monthsAgo": rng.randint(1, 6), "amount": 25_000, "reason": "LATE_PAYMENT",
-         "installment": rng.randint(3, max(4, weeks_paid))}
-        for _ in range(rng.randint(1, 3))
-    ]
-    km_history = history(km_total)
 
     clients.append({
         "document": f"{1_000_000_001 + i}",
@@ -74,13 +131,10 @@ for i in range(20):
         "kmTraveled": km_total,
         "payments": payments,
         "fines": fines,
-        "kmHistory": km_history,
+        "kmHistory": history(km_total),
     })
 
-# El primero es el usuario de demostracion de siempre.
-clients[0].update({"holder": "Camilo Restrepo", "plate": "ABC12D", "totalValue": 6_800_000,
-                   "balance": 2_450_000, "installment": 350_000, "remainingMonths": 14, "kmTraveled": 2_870,
-                   "kmHistory": history(2_870)})
+clients[0].update({"holder": "Camilo Restrepo", "plate": "ABC12D"})
 
 out = Path(__file__).resolve().parent.parent / "src/main/resources/seed/clients.json"
 out.parent.mkdir(parents=True, exist_ok=True)

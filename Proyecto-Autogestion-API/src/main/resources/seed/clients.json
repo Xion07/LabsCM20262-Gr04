@@ -4,95 +4,128 @@
       "document": "1000000001",
       "holder": "Camilo Restrepo",
       "plate": "ABC12D",
-      "totalValue": 6800000,
-      "balance": 2450000,
-      "installment": 350000,
+      "totalValue": 11700000,
+      "balance": 7200000,
+      "installment": 150000,
       "dueInDays": 5,
-      "remainingMonths": 14,
-      "kmTraveled": 2870,
+      "remainingMonths": 11,
+      "kmTraveled": 21470,
       "payments": [
         {
+          "daysAgo": 2,
+          "amount": 150000
+        },
+        {
           "daysAgo": 9,
-          "amount": 180000
+          "amount": 150000
         },
         {
-          "daysAgo": 14,
-          "amount": 140000
+          "daysAgo": 17,
+          "amount": 150000
         },
         {
-          "daysAgo": 21,
-          "amount": 180000
+          "daysAgo": 23,
+          "amount": 150000
         },
         {
           "daysAgo": 30,
-          "amount": 220000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 56
+          "amount": 150000
         },
         {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 65
+          "daysAgo": 39,
+          "amount": 150000
         },
         {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 59
+          "daysAgo": 44,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 51,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 60,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 65,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 74,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 79,
+          "amount": 150000
         }
       ],
+      "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 0
+          "km": 18428
         },
         {
           "daysAgo": 20,
-          "km": 912
+          "km": 19493
         },
         {
           "daysAgo": 10,
-          "km": 1982
+          "km": 20498
         },
         {
           "daysAgo": 0,
-          "km": 2870
+          "km": 21470
         }
       ]
     },
     {
       "document": "1000000002",
       "holder": "Andrés Castro",
-      "plate": "VKA57M",
-      "totalValue": 19500000,
-      "balance": 11750000,
-      "installment": 250000,
+      "plate": "AWC24K",
+      "totalValue": 10920000,
+      "balance": 4620000,
+      "installment": 140000,
       "dueInDays": -3,
-      "remainingMonths": 11,
-      "kmTraveled": 20296,
+      "remainingMonths": 8,
+      "kmTraveled": 30776,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 150000
+          "daysAgo": 17,
+          "amount": 210000
         },
         {
-          "daysAgo": 15,
-          "amount": 150000
+          "daysAgo": 24,
+          "amount": 100000
         },
         {
-          "daysAgo": 23,
-          "amount": 380000
+          "daysAgo": 36,
+          "amount": 280000
         },
         {
-          "daysAgo": 30,
-          "amount": 250000
+          "daysAgo": 44,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 48,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 66,
+          "amount": 210000
+        },
+        {
+          "daysAgo": 73,
+          "amount": 70000
+        },
+        {
+          "daysAgo": 77,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 85,
+          "amount": 140000
         }
       ],
       "fines": [
@@ -100,309 +133,413 @@
           "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 26
+          "installment": 45
         },
         {
-          "monthsAgo": 3,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 5
+          "installment": 44
         },
         {
-          "monthsAgo": 5,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 20
+          "installment": 43
         }
       ],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 17300
+          "km": 27680
         },
         {
           "daysAgo": 20,
-          "km": 18372
+          "km": 28739
         },
         {
           "daysAgo": 10,
-          "km": 19352
+          "km": 29717
         },
         {
           "daysAgo": 0,
-          "km": 20296
+          "km": 30776
         }
       ]
     },
     {
       "document": "1000000003",
       "holder": "Luis Cabrera",
-      "plate": "STT13V",
-      "totalValue": 29120000,
-      "balance": 24360000,
-      "installment": 280000,
+      "plate": "MNT91C",
+      "totalValue": 10400000,
+      "balance": 4600000,
+      "installment": 100000,
       "dueInDays": 0,
-      "remainingMonths": 20,
-      "kmTraveled": 11515,
+      "remainingMonths": 11,
+      "kmTraveled": 37974,
       "payments": [
         {
-          "daysAgo": 9,
-          "amount": 170000
+          "daysAgo": 7,
+          "amount": 100000
         },
         {
           "daysAgo": 16,
-          "amount": 280000
+          "amount": 100000
         },
         {
-          "daysAgo": 22,
-          "amount": 280000
+          "daysAgo": 23,
+          "amount": 100000
         },
         {
           "daysAgo": 28,
-          "amount": 170000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 15
+          "amount": 100000
         },
         {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 17
+          "daysAgo": 35,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 42,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 51,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 56,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 65,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 70,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 79,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 84,
+          "amount": 100000
         }
       ],
+      "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 8510
+          "km": 35038
         },
         {
           "daysAgo": 20,
-          "km": 9446
+          "km": 36036
         },
         {
           "daysAgo": 10,
-          "km": 10527
+          "km": 36935
         },
         {
           "daysAgo": 0,
-          "km": 11515
+          "km": 37974
         }
       ]
     },
     {
       "document": "1000000004",
       "holder": "Jorge Pérez",
-      "plate": "ZUJ81N",
-      "totalValue": 16380000,
-      "balance": 4200000,
-      "installment": 210000,
+      "plate": "ZMM69P",
+      "totalValue": 8840000,
+      "balance": 4250000,
+      "installment": 170000,
       "dueInDays": 1,
-      "remainingMonths": 5,
-      "kmTraveled": 36164,
+      "remainingMonths": 6,
+      "kmTraveled": 16734,
       "payments": [
         {
-          "daysAgo": 9,
-          "amount": 210000
-        },
-        {
-          "daysAgo": 16,
+          "daysAgo": 7,
           "amount": 170000
         },
         {
-          "daysAgo": 23,
-          "amount": 130000
+          "daysAgo": 15,
+          "amount": 170000
         },
         {
-          "daysAgo": 28,
-          "amount": 130000
+          "daysAgo": 21,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 27,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 35,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 43,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 49,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 55,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 62,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 69,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 76,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 83,
+          "amount": 170000
         }
       ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 30
-        },
-        {
-          "monthsAgo": 4,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 12
-        },
-        {
-          "monthsAgo": 4,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 17
-        }
-      ],
+      "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 33158
+          "km": 13758
         },
         {
           "daysAgo": 20,
-          "km": 34192
+          "km": 14759
         },
         {
           "daysAgo": 10,
-          "km": 35098
+          "km": 15835
         },
         {
           "daysAgo": 0,
-          "km": 36164
+          "km": 16734
         }
       ]
     },
     {
       "document": "1000000005",
       "holder": "Yeison Mendoza",
-      "plate": "XWR76S",
-      "totalValue": 36400000,
-      "balance": 9800000,
-      "installment": 350000,
+      "plate": "SNT43P",
+      "totalValue": 10140000,
+      "balance": 2860000,
+      "installment": 130000,
       "dueInDays": 2,
-      "remainingMonths": 7,
-      "kmTraveled": 56176,
+      "remainingMonths": 5,
+      "kmTraveled": 41970,
       "payments": [
         {
-          "daysAgo": 9,
-          "amount": 350000
+          "daysAgo": 2,
+          "amount": 130000
         },
         {
-          "daysAgo": 16,
-          "amount": 350000
+          "daysAgo": 12,
+          "amount": 130000
         },
         {
-          "daysAgo": 22,
-          "amount": 210000
+          "daysAgo": 19,
+          "amount": 130000
         },
         {
-          "daysAgo": 29,
-          "amount": 280000
+          "daysAgo": 26,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 30,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 40,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 47,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 55,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 58,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 76,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 82,
+          "amount": 130000
         }
       ],
       "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 53318
+          "km": 38878
         },
         {
           "daysAgo": 20,
-          "km": 54257
+          "km": 39870
         },
         {
           "daysAgo": 10,
-          "km": 55201
+          "km": 40966
         },
         {
           "daysAgo": 0,
-          "km": 56176
+          "km": 41970
         }
       ]
     },
     {
       "document": "1000000006",
       "holder": "Kevin Jiménez",
-      "plate": "FPS18X",
-      "totalValue": 19500000,
-      "balance": 14000000,
-      "installment": 250000,
+      "plate": "ZTY23Z",
+      "totalValue": 10400000,
+      "balance": 8000000,
+      "installment": 100000,
       "dueInDays": -10,
-      "remainingMonths": 13,
-      "kmTraveled": 15898,
+      "remainingMonths": 19,
+      "kmTraveled": 17807,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 150000
+          "daysAgo": 14,
+          "amount": 100000
         },
         {
-          "daysAgo": 16,
-          "amount": 250000
+          "daysAgo": 23,
+          "amount": 100000
         },
         {
-          "daysAgo": 22,
-          "amount": 250000
+          "daysAgo": 34,
+          "amount": 200000
         },
         {
-          "daysAgo": 29,
-          "amount": 150000
+          "daysAgo": 45,
+          "amount": 70000
+        },
+        {
+          "daysAgo": 49,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 64,
+          "amount": 200000
+        },
+        {
+          "daysAgo": 69,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 85,
+          "amount": 200000
+        },
+        {
+          "daysAgo": 90,
+          "amount": 100000
         }
       ],
       "fines": [
         {
-          "monthsAgo": 6,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 4
+          "installment": 24
         },
         {
-          "monthsAgo": 3,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 13
+          "installment": 23
         },
         {
-          "monthsAgo": 4,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 6
+          "installment": 22
         }
       ],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 12794
+          "km": 14822
         },
         {
           "daysAgo": 20,
-          "km": 13885
+          "km": 15808
         },
         {
           "daysAgo": 10,
-          "km": 14922
+          "km": 16791
         },
         {
           "daysAgo": 0,
-          "km": 15898
+          "km": 17807
         }
       ]
     },
     {
       "document": "1000000007",
       "holder": "Brayan Gómez",
-      "plate": "GHD89B",
-      "totalValue": 26000000,
-      "balance": 12750000,
-      "installment": 250000,
+      "plate": "ZUJ81N",
+      "totalValue": 8320000,
+      "balance": 2400000,
+      "installment": 160000,
       "dueInDays": -1,
-      "remainingMonths": 12,
-      "kmTraveled": 33436,
+      "remainingMonths": 3,
+      "kmTraveled": 26634,
       "payments": [
         {
-          "daysAgo": 9,
-          "amount": 380000
+          "daysAgo": 8,
+          "amount": 110000
         },
         {
-          "daysAgo": 15,
-          "amount": 250000
+          "daysAgo": 22,
+          "amount": 270000
         },
         {
-          "daysAgo": 21,
-          "amount": 150000
+          "daysAgo": 25,
+          "amount": 160000
         },
         {
-          "daysAgo": 29,
-          "amount": 200000
+          "daysAgo": 33,
+          "amount": 160000
+        },
+        {
+          "daysAgo": 40,
+          "amount": 160000
+        },
+        {
+          "daysAgo": 46,
+          "amount": 160000
+        },
+        {
+          "daysAgo": 55,
+          "amount": 160000
+        },
+        {
+          "daysAgo": 77,
+          "amount": 480000
+        },
+        {
+          "daysAgo": 83,
+          "amount": 160000
         }
       ],
       "fines": [
@@ -410,521 +547,195 @@
           "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 3
+          "installment": 37
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 36
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 35
         }
       ],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 30394
+          "km": 23605
         },
         {
           "daysAgo": 20,
-          "km": 31457
+          "km": 24660
         },
         {
           "daysAgo": 10,
-          "km": 32457
+          "km": 25607
         },
         {
           "daysAgo": 0,
-          "km": 33436
+          "km": 26634
         }
       ]
     },
     {
       "document": "1000000008",
       "holder": "Duván Ortega",
-      "plate": "ZTK20P",
-      "totalValue": 32240000,
-      "balance": 4030000,
-      "installment": 310000,
+      "plate": "KJA14E",
+      "totalValue": 10920000,
+      "balance": 6300000,
+      "installment": 140000,
       "dueInDays": 3,
-      "remainingMonths": 3,
-      "kmTraveled": 66673,
+      "remainingMonths": 10,
+      "kmTraveled": 22528,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 370000
+          "daysAgo": 4,
+          "amount": 140000
         },
         {
-          "daysAgo": 14,
-          "amount": 370000
+          "daysAgo": 11,
+          "amount": 140000
         },
         {
-          "daysAgo": 21,
-          "amount": 310000
+          "daysAgo": 18,
+          "amount": 140000
         },
         {
-          "daysAgo": 29,
-          "amount": 190000
+          "daysAgo": 25,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 33,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 41,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 46,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 55,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 62,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 67,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 74,
+          "amount": 140000
+        },
+        {
+          "daysAgo": 83,
+          "amount": 140000
         }
       ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 76
-        },
-        {
-          "monthsAgo": 4,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 91
-        },
-        {
-          "monthsAgo": 6,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 20
-        }
-      ],
+      "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 63781
+          "km": 19513
         },
         {
           "daysAgo": 20,
-          "km": 64689
+          "km": 20493
         },
         {
           "daysAgo": 10,
-          "km": 65673
+          "km": 21504
         },
         {
           "daysAgo": 0,
-          "km": 66673
+          "km": 22528
         }
       ]
     },
     {
       "document": "1000000009",
       "holder": "Edwin Salcedo",
-      "plate": "MXM13A",
-      "totalValue": 27300000,
-      "balance": 4550000,
-      "installment": 350000,
+      "plate": "SRT73P",
+      "totalValue": 9360000,
+      "balance": 6960000,
+      "installment": 120000,
       "dueInDays": 7,
-      "remainingMonths": 3,
-      "kmTraveled": 41394,
-      "payments": [
-        {
-          "daysAgo": 9,
-          "amount": 350000
-        },
-        {
-          "daysAgo": 15,
-          "amount": 350000
-        },
-        {
-          "daysAgo": 23,
-          "amount": 350000
-        },
-        {
-          "daysAgo": 29,
-          "amount": 210000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 2,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 36
-        },
-        {
-          "monthsAgo": 2,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 27
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 38533
-        },
-        {
-          "daysAgo": 20,
-          "km": 39608
-        },
-        {
-          "daysAgo": 10,
-          "km": 40511
-        },
-        {
-          "daysAgo": 0,
-          "km": 41394
-        }
-      ]
-    },
-    {
-      "document": "1000000010",
-      "holder": "Fabián Herrera",
-      "plate": "TGP89L",
-      "totalValue": 32240000,
-      "balance": 17670000,
-      "installment": 310000,
-      "dueInDays": 4,
       "remainingMonths": 13,
-      "kmTraveled": 33894,
+      "kmTraveled": 13121,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 250000
+          "daysAgo": 1,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 7,
+          "amount": 120000
         },
         {
           "daysAgo": 15,
-          "amount": 190000
+          "amount": 120000
         },
         {
           "daysAgo": 21,
-          "amount": 310000
-        },
-        {
-          "daysAgo": 29,
-          "amount": 460000
-        }
-      ],
-      "fines": [],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 30744
-        },
-        {
-          "daysAgo": 20,
-          "km": 31801
-        },
-        {
-          "daysAgo": 10,
-          "km": 32806
-        },
-        {
-          "daysAgo": 0,
-          "km": 33894
-        }
-      ]
-    },
-    {
-      "document": "1000000011",
-      "holder": "Wilmer Álvarez",
-      "plate": "XGS96A",
-      "totalValue": 36400000,
-      "balance": 26600000,
-      "installment": 280000,
-      "dueInDays": 6,
-      "remainingMonths": 22,
-      "kmTraveled": 25217,
-      "payments": [
-        {
-          "daysAgo": 7,
-          "amount": 220000
-        },
-        {
-          "daysAgo": 16,
-          "amount": 280000
-        },
-        {
-          "daysAgo": 22,
-          "amount": 280000
+          "amount": 120000
         },
         {
           "daysAgo": 28,
-          "amount": 220000
+          "amount": 120000
+        },
+        {
+          "daysAgo": 32,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 40,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 49,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 56,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 63,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 77,
+          "amount": 120000
         }
       ],
       "fines": [
         {
-          "monthsAgo": 6,
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 15
+        },
+        {
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
           "installment": 14
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 22265
         },
         {
-          "daysAgo": 20,
-          "km": 23329
-        },
-        {
-          "daysAgo": 10,
-          "km": 24328
-        },
-        {
-          "daysAgo": 0,
-          "km": 25217
-        }
-      ]
-    },
-    {
-      "document": "1000000012",
-      "holder": "Jhon Meza",
-      "plate": "MFJ69S",
-      "totalValue": 27300000,
-      "balance": 11970000,
-      "installment": 210000,
-      "dueInDays": -6,
-      "remainingMonths": 13,
-      "kmTraveled": 47426,
-      "payments": [
-        {
-          "daysAgo": 9,
-          "amount": 210000
-        },
-        {
-          "daysAgo": 14,
-          "amount": 130000
-        },
-        {
-          "daysAgo": 21,
-          "amount": 210000
-        },
-        {
-          "daysAgo": 30,
-          "amount": 210000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 4,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 37
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 44585
-        },
-        {
-          "daysAgo": 20,
-          "km": 45482
-        },
-        {
-          "daysAgo": 10,
-          "km": 46453
-        },
-        {
-          "daysAgo": 0,
-          "km": 47426
-        }
-      ]
-    },
-    {
-      "document": "1000000013",
-      "holder": "Héctor Martínez",
-      "plate": "LPU95F",
-      "totalValue": 29120000,
-      "balance": 10920000,
-      "installment": 280000,
-      "dueInDays": 2,
-      "remainingMonths": 9,
-      "kmTraveled": 41811,
-      "payments": [
-        {
-          "daysAgo": 9,
-          "amount": 280000
-        },
-        {
-          "daysAgo": 15,
-          "amount": 420000
-        },
-        {
-          "daysAgo": 22,
-          "amount": 340000
-        },
-        {
-          "daysAgo": 28,
-          "amount": 220000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 53
-        },
-        {
-          "monthsAgo": 3,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 55
-        },
-        {
-          "monthsAgo": 1,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 57
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 39103
-        },
-        {
-          "daysAgo": 20,
-          "km": 40003
-        },
-        {
-          "daysAgo": 10,
-          "km": 40884
-        },
-        {
-          "daysAgo": 0,
-          "km": 41811
-        }
-      ]
-    },
-    {
-      "document": "1000000014",
-      "holder": "Ricardo Díaz",
-      "plate": "VJY81E",
-      "totalValue": 18720000,
-      "balance": 14040000,
-      "installment": 180000,
-      "dueInDays": 5,
-      "remainingMonths": 18,
-      "kmTraveled": 17424,
-      "payments": [
-        {
-          "daysAgo": 9,
-          "amount": 110000
-        },
-        {
-          "daysAgo": 16,
-          "amount": 180000
-        },
-        {
-          "daysAgo": 23,
-          "amount": 180000
-        },
-        {
-          "daysAgo": 28,
-          "amount": 220000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 25
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 14398
-        },
-        {
-          "daysAgo": 20,
-          "km": 15438
-        },
-        {
-          "daysAgo": 10,
-          "km": 16483
-        },
-        {
-          "daysAgo": 0,
-          "km": 17424
-        }
-      ]
-    },
-    {
-      "document": "1000000015",
-      "holder": "Sebastián Barrios",
-      "plate": "TLJ85C",
-      "totalValue": 18720000,
-      "balance": 15480000,
-      "installment": 180000,
-      "dueInDays": 1,
-      "remainingMonths": 20,
-      "kmTraveled": 13734,
-      "payments": [
-        {
-          "daysAgo": 7,
-          "amount": 140000
-        },
-        {
-          "daysAgo": 14,
-          "amount": 180000
-        },
-        {
-          "daysAgo": 23,
-          "amount": 110000
-        },
-        {
-          "daysAgo": 28,
-          "amount": 180000
-        }
-      ],
-      "fines": [],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 10729
-        },
-        {
-          "daysAgo": 20,
-          "km": 11649
-        },
-        {
-          "daysAgo": 10,
-          "km": 12687
-        },
-        {
-          "daysAgo": 0,
-          "km": 13734
-        }
-      ]
-    },
-    {
-      "document": "1000000016",
-      "holder": "Óscar Torres",
-      "plate": "MLR87X",
-      "totalValue": 26000000,
-      "balance": 19500000,
-      "installment": 250000,
-      "dueInDays": 7,
-      "remainingMonths": 18,
-      "kmTraveled": 17060,
-      "payments": [
-        {
-          "daysAgo": 7,
-          "amount": 300000
-        },
-        {
-          "daysAgo": 14,
-          "amount": 150000
-        },
-        {
-          "daysAgo": 22,
-          "amount": 250000
-        },
-        {
-          "daysAgo": 29,
-          "amount": 150000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 1,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 4
-        },
-        {
-          "monthsAgo": 1,
+          "monthsAgo": 2,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
           "installment": 10
@@ -933,240 +744,899 @@
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 14238
+          "km": 9978
         },
         {
           "daysAgo": 20,
-          "km": 15268
+          "km": 11040
         },
         {
           "daysAgo": 10,
-          "km": 16175
+          "km": 12119
         },
         {
           "daysAgo": 0,
-          "km": 17060
+          "km": 13121
+        }
+      ]
+    },
+    {
+      "document": "1000000010",
+      "holder": "Fabián Herrera",
+      "plate": "FPS18X",
+      "totalValue": 7800000,
+      "balance": 1800000,
+      "installment": 150000,
+      "dueInDays": 4,
+      "remainingMonths": 3,
+      "kmTraveled": 26234,
+      "payments": [
+        {
+          "daysAgo": 5,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 10,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 17,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 24,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 33,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 39,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 45,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 52,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 59,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 73,
+          "amount": 150000
+        },
+        {
+          "daysAgo": 81,
+          "amount": 150000
+        }
+      ],
+      "fines": [],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 23406
+        },
+        {
+          "daysAgo": 20,
+          "km": 24307
+        },
+        {
+          "daysAgo": 10,
+          "km": 25296
+        },
+        {
+          "daysAgo": 0,
+          "km": 26234
+        }
+      ]
+    },
+    {
+      "document": "1000000011",
+      "holder": "Wilmer Álvarez",
+      "plate": "ARV79C",
+      "totalValue": 8580000,
+      "balance": 1320000,
+      "installment": 110000,
+      "dueInDays": 6,
+      "remainingMonths": 3,
+      "kmTraveled": 40798,
+      "payments": [
+        {
+          "daysAgo": 1,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 8,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 15,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 20,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 30,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 37,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 43,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 51,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 58,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 64,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 71,
+          "amount": 110000
+        },
+        {
+          "daysAgo": 78,
+          "amount": 110000
+        }
+      ],
+      "fines": [
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 66
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 63
+        }
+      ],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 37955
+        },
+        {
+          "daysAgo": 20,
+          "km": 38861
+        },
+        {
+          "daysAgo": 10,
+          "km": 39784
+        },
+        {
+          "daysAgo": 0,
+          "km": 40798
+        }
+      ]
+    },
+    {
+      "document": "1000000012",
+      "holder": "Jhon Meza",
+      "plate": "MEA50Y",
+      "totalValue": 12480000,
+      "balance": 1320000,
+      "installment": 120000,
+      "dueInDays": -6,
+      "remainingMonths": 3,
+      "kmTraveled": 68139,
+      "payments": [
+        {
+          "daysAgo": 10,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 18,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 27,
+          "amount": 60000
+        },
+        {
+          "daysAgo": 31,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 39,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 44,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 53,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 240000
+        },
+        {
+          "daysAgo": 73,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 81,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 87,
+          "amount": 120000
+        }
+      ],
+      "fines": [
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 93
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 92
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 91
+        }
+      ],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 64994
+        },
+        {
+          "daysAgo": 20,
+          "km": 66082
+        },
+        {
+          "daysAgo": 10,
+          "km": 67131
+        },
+        {
+          "daysAgo": 0,
+          "km": 68139
+        }
+      ]
+    },
+    {
+      "document": "1000000013",
+      "holder": "Héctor Martínez",
+      "plate": "VEW98T",
+      "totalValue": 12480000,
+      "balance": 3240000,
+      "installment": 120000,
+      "dueInDays": 2,
+      "remainingMonths": 6,
+      "kmTraveled": 50075,
+      "payments": [
+        {
+          "daysAgo": 5,
+          "amount": 80000
+        },
+        {
+          "daysAgo": 9,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 30,
+          "amount": 360000
+        },
+        {
+          "daysAgo": 40,
+          "amount": 60000
+        },
+        {
+          "daysAgo": 44,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 53,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 60,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 66,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 73,
+          "amount": 120000
+        },
+        {
+          "daysAgo": 82,
+          "amount": 80000
+        }
+      ],
+      "fines": [
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 77
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 76
+        },
+        {
+          "monthsAgo": 1,
+          "amount": 25000,
+          "reason": "LATE_PAYMENT",
+          "installment": 75
+        }
+      ],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 47246
+        },
+        {
+          "daysAgo": 20,
+          "km": 48161
+        },
+        {
+          "daysAgo": 10,
+          "km": 49132
+        },
+        {
+          "daysAgo": 0,
+          "km": 50075
+        }
+      ]
+    },
+    {
+      "document": "1000000014",
+      "holder": "Ricardo Díaz",
+      "plate": "ETG58A",
+      "totalValue": 10400000,
+      "balance": 4400000,
+      "installment": 100000,
+      "dueInDays": 5,
+      "remainingMonths": 10,
+      "kmTraveled": 40567,
+      "payments": [
+        {
+          "daysAgo": 2,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 10,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 17,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 24,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 30,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 37,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 44,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 51,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 58,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 65,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 74,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 80,
+          "amount": 100000
+        }
+      ],
+      "fines": [],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 37616
+        },
+        {
+          "daysAgo": 20,
+          "km": 38512
+        },
+        {
+          "daysAgo": 10,
+          "km": 39477
+        },
+        {
+          "daysAgo": 0,
+          "km": 40567
+        }
+      ]
+    },
+    {
+      "document": "1000000015",
+      "holder": "Sebastián Barrios",
+      "plate": "SLY48R",
+      "totalValue": 10400000,
+      "balance": 9300000,
+      "installment": 100000,
+      "dueInDays": 1,
+      "remainingMonths": 22,
+      "kmTraveled": 6819,
+      "payments": [
+        {
+          "daysAgo": 6,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 14,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 21,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 27,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 34,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 39,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 48,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 55,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 62,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 67,
+          "amount": 100000
+        },
+        {
+          "daysAgo": 76,
+          "amount": 100000
+        }
+      ],
+      "fines": [],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 3874
+        },
+        {
+          "daysAgo": 20,
+          "km": 4962
+        },
+        {
+          "daysAgo": 10,
+          "km": 5868
+        },
+        {
+          "daysAgo": 0,
+          "km": 6819
+        }
+      ]
+    },
+    {
+      "document": "1000000016",
+      "holder": "Óscar Torres",
+      "plate": "WLR86H",
+      "totalValue": 6760000,
+      "balance": 1430000,
+      "installment": 130000,
+      "dueInDays": 7,
+      "remainingMonths": 3,
+      "kmTraveled": 26562,
+      "payments": [
+        {
+          "daysAgo": 2,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 7,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 14,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 23,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 29,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 35,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 42,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 49,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 57,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 65,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 72,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 78,
+          "amount": 130000
+        }
+      ],
+      "fines": [],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 23671
+        },
+        {
+          "daysAgo": 20,
+          "km": 24638
+        },
+        {
+          "daysAgo": 10,
+          "km": 25533
+        },
+        {
+          "daysAgo": 0,
+          "km": 26562
         }
       ]
     },
     {
       "document": "1000000017",
       "holder": "Darwin Vargas",
-      "plate": "MBZ65A",
-      "totalValue": 45500000,
-      "balance": 16100000,
-      "installment": 350000,
+      "plate": "BRX34S",
+      "totalValue": 6760000,
+      "balance": 1300000,
+      "installment": 130000,
       "dueInDays": 3,
-      "remainingMonths": 11,
-      "kmTraveled": 52235,
+      "remainingMonths": 2,
+      "kmTraveled": 31893,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 350000
+          "daysAgo": 5,
+          "amount": 130000
         },
         {
-          "daysAgo": 15,
-          "amount": 280000
+          "daysAgo": 9,
+          "amount": 130000
         },
         {
-          "daysAgo": 23,
-          "amount": 350000
+          "daysAgo": 18,
+          "amount": 130000
         },
         {
-          "daysAgo": 28,
-          "amount": 420000
+          "daysAgo": 25,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 32,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 39,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 46,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 53,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 61,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 67,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 74,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 81,
+          "amount": 130000
         }
       ],
       "fines": [
         {
-          "monthsAgo": 4,
+          "monthsAgo": 1,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 57
-        },
-        {
-          "monthsAgo": 6,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 18
-        },
-        {
-          "monthsAgo": 6,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 50
+          "installment": 41
         }
       ],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 49054
+          "km": 28876
         },
         {
           "daysAgo": 20,
-          "km": 50137
+          "km": 29784
         },
         {
           "daysAgo": 10,
-          "km": 51166
+          "km": 30857
         },
         {
           "daysAgo": 0,
-          "km": 52235
+          "km": 31893
         }
       ]
     },
     {
       "document": "1000000018",
       "holder": "Cristian Polo",
-      "plate": "UBD30W",
-      "totalValue": 32500000,
-      "balance": 20500000,
-      "installment": 250000,
+      "plate": "FNJ64U",
+      "totalValue": 12480000,
+      "balance": 12480000,
+      "installment": 120000,
       "dueInDays": -2,
-      "remainingMonths": 19,
-      "kmTraveled": 31708,
+      "remainingMonths": 24,
+      "kmTraveled": 640,
       "payments": [],
-      "fines": [
-        {
-          "monthsAgo": 3,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 29
-        }
-      ],
+      "fines": [],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 28681
+          "km": 0
         },
         {
           "daysAgo": 20,
-          "km": 29680
+          "km": 0
         },
         {
           "daysAgo": 10,
-          "km": 30758
+          "km": 0
         },
         {
           "daysAgo": 0,
-          "km": 31708
+          "km": 640
         }
       ]
     },
     {
       "document": "1000000019",
       "holder": "Álvaro Ruiz",
-      "plate": "HEF79A",
-      "totalValue": 14040000,
-      "balance": 12600000,
-      "installment": 180000,
+      "plate": "KRF51T",
+      "totalValue": 10140000,
+      "balance": 2730000,
+      "installment": 130000,
       "dueInDays": 4,
-      "remainingMonths": 16,
-      "kmTraveled": 5082,
+      "remainingMonths": 5,
+      "kmTraveled": 42266,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 180000
-        },
-        {
-          "daysAgo": 16,
-          "amount": 180000
-        },
-        {
-          "daysAgo": 23,
-          "amount": 270000
-        },
-        {
-          "daysAgo": 30,
-          "amount": 180000
-        }
-      ],
-      "fines": [
-        {
-          "monthsAgo": 1,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 6
-        },
-        {
-          "monthsAgo": 5,
-          "amount": 25000,
-          "reason": "LATE_PAYMENT",
-          "installment": 4
-        }
-      ],
-      "kmHistory": [
-        {
-          "daysAgo": 30,
-          "km": 2228
-        },
-        {
-          "daysAgo": 20,
-          "km": 3160
+          "daysAgo": 3,
+          "amount": 130000
         },
         {
           "daysAgo": 10,
-          "km": 4124
+          "amount": 130000
+        },
+        {
+          "daysAgo": 19,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 25,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 33,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 38,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 45,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 53,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 59,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 75,
+          "amount": 130000
+        },
+        {
+          "daysAgo": 82,
+          "amount": 130000
+        }
+      ],
+      "fines": [],
+      "kmHistory": [
+        {
+          "daysAgo": 30,
+          "km": 39319
+        },
+        {
+          "daysAgo": 20,
+          "km": 40374
+        },
+        {
+          "daysAgo": 10,
+          "km": 41280
         },
         {
           "daysAgo": 0,
-          "km": 5082
+          "km": 42266
         }
       ]
     },
     {
       "document": "1000000020",
       "holder": "Mauricio Rojas",
-      "plate": "XVC32U",
-      "totalValue": 45500000,
-      "balance": 19250000,
-      "installment": 350000,
+      "plate": "CRX52P",
+      "totalValue": 8840000,
+      "balance": 5100000,
+      "installment": 170000,
       "dueInDays": 6,
-      "remainingMonths": 13,
-      "kmTraveled": 54097,
+      "remainingMonths": 7,
+      "kmTraveled": 13568,
       "payments": [
         {
-          "daysAgo": 8,
-          "amount": 350000
+          "daysAgo": 2,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 9,
+          "amount": 170000
         },
         {
           "daysAgo": 15,
-          "amount": 350000
+          "amount": 170000
         },
         {
-          "daysAgo": 21,
-          "amount": 350000
+          "daysAgo": 22,
+          "amount": 170000
         },
         {
-          "daysAgo": 28,
-          "amount": 350000
+          "daysAgo": 29,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 36,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 43,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 50,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 57,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 64,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 68,
+          "amount": 170000
+        },
+        {
+          "daysAgo": 78,
+          "amount": 170000
         }
       ],
       "fines": [
         {
-          "monthsAgo": 1,
+          "monthsAgo": 2,
           "amount": 25000,
           "reason": "LATE_PAYMENT",
-          "installment": 38
+          "installment": 12
         }
       ],
       "kmHistory": [
         {
           "daysAgo": 30,
-          "km": 51037
+          "km": 10440
         },
         {
           "daysAgo": 20,
-          "km": 52127
+          "km": 11506
         },
         {
           "daysAgo": 10,
-          "km": 53098
+          "km": 12569
         },
         {
           "daysAgo": 0,
-          "km": 54097
+          "km": 13568
         }
       ]
     }

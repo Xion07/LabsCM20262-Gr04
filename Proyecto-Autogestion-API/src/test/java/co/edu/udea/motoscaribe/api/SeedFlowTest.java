@@ -82,10 +82,11 @@ class SeedFlowTest {
 	void listsAreConsistent() throws Exception {
 		String auth = login("1000000001");
 		mvc.perform(get("/api/v1/me/payments").header("Authorization", auth))
-				.andExpect(jsonPath("$", hasSize(4)));
+				.andExpect(jsonPath("$", hasSize(12)));
+		int km = JsonPath.read(contract("1000000001"), "$.kmTraveled");
 		mvc.perform(get("/api/v1/me/km-history").header("Authorization", auth))
 				.andExpect(jsonPath("$", hasSize(4)))
-				.andExpect(jsonPath("$[0].km", lessThan(2871)));
+				.andExpect(jsonPath("$[0].km", lessThan(km + 1)));
 	}
 
 	@Test
