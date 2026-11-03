@@ -3,10 +3,15 @@ package co.edu.udea.motoscaribe.autogestion.ui.motion
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -113,18 +118,25 @@ fun PaymentsBarChart(
         if (i != selected) { selected = i; tick() }
     }
     val selectedText = points.getOrNull(selected)?.let { "${formatDate(it.first)}: ${formatAmount(it.second)}" }
+    // Cada barra tiene un ancho minimo; si no caben todas, el grafico se desplaza y arranca en el abono mas reciente.
+    BoxWithConstraints(modifier.fillMaxWidth()) {
+    val scrolls = MIN_SLOT * n > maxWidth
+    val scroll = rememberScrollState()
+    LaunchedEffect(n) { if (scrolls) scroll.scrollTo(scroll.maxValue) }
     Canvas(
-        modifier
-            .fillMaxWidth()
+        Modifier
+            .then(if (scrolls) Modifier.horizontalScroll(scroll).width(MIN_SLOT * n) else Modifier.fillMaxWidth())
             .height(height)
             .semantics {
                 contentDescription = description
                 if (selectedText != null) stateDescription = selectedText
             }
             .pointerInput(points) { detectTapGestures { select(it.x, size.width.toFloat()) } }
-            .pointerInput(points) {
-                detectHorizontalDragGestures { change, _ -> select(change.position.x, size.width.toFloat()); change.consume() }
-            },
+            .then(
+                if (scrolls) Modifier else Modifier.pointerInput(points) {
+                    detectHorizontalDragGestures { change, _ -> select(change.position.x, size.width.toFloat()); change.consume() }
+                },
+            ),
     ) {
         if (points.isEmpty()) return@Canvas
         val tooltipH = 44.dp.toPx()
@@ -163,7 +175,10 @@ fun PaymentsBarChart(
             }
         }
     }
+    }
 }
+
+private val MIN_SLOT = 52.dp
 
 /**
  * Linea del historial de km que se "traza" al entrar, con relleno degradado y punto final.

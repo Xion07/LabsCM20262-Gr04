@@ -177,7 +177,7 @@
     <string name="no_fines_body">Keep paying on time and it will stay that way.</string>
     <string name="balance_empty_body">Your first payment will show up here.</string>
     <string name="km_empty_body">GPS readings will appear here as you ride.</string>
-    <string name="balance_chart_hint">Tap a bar to see the details</string>
+    <string name="balance_chart_hint">Tap a bar for details · swipe to see earlier ones</string>
     <string name="fines_detail">Fine details</string>
     <string name="fines_none_short">No fines</string>
     <string name="fines_next_payment">Next installment</string>

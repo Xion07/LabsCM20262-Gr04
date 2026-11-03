@@ -177,7 +177,7 @@
     <string name="no_fines_body">Sigue pagando a tiempo y así seguirá.</string>
     <string name="balance_empty_body">Cuando hagas tu primer abono lo verás aquí.</string>
     <string name="km_empty_body">Las lecturas del GPS aparecerán aquí a medida que ruedes.</string>
-    <string name="balance_chart_hint">Toca una barra para ver el detalle</string>
+    <string name="balance_chart_hint">Toca una barra para ver el detalle · desliza para ver los anteriores</string>
     <string name="fines_detail">Detalle de multas</string>
     <string name="fines_none_short">Sin multas</string>
     <string name="fines_next_payment">Próxima cuota</string>
