@@ -171,7 +171,7 @@ private fun PaymentsCard(payments: List<Payment>) {
         return
     }
     // La API entrega los abonos del mas reciente al mas antiguo; el grafico va en orden cronologico.
-    val shown = payments.sortedBy { it.date }.takeLast(8)
+    val shown = payments.sortedBy { it.date }
     val last = shown.last()
     val cd = stringResource(R.string.balance_chart_cd, payments.size, last.date.pretty(), last.amount.cop())
     Card(
