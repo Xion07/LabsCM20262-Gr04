@@ -23,6 +23,13 @@ class ApiClient(private val baseUrl: String) {
     @Volatile
     var token: String? = null
 
+    /**
+     * Si una consulta recibe 401, se llama una vez con el token que fallo; si devuelve true (renovo la
+     * sesion) la consulta se repite con el token nuevo. No aplica a las rutas de autenticacion.
+     */
+    @Volatile
+    var refresher: (suspend (failedToken: String?) -> Boolean)? = null
+
     suspend fun get(path: String): String = send("GET", path, null, null)
 
     suspend fun postJson(path: String, body: JSONObject): String =
@@ -37,7 +44,19 @@ class ApiClient(private val baseUrl: String) {
         return send("POST", path, "multipart/form-data; boundary=$boundary", body)
     }
 
-    private suspend fun send(method: String, path: String, contentType: String?, body: ByteArray?): String =
+    private suspend fun send(method: String, path: String, contentType: String?, body: ByteArray?): String {
+        val sentWith = token
+        try {
+            return execute(method, path, contentType, body)
+        } catch (e: ApiException) {
+            val renew = refresher
+            if (e.code != 401 || sentWith == null || renew == null || path.startsWith("/api/v1/auth/")) throw e
+            if (!renew(sentWith)) throw e
+            return execute(method, path, contentType, body)
+        }
+    }
+
+    private suspend fun execute(method: String, path: String, contentType: String?, body: ByteArray?): String =
         withContext(Dispatchers.IO) {
             val conn = try {
                 URL(baseUrl + path).openConnection() as HttpURLConnection
@@ -49,7 +68,8 @@ class ApiClient(private val baseUrl: String) {
                 conn.connectTimeout = CONNECT_TIMEOUT_MS
                 conn.readTimeout = READ_TIMEOUT_MS
                 conn.setRequestProperty("Accept", "application/json")
-                token?.let { conn.setRequestProperty("Authorization", "Bearer $it") }
+                // Las rutas de autenticacion no llevan token (uno vencido haria fallar la renovacion).
+                if (!path.startsWith("/api/v1/auth/")) token?.let { conn.setRequestProperty("Authorization", "Bearer $it") }
                 if (body != null) {
                     conn.doOutput = true
                     conn.setRequestProperty("Content-Type", contentType)

@@ -30,11 +30,7 @@ class SeedFlowTest {
 	MockMvc mvc;
 
 	private String login(String document) throws Exception {
-		String res = mvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"document\":\"" + document + "\",\"password\":\"demo1234\"}"))
-				.andExpect(status().isOk())
-				.andReturn().getResponse().getContentAsString();
-		return "Bearer " + JsonPath.read(res, "$.accessToken");
+		return "Bearer " + JsonPath.read(AuthFlow.login(mvc, document, "demo1234"), "$.accessToken");
 	}
 
 	private String contract(String document) throws Exception {
@@ -115,8 +111,8 @@ class SeedFlowTest {
 
 	@Test
 	void unknownDocumentIsRejected() throws Exception {
-		mvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"document\":\"999999999\",\"password\":\"demo1234\"}"))
+		mvc.perform(post(AuthFlow.AUTHORIZE).contentType(MediaType.APPLICATION_JSON)
+				.content(AuthFlow.authorizeBody("999999999", "demo1234", AuthFlow.newVerifier())))
 				.andExpect(status().isUnauthorized());
 	}
 }

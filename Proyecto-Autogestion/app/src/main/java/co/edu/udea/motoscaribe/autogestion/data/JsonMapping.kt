@@ -42,6 +42,10 @@ object JsonMapping {
 
     fun accessToken(json: String): String = JSONObject(json).getString("accessToken")
 
+    fun refreshToken(json: String): String = JSONObject(json).getString("refreshToken")
+
+    fun authCode(json: String): String = JSONObject(json).getString("code")
+
     fun extensionId(json: String): String = JSONObject(json).getString("id")
 
     fun extensions(json: String): List<ExtensionItem> = list(json) {
