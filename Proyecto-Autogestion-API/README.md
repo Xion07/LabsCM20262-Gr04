@@ -28,11 +28,14 @@ Para regenerar los datos: `python tools/generate_seed.py` (es determinista). El 
 
 ## Endpoints
 
-Todo exige `Authorization: Bearer <token>` salvo el login. La cédula sale **siempre del token**, nunca de un parámetro.
+Todo exige `Authorization: Bearer <token>` salvo las rutas `/api/v1/auth/*`. La cédula sale **siempre del token**, nunca de un parámetro.
 
 | Método y ruta | Qué hace |
 |---|---|
-| `POST /api/v1/auth/login` | `{document, password}` → `{accessToken, tokenType, expiresInSeconds}` (token de 15 min) |
+| `POST /api/v1/auth/authorize` | `{document, password, codeChallenge, codeChallengeMethod: "S256"}` → `{code, expiresInSeconds}`. Código de un solo uso, 60 s (PKCE, RFC 7636) |
+| `POST /api/v1/auth/token` | `{code, codeVerifier}` → `{accessToken, refreshToken, tokenType, expiresInSeconds}`. Access token de 15 min, refresh token de 7 días. El código se consume al primer intento |
+| `POST /api/v1/auth/refresh` | `{refreshToken}` → tokens nuevos. El refresh token rota: el anterior deja de servir |
+| `POST /api/v1/auth/logout` | `{refreshToken}` → 204. Invalida el refresh token |
 | `GET /api/v1/me/contract` | Saldo, próxima cuota, plazo restante, km recorridos. `lastOilChangeKm` es `null` (no existe en la BD) |
 | `GET /api/v1/me/payments` | Historial de abonos |
 | `GET /api/v1/me/fines` | Multas (`reason` es un código; la app lo traduce) |

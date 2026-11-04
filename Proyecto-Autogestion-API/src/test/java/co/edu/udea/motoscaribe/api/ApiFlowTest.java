@@ -29,17 +29,17 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 class ApiFlowTest {
 
-	private static final String LOGIN = "/api/v1/auth/login";
+	private static final String LOGIN = AuthFlow.AUTHORIZE;
 
 	@Autowired
 	MockMvc mvc;
 
 	private String login(String document, String password) throws Exception {
-		String body = "{\"document\":\"" + document + "\",\"password\":\"" + password + "\"}";
-		String res = mvc.perform(post(LOGIN).contentType(MediaType.APPLICATION_JSON).content(body))
-				.andExpect(status().isOk())
-				.andReturn().getResponse().getContentAsString();
-		return JsonPath.read(res, "$.accessToken");
+		return JsonPath.read(AuthFlow.login(mvc, document, password), "$.accessToken");
+	}
+
+	private static String body(String document, String password) throws Exception {
+		return AuthFlow.authorizeBody(document, password, AuthFlow.newVerifier());
 	}
 
 	private String token() throws Exception {
@@ -55,28 +55,26 @@ class ApiFlowTest {
 
 	@Test
 	void loginReturnsTokenAndShortTtl() throws Exception {
-		mvc.perform(post(LOGIN).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"document\":\"1000000001\",\"password\":\"demo1234\"}"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.tokenType").value("Bearer"))
-				.andExpect(jsonPath("$.expiresInSeconds").value(900));
+		String res = AuthFlow.login(mvc, "1000000001", "demo1234");
+		org.junit.jupiter.api.Assertions.assertEquals("Bearer", JsonPath.read(res, "$.tokenType"));
+		org.junit.jupiter.api.Assertions.assertEquals(900, (int) JsonPath.read(res, "$.expiresInSeconds"));
 	}
 
 	@Test
 	void wrongPasswordAndUnknownDocumentGiveTheSameError() throws Exception {
 		mvc.perform(post(LOGIN).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"document\":\"1000000001\",\"password\":\"incorrecta\"}"))
+				.content(body("1000000001", "incorrecta")))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.error").value("Credenciales inválidas"));
 		mvc.perform(post(LOGIN).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"document\":\"999999999\",\"password\":\"demo1234\"}"))
+				.content(body("999999999", "demo1234")))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.error").value("Credenciales inválidas"));
 	}
 
 	@Test
 	void loginLocksAfterTooManyFailures() throws Exception {
-		String body = "{\"document\":\"555555555\",\"password\":\"mala\"}";
+		String body = body("555555555", "mala");
 		for (int i = 0; i < 5; i++) {
 			mvc.perform(post(LOGIN).contentType(MediaType.APPLICATION_JSON).content(body))
 					.andExpect(status().isUnauthorized());

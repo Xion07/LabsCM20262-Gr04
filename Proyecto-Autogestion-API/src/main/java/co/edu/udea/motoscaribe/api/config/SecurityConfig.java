@@ -21,6 +21,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -59,6 +61,15 @@ class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * En las rutas de autenticacion el encabezado Authorization se ignora: sin esto, un access token
+	 * vencido hace rechazar con 401 hasta el refresh, que es justo lo que se usa para renovarlo.
+	 */
+	private static BearerTokenResolver ignoreTokenOnAuthRoutes() {
+		DefaultBearerTokenResolver standard = new DefaultBearerTokenResolver();
+		return request -> request.getRequestURI().startsWith("/api/v1/auth/") ? null : standard.resolve(request);
+	}
+
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -66,9 +77,10 @@ class SecurityConfig {
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(a -> a
 						.requestMatchers(HttpMethod.GET, "/").permitAll()
-						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/v1/auth/authorize", "/api/v1/auth/token",
+								"/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
 						.anyRequest().authenticated())
-				.oauth2ResourceServer(o -> o.jwt(Customizer.withDefaults()));
+				.oauth2ResourceServer(o -> o.bearerTokenResolver(ignoreTokenOnAuthRoutes()).jwt(Customizer.withDefaults()));
 		return http.build();
 	}
 }
