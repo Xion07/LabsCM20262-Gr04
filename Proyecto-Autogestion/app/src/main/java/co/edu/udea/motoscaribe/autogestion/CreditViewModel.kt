@@ -15,6 +15,8 @@ import co.edu.udea.motoscaribe.autogestion.data.Fine
 import co.edu.udea.motoscaribe.autogestion.data.KmReading
 import co.edu.udea.motoscaribe.autogestion.data.NetworkException
 import co.edu.udea.motoscaribe.autogestion.data.Payment
+import co.edu.udea.motoscaribe.autogestion.data.PasskeyException
+import co.edu.udea.motoscaribe.autogestion.data.PasskeyFailure
 import co.edu.udea.motoscaribe.autogestion.data.RepositoryProvider
 import co.edu.udea.motoscaribe.autogestion.domain.MaintenancePlan
 import co.edu.udea.motoscaribe.autogestion.notifications.AlertScheduler
@@ -24,7 +26,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-enum class LoginError { INVALID, LOCKED, NETWORK, SESSION_EXPIRED, GENERIC }
+enum class LoginError { INVALID, LOCKED, NETWORK, SESSION_EXPIRED, PASSKEY_NONE, PASSKEY_FAILED, GENERIC }
+
+/** Estado de la activacion del passkey en la pantalla de inicio. */
+enum class PasskeyUi { IDLE, WORKING, ERROR }
 
 enum class SubmitState { IDLE, SENDING, SUCCESS, ERROR }
 
@@ -43,6 +48,11 @@ data class UiState(
     /** Solicitudes de plazo ya enviadas, la mas reciente primero. */
     val requests: List<ExtensionItem> = emptyList(),
     val submit: SubmitState = SubmitState.IDLE,
+    /** La API soporta passkeys (no aplica al mock de ejemplo). */
+    val passkeysAvailable: Boolean = false,
+    /** null mientras no se sabe; true si ya hay un passkey registrado para esta cuenta. */
+    val passkeyRegistered: Boolean? = null,
+    val passkeyUi: PasskeyUi = PasskeyUi.IDLE,
 ) {
     /** Solo hay plan si se conoce el ultimo cambio de aceite (propuesta, no existe en BD). */
     val maintenance: MaintenancePlan?
@@ -56,7 +66,10 @@ class CreditViewModel(
     private val onSessionEnded: () -> Unit = {},
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(UiState())
+    private fun fresh(reason: LoginError? = null) =
+        UiState(loginError = reason, passkeysAvailable = repository.passkeysAvailable)
+
+    private val _state = MutableStateFlow(fresh())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     fun login(document: String, password: String) {
@@ -73,6 +86,70 @@ class CreditViewModel(
         }
     }
 
+    /** Ingreso con passkey: [sign] abre el dialogo del sistema (huella, rostro o PIN) y firma el reto. */
+    fun loginWithPasskey(sign: suspend (optionsJson: String) -> String) {
+        if (_state.value.loggingIn) return
+        viewModelScope.launch {
+            _state.update { it.copy(loggingIn = true, loginError = null) }
+            try {
+                repository.loginWithPasskey(sign)
+                _state.update { it.copy(loggedIn = true, loggingIn = false, passkeyRegistered = true) }
+                load()
+            } catch (e: PasskeyException) {
+                // Cerrar el dialogo no es un error: se vuelve al formulario sin mensaje.
+                val error = when (e.kind) {
+                    PasskeyFailure.CANCELLED -> null
+                    PasskeyFailure.NONE -> LoginError.PASSKEY_NONE
+                    PasskeyFailure.FAILED -> LoginError.PASSKEY_FAILED
+                }
+                _state.update { it.copy(loggingIn = false, loginError = error) }
+            } catch (e: Exception) {
+                val error = if (e is ApiException && e.code == 401) LoginError.PASSKEY_FAILED else e.toLoginError()
+                _state.update { it.copy(loggingIn = false, loginError = error) }
+            }
+        }
+    }
+
+    /** Crea un passkey para esta cuenta (con la sesion iniciada con clave). */
+    fun registerPasskey(create: suspend (optionsJson: String) -> String) {
+        if (_state.value.passkeyUi == PasskeyUi.WORKING) return
+        viewModelScope.launch {
+            _state.update { it.copy(passkeyUi = PasskeyUi.WORKING) }
+            try {
+                repository.registerPasskey(create)
+                _state.update { it.copy(passkeyUi = PasskeyUi.IDLE, passkeyRegistered = true) }
+            } catch (e: PasskeyException) {
+                val ui = if (e.kind == PasskeyFailure.CANCELLED) PasskeyUi.IDLE else PasskeyUi.ERROR
+                _state.update { it.copy(passkeyUi = ui) }
+            } catch (e: Exception) {
+                if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
+                else _state.update { it.copy(passkeyUi = PasskeyUi.ERROR) }
+            }
+        }
+    }
+
+    fun removePasskeys() {
+        viewModelScope.launch {
+            try {
+                repository.removePasskeys()
+                _state.update { it.copy(passkeyRegistered = false, passkeyUi = PasskeyUi.IDLE) }
+            } catch (e: Exception) {
+                if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
+            }
+        }
+    }
+
+    /** Saber si ya hay passkey es secundario: si falla, la tarjeta simplemente no aparece. */
+    private suspend fun loadPasskeyStatus() {
+        if (!repository.passkeysAvailable) return
+        try {
+            val registered = repository.hasPasskey()
+            _state.update { it.copy(passkeyRegistered = registered) }
+        } catch (e: Exception) {
+            if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
+        }
+    }
+
     /** Carga (o recarga) todos los datos del usuario. */
     fun load() {
         viewModelScope.launch {
@@ -86,6 +163,7 @@ class CreditViewModel(
                     it.copy(contract = contract, payments = payments, fines = fines, kmHistory = km, refreshing = false)
                 }
                 loadRequests()
+                loadPasskeyStatus()
                 onContractLoaded(contract)
             } catch (e: Exception) {
                 if (e is ApiException && e.code == 401) endSession(LoginError.SESSION_EXPIRED)
@@ -109,7 +187,7 @@ class CreditViewModel(
     private fun endSession(reason: LoginError?) {
         repository.logout()
         onSessionEnded()
-        _state.value = UiState(loginError = reason)
+        _state.value = fresh(reason)
     }
 
     fun submitExtension(request: ExtensionRequest) {

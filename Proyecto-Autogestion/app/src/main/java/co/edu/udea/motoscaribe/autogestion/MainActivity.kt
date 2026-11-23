@@ -76,6 +76,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import co.edu.udea.motoscaribe.autogestion.data.PasskeyClient
 import co.edu.udea.motoscaribe.autogestion.notifications.AlertScheduler
 import co.edu.udea.motoscaribe.autogestion.notifications.Notifier
 import co.edu.udea.motoscaribe.autogestion.ui.components.ErrorState
@@ -104,6 +105,7 @@ private const val WIDE_DP = 600
 
 class MainActivity : ComponentActivity() {
     private val viewModel: CreditViewModel by viewModels { CreditViewModel.factory(applicationContext) }
+    private val passkeys by lazy { PasskeyClient(this) }
 
     /** Pantalla pedida por una notificacion; se consume al navegar. */
     private var pendingRoute by mutableStateOf<String?>(null)
@@ -144,7 +146,12 @@ class MainActivity : ComponentActivity() {
                         if (loggedIn) {
                             MainContent(state)
                         } else {
-                            LoginScreen(state.loggingIn, state.loginError) { d, p -> viewModel.login(d, p) }
+                            LoginScreen(
+                                state.loggingIn,
+                                state.loginError,
+                                passkeyAvailable = state.passkeysAvailable,
+                                onPasskeyLogin = { viewModel.loginWithPasskey { opts -> passkeys.get(this@MainActivity, opts) } },
+                            ) { d, p -> viewModel.login(d, p) }
                         }
                     }
                     if (!introDone) IntroOverlay { introDone = true }
@@ -262,6 +269,8 @@ class MainActivity : ComponentActivity() {
                                 state,
                                 onRequestExtension = { nav.goTab(Routes.EXTENSION) },
                                 onLogout = viewModel::logout,
+                                onEnablePasskey = { viewModel.registerPasskey { opts -> passkeys.create(this@MainActivity, opts) } },
+                                onRemovePasskey = viewModel::removePasskeys,
                             )
                         }
                         composable(Routes.BALANCE) { BalanceScreen(state) }

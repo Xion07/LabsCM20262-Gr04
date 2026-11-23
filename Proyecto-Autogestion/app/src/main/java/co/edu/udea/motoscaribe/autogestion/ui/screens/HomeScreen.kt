@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBalanceWallet
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.EventRepeat
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material.icons.rounded.NotificationsOff
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import co.edu.udea.motoscaribe.autogestion.R
+import co.edu.udea.motoscaribe.autogestion.PasskeyUi
 import co.edu.udea.motoscaribe.autogestion.UiState
 import co.edu.udea.motoscaribe.autogestion.domain.MaintenanceStatus
 import co.edu.udea.motoscaribe.autogestion.ui.components.Adaptive
@@ -72,7 +74,13 @@ import co.edu.udea.motoscaribe.autogestion.ui.pretty
 import co.edu.udea.motoscaribe.autogestion.ui.theme.MotosTheme
 
 @Composable
-fun HomeScreen(state: UiState, onRequestExtension: () -> Unit, onLogout: () -> Unit) {
+fun HomeScreen(
+    state: UiState,
+    onRequestExtension: () -> Unit,
+    onLogout: () -> Unit,
+    onEnablePasskey: () -> Unit = {},
+    onRemovePasskey: () -> Unit = {},
+) {
     val c = state.contract
     if (c == null) {
         Loading()
@@ -106,6 +114,10 @@ fun HomeScreen(state: UiState, onRequestExtension: () -> Unit, onLogout: () -> U
                     )
                 }) { Text(stringResource(R.string.home_alerts_enable)) }
             }
+        }
+
+        if (state.passkeysAvailable && state.passkeyRegistered != null) {
+            PasskeyCard(state.passkeyRegistered, state.passkeyUi, Modifier.enterFromBelow(1), onEnablePasskey, onRemovePasskey)
         }
 
         Adaptive(
@@ -219,5 +231,41 @@ fun HomeScreen(state: UiState, onRequestExtension: () -> Unit, onLogout: () -> U
             },
             primaryWeight = 1.15f,
         )
+    }
+}
+
+/**
+ * Passkey (FIDO2): invita a activar el ingreso con huella, rostro o PIN del telefono. Una vez activo
+ * confirma y deja quitarlo. La llave privada se queda en el telefono; la API solo guarda la publica.
+ */
+@Composable
+private fun PasskeyCard(registered: Boolean, ui: PasskeyUi, modifier: Modifier, onEnable: () -> Unit, onRemove: () -> Unit) {
+    Card(
+        modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
+    ) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Icon(Icons.Rounded.Fingerprint, null, tint = MaterialTheme.colorScheme.onSecondaryContainer)
+            Column(Modifier.weight(1f)) {
+                Text(
+                    stringResource(if (registered) R.string.passkey_active else R.string.passkey_offer),
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                )
+                if (ui == PasskeyUi.ERROR) {
+                    Text(
+                        stringResource(R.string.passkey_error),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+                if (registered) {
+                    TextButton(onRemove) { Text(stringResource(R.string.passkey_remove)) }
+                } else {
+                    TextButton(onEnable, enabled = ui != PasskeyUi.WORKING) { Text(stringResource(R.string.passkey_enable)) }
+                }
+            }
+        }
     }
 }

@@ -50,6 +50,32 @@ class RemoteCreditRepository(
         }
     }
 
+    override val passkeysAvailable: Boolean = true
+
+    /**
+     * Ingreso con passkey: la API da un reto, el telefono lo firma con la llave privada (tras huella,
+     * rostro o PIN) y la API verifica la firma. No se escribe cedula ni clave.
+     */
+    override suspend fun loginWithPasskey(sign: suspend (optionsJson: String) -> String) {
+        api.token = null
+        refreshToken = null
+        val options = api.postJson("/api/v1/auth/passkey/options", JSONObject())
+        val signed = sign(options)
+        storeTokens(api.postJson("/api/v1/auth/passkey/verify", JSONObject(signed)))
+    }
+
+    override suspend fun registerPasskey(create: suspend (optionsJson: String) -> String) {
+        val options = api.postJson("/api/v1/passkeys/register/options", JSONObject())
+        val created = create(options)
+        api.postJson("/api/v1/passkeys/register/verify", JSONObject(created))
+    }
+
+    override suspend fun hasPasskey(): Boolean = org.json.JSONArray(api.get("/api/v1/passkeys")).length() > 0
+
+    override suspend fun removePasskeys() {
+        api.delete("/api/v1/passkeys")
+    }
+
     private fun storeTokens(json: String) {
         api.token = JsonMapping.accessToken(json)
         refreshToken = JsonMapping.refreshToken(json)

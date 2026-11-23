@@ -126,6 +126,14 @@
     <string name="login_error_network">No pudimos conectarnos. Revisa tu internet e intenta de nuevo.</string>
     <string name="login_error_session">Tu sesión expiró. Ingresa de nuevo.</string>
     <string name="login_error_generic">Algo salió mal. Intenta de nuevo.</string>
+    <string name="login_passkey">Ingresar con passkey</string>
+    <string name="login_error_passkey_none">No encontramos un passkey en este teléfono. Ingresa con tu clave y actívalo desde Inicio.</string>
+    <string name="login_error_passkey_failed">No pudimos verificar tu passkey. Ingresa con tu clave.</string>
+    <string name="passkey_offer">Ingresa más rápido y seguro con la huella, el rostro o el PIN de tu teléfono.</string>
+    <string name="passkey_active">Passkey activado: ingresas con la huella, el rostro o el PIN de tu teléfono.</string>
+    <string name="passkey_enable">Activar passkey</string>
+    <string name="passkey_remove">Quitar</string>
+    <string name="passkey_error">No se pudo activar. Intenta de nuevo.</string>
     <string name="load_error">No pudimos cargar tus datos.</string>
     <string name="retry">Reintentar</string>
     <string name="ext_sending">Enviando…</string>

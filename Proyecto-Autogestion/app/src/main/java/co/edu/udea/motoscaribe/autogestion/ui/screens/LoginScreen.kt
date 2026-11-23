@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
@@ -24,6 +26,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Badge
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Login
 import androidx.compose.material.icons.rounded.Visibility
@@ -33,6 +36,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,6 +76,8 @@ private const val MIN_PASSWORD = 4
 fun LoginScreen(
     loading: Boolean,
     error: LoginError?,
+    passkeyAvailable: Boolean,
+    onPasskeyLogin: () -> Unit,
     onLogin: (document: String, password: String) -> Unit,
 ) {
     var document by rememberSaveable { mutableStateOf("") }
@@ -176,6 +182,18 @@ fun LoginScreen(
                             keyboardActions = KeyboardActions(onDone = { submit() }),
                         )
                         PrimaryButton(stringResource(R.string.login_submit), { submit() }, icon = Icons.Rounded.Login, loading = loading)
+                        if (passkeyAvailable) {
+                            OutlinedButton(
+                                onClick = onPasskeyLogin,
+                                enabled = !loading,
+                                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
+                                shape = MaterialTheme.shapes.medium,
+                            ) {
+                                Icon(Icons.Rounded.Fingerprint, null, Modifier.size(20.dp))
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(R.string.login_passkey))
+                            }
+                        }
                         AnimatedVisibility(error != null, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Icon(Icons.Rounded.ErrorOutline, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.error)
@@ -186,6 +204,8 @@ fun LoginScreen(
                                             LoginError.LOCKED -> R.string.login_error_locked
                                             LoginError.NETWORK -> R.string.login_error_network
                                             LoginError.SESSION_EXPIRED -> R.string.login_error_session
+                                            LoginError.PASSKEY_NONE -> R.string.login_error_passkey_none
+                                            LoginError.PASSKEY_FAILED -> R.string.login_error_passkey_failed
                                             LoginError.GENERIC, null -> R.string.login_error_generic
                                         }
                                     ),
