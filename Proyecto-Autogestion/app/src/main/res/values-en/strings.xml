@@ -126,6 +126,14 @@
     <string name="login_error_network">We could not connect. Check your internet and try again.</string>
     <string name="login_error_session">Your session expired. Sign in again.</string>
     <string name="login_error_generic">Something went wrong. Try again.</string>
+    <string name="login_passkey">Sign in with passkey</string>
+    <string name="login_error_passkey_none">No passkey found on this phone. Sign in with your password and turn it on from Home.</string>
+    <string name="login_error_passkey_failed">We could not verify your passkey. Sign in with your password.</string>
+    <string name="passkey_offer">Sign in faster and more securely with the fingerprint, face or PIN of your phone.</string>
+    <string name="passkey_active">Passkey on: you sign in with the fingerprint, face or PIN of your phone.</string>
+    <string name="passkey_enable">Turn on passkey</string>
+    <string name="passkey_remove">Remove</string>
+    <string name="passkey_error">Could not turn it on. Try again.</string>
     <string name="load_error">We could not load your data.</string>
     <string name="retry">Retry</string>
     <string name="ext_sending">Sending…</string>

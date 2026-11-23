@@ -32,6 +32,8 @@ class ApiClient(private val baseUrl: String) {
 
     suspend fun get(path: String): String = send("GET", path, null, null)
 
+    suspend fun delete(path: String): String = send("DELETE", path, null, null)
+
     suspend fun postJson(path: String, body: JSONObject): String =
         send("POST", path, "application/json; charset=utf-8", body.toString().toByteArray())
 

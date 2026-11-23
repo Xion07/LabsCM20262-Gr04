@@ -12,6 +12,24 @@ interface CreditRepository {
     /** Lanza [ApiException] (401 credenciales, 429 bloqueo) o [NetworkException]. */
     suspend fun login(document: String, password: String)
     fun logout()
+
+    /** true si la API soporta passkeys (FIDO2); el mock de ejemplo no. */
+    val passkeysAvailable: Boolean get() = false
+
+    /** Ingreso con passkey: [sign] recibe las opciones del servidor y devuelve la respuesta firmada. */
+    suspend fun loginWithPasskey(sign: suspend (optionsJson: String) -> String) {
+        throw ApiException(401)
+    }
+
+    /** Crea un passkey para la sesion actual: [create] hace el dialogo del sistema. */
+    suspend fun registerPasskey(create: suspend (optionsJson: String) -> String) {
+        throw ApiException(404)
+    }
+
+    suspend fun hasPasskey(): Boolean = false
+
+    suspend fun removePasskeys() = Unit
+
     suspend fun contract(): Contract
     suspend fun payments(): List<Payment>
     suspend fun fines(): List<Fine>

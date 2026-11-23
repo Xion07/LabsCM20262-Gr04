@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.get_login_creds", "delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "co.edu.udea.motoscaribe.autogestion",
+    "sha256_cert_fingerprints": [
+      "93:2D:8A:FC:AB:0B:84:D3:DE:7B:7F:AA:B7:A9:43:F0:D4:0D:9A:17:C8:9C:BC:5A:EE:62:CA:2F:BA:88:B5:67"
+    ]
+  }
+}]
